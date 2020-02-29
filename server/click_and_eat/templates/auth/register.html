@@ -1,0 +1,54 @@
+{% extends 'auth/auth_base.html' %}
+
+{% block auth_block %}
+<!-- register -->
+<form action="" method="POST">
+    {% csrf_token %}
+    <fieldset class="uk-fieldset">
+        <div class="uk-margin-small">
+            <div class="uk-inline uk-width-1-1">
+                <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: user"></span>
+                <input name="first_name" class="uk-input uk-border" required placeholder="Имя" type="text">
+            </div>
+        </div>
+        <div class="uk-margin-small">
+            <div class="uk-inline uk-width-1-1">
+                <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: user"></span>
+                <input name="username" class="uk-input uk-border" required placeholder="Username" type="text">
+            </div>
+        </div>
+        <div class="uk-margin-small">
+            <div class="uk-inline uk-width-1-1">
+                <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: mail"></span>
+                <input name="email" class="uk-input uk-border" required placeholder="E-mail" type="email">
+            </div>
+        </div>
+        <div class="uk-margin-small">
+            <div class="uk-inline uk-width-1-1">
+                <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: lock"></span>
+                <input name="password" class="uk-input uk-border" required placeholder="Пароль" type="password">
+            </div>
+        </div>
+        <div class="uk-margin-small">
+            <div class="uk-inline uk-width-1-1">
+                <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: lock"></span>
+                <input name="repeat_password" class="uk-input uk-border" required placeholder="Повторите пароль" type="password">
+            </div>
+        </div>
+        <div class="uk-margin-bottom">
+            <button type="submit" class="uk-button uk-button-secondary uk-border uk-width-1-1">Зарегистрироваться</button>
+        </div>
+    </fieldset>
+</form>
+<!-- /register -->
+{% endblock %}
+
+{% block links %}
+<!-- action buttons -->
+<div>
+    <div class="uk-text-center">
+        <a class="uk-link-reset uk-text-small" href="{% url 'login' %}">Есть аккаунт? - Войти</a>
+    </div>
+</div>
+<!-- action buttons -->
+{% endblock %}

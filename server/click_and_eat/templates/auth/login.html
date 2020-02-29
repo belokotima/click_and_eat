@@ -1,0 +1,57 @@
+{% extends 'auth/auth_base.html' %}
+
+{% block auth_block %}
+<!-- login -->
+<form class="toggle-class" action="" method="POST">
+	{% csrf_token %}
+	<fieldset class="uk-fieldset">
+		<div class="uk-margin-small">
+			<div class="uk-inline uk-width-1-1">
+				<span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: user"></span>
+				<input name="username" class="uk-input uk-border" required placeholder="Username" type="text">
+			</div>
+		</div>
+		<div class="uk-margin-small">
+			<div class="uk-inline uk-width-1-1">
+				<span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: lock"></span>
+				<input name="password" class="uk-input uk-border" required placeholder="Пароль" type="password">
+			</div>
+		</div>
+		<div class="uk-margin-small">
+			<label><input name="remember_me" class="uk-checkbox" type="checkbox" value="off"> Запомнить меня</label>
+		</div>
+		<div class="uk-margin-bottom">
+			<button type="submit" class="uk-button uk-button-secondary uk-border uk-width-1-1">ВОЙТИ</button>
+		</div>
+	</fieldset>
+</form>
+<!-- /login -->
+
+<!-- recover password -->
+<form class="toggle-class" action="" method="POST" hidden>
+	{% csrf_token %}
+	<div class="uk-margin-small">
+		<div class="uk-inline uk-width-1-1">
+			<span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: mail"></span>
+			<input class="uk-input uk-border" placeholder="E-mail" required type="email">
+		</div>
+	</div>
+	<div class="uk-margin-bottom">
+		<button type="submit" class="uk-button uk-button-secondary uk-border uk-width-1-1">СБРОСИТЬ ПАРОЛЬ</button>
+	</div>
+</form>
+<!-- /recover password -->
+{% endblock %}
+
+{% block links %}
+<!-- action buttons -->
+<div>
+	<div class="uk-text-center">
+		<a class="uk-link-reset uk-text-small toggle-class" data-uk-toggle="target: .toggle-class ;animation: uk-animation-fade">Забыли пароль?</a>
+		<a class="uk-link-reset uk-text-small toggle-class" data-uk-toggle="target: .toggle-class ;animation: uk-animation-fade" hidden><span data-uk-icon="arrow-left"></span> Вернуться к окну входа</a>
+		<br>
+		<a href="{% url 'register' %}" class="uk-link-reset uk-text-small toggle-class" data-uk-toggle="target: .toggle-class ;animation: uk-animation-fade">Нет аккаунта? - Зарегистрироваться</a>
+	</div>
+</div>
+<!-- action buttons -->
+{% endblock %}
