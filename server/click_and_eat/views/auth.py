@@ -7,19 +7,22 @@ from django.contrib.auth.models import User
 
 auth_templates_dir = 'auth'
 
+
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=12)
     password = forms.CharField(widget=forms.PasswordInput())
     remember_me = forms.BooleanField(required=False)
+
 
 class RegisterForm(LoginForm):
     first_name = forms.CharField(max_length=12)
     email = forms.EmailField()
     repeat_password = forms.CharField(widget=forms.PasswordInput())
 
+
 class Login(View):
     template_name = os.path.join(auth_templates_dir, 'login.html')
-    
+
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)
 
@@ -39,7 +42,7 @@ class Login(View):
         else:
             context['error'] = 'Неверный формат ввода'
             return render(request, self.template_name, context)
-    
+
     @staticmethod
     def login(request, username, password, remember_me):
         user = authenticate(request, username=username, password=password)
@@ -81,7 +84,8 @@ class Register(View):
                         context['error'] = 'Пароли не совпадают'
                     else:
                         try:
-                            User.objects.create_user(username=username, email=email, password=password, first_name=first_name)
+                            User.objects.create_user(username=username, email=email, password=password,
+                                                     first_name=first_name)
                             if Login.login(request, username, password, remember_me):
                                 return redirect('index')
                             else:
