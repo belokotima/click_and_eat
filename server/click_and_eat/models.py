@@ -30,12 +30,16 @@ def franchise_products_directory_path(instance, filename):
 
 
 class Franchise(models.Model):
-    title = models.TextField(max_length=32)
+    title = models.CharField(max_length=32)
     logo = models.ImageField(upload_to=franchise_data_directory_path)
     preview_photo = models.ImageField(upload_to=franchise_data_directory_path)
 
     def get_restaurants(self):
         return Restaurant.objects.filter(franchise=self)
+
+
+class ProductCategory(models.Model):
+    title = models.CharField(max_length=32)
 
 
 class ProductManager(models.Manager):
@@ -52,10 +56,13 @@ class ProductManager(models.Manager):
 
 class Product(models.Model):
     franchise = models.ForeignKey(Franchise, on_delete=models.CASCADE)
-    name = models.TextField(max_length=32)
+    name = models.CharField(max_length=32)
     photo = models.ImageField(upload_to=franchise_products_directory_path)
+    category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE, null=True)
     weight = models.PositiveIntegerField()
     price = models.PositiveIntegerField()
+
+    objects = ProductManager()
 
 
 class Restaurant(models.Model):
@@ -64,6 +71,7 @@ class Restaurant(models.Model):
     manager_account = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     open_time = models.TimeField()
     close_time = models.TimeField()
+    order_time = models.TimeField()
 
 
 class RestaurantProduct(models.Model):
