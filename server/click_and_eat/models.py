@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 
-def franchise_directory_path(instance, filename, subdir=None):
+def restaurant_directory_path(instance, filename, subdir=None):
     """
     Метод, возвращающий путь, по которому будет сохранен файл
     :param instance: экземпляр Franchise
@@ -13,7 +13,7 @@ def franchise_directory_path(instance, filename, subdir=None):
     :return: путь, по которому будет сохранен файл
     """
 
-    franchise_dir = 'franchise_{0}'.format(instance.id)
+    franchise_dir = 'restaurant_{0}'.format(instance.id)
 
     if subdir is not None:
         return '{0}/{1}/{2}'.format(franchise_dir, subdir, filename)
@@ -21,12 +21,12 @@ def franchise_directory_path(instance, filename, subdir=None):
         return '{0}/{1}'.format(franchise_dir, filename)
 
 
-def franchise_data_directory_path(instance, filename):
-    return franchise_directory_path(instance, filename, 'data')
+def restaurant_data_directory_path(instance, filename):
+    return restaurant_directory_path(instance, filename, 'data')
 
 
-def franchise_products_directory_path(instance, filename):
-    return franchise_directory_path(instance, filename, 'products')
+def restaurant_products_directory_path(instance, filename):
+    return restaurant_directory_path(instance, filename, 'products')
 
 
 class Restaurant(models.Model):
@@ -40,8 +40,8 @@ class Restaurant(models.Model):
     """
     title = models.CharField(max_length=256)
     description = models.CharField(max_length=1024)
-    # tag
-    logo = models.CharField(max_length=256)
+    logo = models.ImageField(upload_to=restaurant_data_directory_path)
+    preview_image = models.ImageField(upload_to=restaurant_data_directory_path)
     open_time = models.TimeField()
     close_time = models.TimeField()
 
@@ -61,10 +61,11 @@ class Category(models.Model):
     """
     Подгялдел у вас. Разделить блюда на закуски/горячие/напитки - хорошая идея
     """
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     title = models.CharField(max_length=256)
 
 
-class Dish(models.Model):
+class Product(models.Model):
     """
     Ресторан будет добавлять блюда сколько хотят. Мы просто будем выводить их все пользователю
 
@@ -72,10 +73,10 @@ class Dish(models.Model):
     value - у тебя был weight, все-таки надо писать общую модель. У напитка, например, не вес, а объем
     """
     name = models.CharField(max_length=32)
-    photo = models.ImageField(upload_to=franchise_products_directory_path)
+    photo = models.ImageField(upload_to=restaurant_products_directory_path, null=True)
     price = models.PositiveIntegerField()
-    value = models.PositiveIntegerField()
-
+    value = models.CharField(max_length=16)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
 
 

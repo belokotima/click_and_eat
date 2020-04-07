@@ -98,3 +98,16 @@ class Register(View):
         else:
             context['error'] = 'Неверный формат ввода'
             return render(request, self.template_name, context)
+
+
+class Logout(View):
+    def get(self, request, *args, **kwargs):
+        return self.logout_and_redirect(request)
+
+    def post(self, request, *args, **kwargs):
+        return self.logout_and_redirect(request)
+
+    @staticmethod
+    def logout_and_redirect(request):
+        logout(request)
+        return redirect('index')

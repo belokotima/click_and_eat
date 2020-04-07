@@ -1,0 +1,45 @@
+{% load static %}
+<header style="background-color: #fff;" uk-sticky="sel-target: .uk-navbar-transparent; cls-active: uk-navbar-sticky">
+    <div class="uk-container">
+        <nav class="uk-navbar-transparent" data-uk-navbar>
+            <div class="uk-navbar-left">
+                <a class="uk-logo-lg uk-width-1-2 " title="" href=""><img src="{% static 'img/logo_medium.png' %}" alt="Logo"></a>
+            </div>
+            <div class="uk-navbar-center uk-visible@m">
+                <ul class="uk-navbar-nav">
+                    <li class="uk-active"><a href="#">Рестораны</a></li>
+                    <li><a href="#">О компании</a></li>
+                </ul>
+            </div>
+            <div class="uk-navbar-right">
+                <ul class="uk-navbar-nav">
+                    <li>
+                        <a href="#" data-uk-icon="icon:cart; ratio: 1.5;"></a>
+                        <div class="uk-navbar-dropdown uk-navbar-dropdown-bottom-left">
+                            <ul class="uk-nav uk-navbar-dropdown-nav uk-width-large">
+                                <li class="uk-nav-header uk-text-small uk-text-primary">Корзина пуста</li>
+                                <li><a class="uk-button-small uk-button-default">Оформить заказ</a></li>
+                                <li><a class="uk-button-small uk-button-danger">Очистить корзину</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#" data-uk-icon="icon:user; ratio: 1.5;"></a>
+                        <div class="uk-navbar-dropdown uk-navbar-dropdown-bottom-left">
+                            <ul class="uk-nav uk-navbar-dropdown-nav">
+                                <li class="uk-nav-header uk-text-small uk-text-primary">{{ user.first_name }}</li>
+                                <li class="uk-nav-divider"></li>
+                                <li><a href="#"><span data-uk-icon="icon: history"></span> История заказов</a></li>
+                                <li><a href="#"><span data-uk-icon="icon: settings"></span> Профиль</a></li>
+                                <li class="uk-nav-divider"></li>
+                                <li><a href="{% url 'logout' %}"><span data-uk-icon="icon: sign-out"></span> Выйти</a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</header>

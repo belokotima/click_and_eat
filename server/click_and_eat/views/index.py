@@ -8,4 +8,7 @@ class Index(View):
     template_name = 'welcome.html'
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
+        if request.user.is_authenticated:
+            return render(request, 'main/index.html')
+        else:
+            return render(request, self.template_name)
