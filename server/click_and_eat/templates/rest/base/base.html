@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{% static 'img/favicon.ico' %}">
+    <!-- CSS FILES -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/uikit.min.css' %}">
+
+    <title>
+        {% block title %}
+            Click&Eat
+        {% endblock %}
+    </title>
+
+    {% block head %}
+    {% endblock %}
+
+</head>
+<body>
+<!--NAVBAR-->
+{% include 'rest/base/navbar.html' %}
+<!--NAVBAR-->
+
+{% block body %}
+{% endblock %}
+
+<section class="uk-section uk-section-muted" style="padding: 20px 0;">
+    <div class="uk-container">
+        {% block main %}
+        {% endblock %}
+    </div>
+</section>
+
+<!--FOOTER-->
+{% include 'base/footer.html' %}
+<!--FOOTER-->
+
+<!-- JS FILES -->
+<script src="{% static 'js/uikit.min.js' %}"></script>
+<script src="{% static 'js/uikit-icons.min.js' %}"></script>
+</body>
+</html>
