@@ -47,6 +47,18 @@ class Restaurant(models.Model):
 
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            saved_logo = self.logo
+            saved_preview = self.preview_image
+            self.logo = None
+            self.preview_image = None
+            super(Restaurant, self).save(*args, **kwargs)
+            self.logo = saved_logo
+            self.preview_image = saved_preview
+
+        super(Restaurant, self).save(*args, **kwargs)
+
 
 class AddressOfRestaurant(models.Model):
     """
@@ -78,6 +90,15 @@ class Product(models.Model):
     value = models.CharField(max_length=16)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            saved_photo = self.photo
+            self.photo = None
+            super(Product, self).save(*args, **kwargs)
+            self.photo = saved_photo
+
+        super(Product, self).save(*args, **kwargs)
 
 
 # Твой код. Не удаляю, чтобы был, если мой не понравится

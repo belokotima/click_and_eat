@@ -5,6 +5,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from ..forms import *
+
+
 auth_templates_dir = 'auth'
 
 
@@ -15,6 +17,8 @@ class Login(View):
         return render(request, self.template_name)
 
     def post(self, request, *args, **kwargs):
+        redirect_url = request.GET.get('next', None)
+
         form = LoginForm(request.POST)
         context = {}
         if form.is_valid():
@@ -23,7 +27,10 @@ class Login(View):
             remember_me = form.cleaned_data['remember_me']
 
             if self.login(request, username, password, remember_me):
-                return redirect('index')
+                if redirect_url is None:
+                    return redirect('index')
+                else:
+                    return redirect(redirect_url)
             else:
                 context['error'] = 'Неверный логин или пароль'
                 return render(request, self.template_name, context)

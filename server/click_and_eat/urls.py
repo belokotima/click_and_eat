@@ -11,5 +11,5 @@ urlpatterns = [
     path('auth/logout', Logout.as_view(), name='logout'),
     path('', Index.as_view(), name='index'),
     path('rest/register', RestaurantRegister.as_view(), name='restreg'),
-    path('rest/menu', RestaurantMenu.as_view(), name='menu'),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    path('rest/menu', RestaurantCreate.as_view(), name='restaurant_create'),
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

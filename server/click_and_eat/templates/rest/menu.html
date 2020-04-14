@@ -1,38 +1,109 @@
 {% extends "rest/base/base.html" %}
 {% load static %}
-
-
 {% block head %}
+    <style>
+        .overlay-wrap::before {
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            content: '';
+            z-index: 1;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+    </style>
 {% endblock %}
-
-
 {% block body %}
-<div class=" uk-flex uk-flex-center uk-flex-middle uk-background-muted uk-height-viewport">
-<div class="uk-width-medium uk-padding-small">
-<fieldset class="uk-fieldset">
-<form class="toggle-class" action="" method="POST" autocomplete="off">
-
-
-    {% csrf_token %}
-
-    <div class="uk-margin-small">
-    <div class="uk-inline uk-width-1-1">
-    {{ form }}
-    </div>
-    </div>
-
-    <input type="submit" class="uk-button">
-
-
-</form>
-</fieldset>
-</div>
-</div>
+    <section class="uk-cover-container overlay-wrap">
+        <img data-src="{% static 'img/welcome/main.jpg' %}" alt="" data-uk-cover data-uk-img
+        >
+        <div class="uk-container uk-position-z-index uk-position-relative uk-section uk-section-medium uk-light">
+            <div class="uk-container uk-container-small uk-text-center">
+                <h1>Станьте партнёром сервиса Click&Eat</h1>
+            </div>
+        </div>
+    </section>
 {% endblock %}
-
-
 {% block main %}
+    <h1>Оставьте заявку на подключение к сервису Click&Eat</h1>
+    <form class="uk-form-stacked" action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="uk-fieldset">
 
+            <div>
+                <label class="uk-form-label"><h2>О ресторане</h2></label>
+                <div class="uk-form-controls uk-inline uk-width-1-1">
+                    <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: tag"></span>
+                    <input name="title" class="uk-input uk-border" placeholder="Название ресторана" type="text" value="{{ form.title.value|default_if_none:"" }}" required>
+                </div>
+            </div>
+
+            <hr>
+
+            <div>
+                <label class="uk-form-label"><h2>Описание</h2></label>
+                <div class="uk-inline uk-width-1-1">
+                    <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: info"></span>
+                    <textarea name="description" class="uk-input uk-border" placeholder="Описание" type="" required>{{ form.description.value|default_if_none:"" }}</textarea>
+                </div>
+            </div>
+
+            <hr>
+
+            <div>
+                <label class="uk-form-label"><h2>Часы работы</h2></label>
+                <div class="uk-inline uk-width-1-2">
+                    <label class="uk-form-label">Время открытия</label>
+                    <div class="uk-inline">
+                        <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: clock"></span>
+                        <input name="open_time" class="uk-input uk-border" type="time" value="{{ form.open_time.value|date:"H:i"|default_if_none:"" }}" required>
+                    </div>
+                </div>
+                <div class="uk-width-auto">
+                    <label class="uk-form-label">Время закрытия</label>
+                    <div class="uk-inline">
+                        <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: clock"></span>
+                        <input name="close_time" class="uk-input uk-border" placeholder="Время закрытия" type="time" value="{{ form.close_time.value|date:"H:i"|default_if_none:"" }}" required>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <div>
+                <label class="uk-form-label"><h2>Логотип</h2></label>
+                <div uk-form-custom="target: true">
+                    <input type="file">
+                    <input class="uk-input uk-form-width-medium" type="text" placeholder="Выберите логотип" disabled>
+                    <label class="uk-form-label">Рекомендуемый размер изображения - 128x128px</label>
+                </div>
+            </div>
+
+            <div>
+                <label class="uk-form-label"><h2>Превью ресторана</h2></label>
+                <div uk-form-custom="target: true">
+                    <input type="file">
+                    <input class="uk-input uk-form-width-medium" type="text" placeholder="Выберите превью" disabled>
+                    <label class="uk-form-label">Рекомендуемый размер изображения - 123x456px</label>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="uk-margin-small">
+                <label><input name="remember_me" class="uk-checkbox" type="checkbox" value="off"> Я соглашаюсь с условиями обработки моих данных...</label>
+            </div>
+
+            <hr>
+
+            <div class="uk-margin-bottom">
+                <button type="submit" class="uk-button uk-button-secondary uk-border uk-width-1-1">Отправить заявку</button>
+            </div>
+        </fieldset>
+    </form>
 {% endblock %}
+
+
 
 

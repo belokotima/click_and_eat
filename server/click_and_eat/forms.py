@@ -15,7 +15,7 @@ class RegisterForm(LoginForm):
     repeat_password = forms.CharField(widget=forms.PasswordInput())
 
 
-class RestaurantMenuForm(ModelForm):
+class RestaurantEditForm(ModelForm):
     class Meta:
         model = Restaurant
         fields = '__all__'
