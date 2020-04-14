@@ -1,0 +1,38 @@
+{% extends "rest/base/base.html" %}
+{% load static %}
+
+
+{% block head %}
+{% endblock %}
+
+
+{% block body %}
+<div class=" uk-flex uk-flex-center uk-flex-middle uk-background-muted uk-height-viewport">
+<div class="uk-width-medium uk-padding-small">
+<fieldset class="uk-fieldset">
+<form class="toggle-class" action="" method="POST" autocomplete="off">
+
+
+    {% csrf_token %}
+
+    <div class="uk-margin-small">
+    <div class="uk-inline uk-width-1-1">
+    {{ form }}
+    </div>
+    </div>
+
+    <input type="submit" class="uk-button">
+
+
+</form>
+</fieldset>
+</div>
+</div>
+{% endblock %}
+
+
+{% block main %}
+
+{% endblock %}
+
+

@@ -4,20 +4,8 @@ from django.views import View
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
-
+from ..forms import *
 auth_templates_dir = 'auth'
-
-
-class LoginForm(forms.Form):
-    username = forms.CharField(max_length=12)
-    password = forms.CharField(widget=forms.PasswordInput())
-    remember_me = forms.BooleanField(required=False)
-
-
-class RegisterForm(LoginForm):
-    first_name = forms.CharField(max_length=12)
-    email = forms.EmailField()
-    repeat_password = forms.CharField(widget=forms.PasswordInput())
 
 
 class Login(View):
