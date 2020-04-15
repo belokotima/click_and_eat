@@ -22,7 +22,7 @@
                                 <li><a href="#"><span data-uk-icon="icon: settings"></span> Профиль</a></li>
                                 <li class="uk-nav-divider"></li>
                                 {% if user.is_superuser %}
-                                    <li><a href={% url 'menu' %}><span data-uk-icon="icon: bookmark"></span> Меню</a></li>
+                                    <li><a href={% url 'restaurant_create' %}><span data-uk-icon="icon: bookmark"></span> Меню</a></li>
                                 {% endif %}
                                 <li><a href="{% url 'logout' %}"><span data-uk-icon="icon: sign-out"></span> Выйти</a>
                                 </li>
