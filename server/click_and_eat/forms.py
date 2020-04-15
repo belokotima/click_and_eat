@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Restaurant
+from .models import *
 
 
 class LoginForm(forms.Form):
@@ -19,3 +19,9 @@ class RestaurantEditForm(ModelForm):
     class Meta:
         model = Restaurant
         fields = ['title', 'description', 'logo', 'preview_image', 'open_time', 'close_time']
+
+
+class RestaurantMenuAddForm(ModelForm):
+    class Meta:
+        model = Product
+        fields = ['name', 'description', 'photo', 'price', 'value']

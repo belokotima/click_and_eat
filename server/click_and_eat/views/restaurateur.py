@@ -34,3 +34,31 @@ class RestaurantCreate(LoginRequiredView):
             form.save()
             return redirect('index')
         return render(request, self.template_name)
+
+
+class RestaurantMenu(View):
+    pass
+
+    #     template_name = 'restaurateur/restaurant'
+    #
+    #     def get(self, request, restaurante_id, *args, **kwargs):
+    #         product = Product.objects.all()
+    #         context = {'restaurant': product}
+    #         return render(request, self.template_name/, context)
+
+
+class RestaurantMenuAdd(LoginRequiredView):
+    template_name = 'restaurateur/menu.html'
+
+    def get(self, request, *args, **kwargs):
+        form = RestaurantMenuAddForm()
+        context = {'form': form}
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        form = RestaurantMenuAddForm(request.POST, request.FILES)
+        form.instance.restaurant_id = request.user.id
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+        return render(request, self.template_name)

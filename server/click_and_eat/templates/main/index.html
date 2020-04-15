@@ -91,7 +91,7 @@
         </a>
 
         {% for rest in restaurants %}
-            <a href="#" style="text-decoration: none">
+            <a href="{% url 'restaurant' rest.id %}"  style="text-decoration: none">
             <div class="uk-card uk-card-default uk-card-hover">
                 <div class="uk-card-media-top uk-height-1-1 uk-flex uk-flex-bottom uk-flex-center uk-background-cover uk-light" data-src="{{ rest.preview_image.url }}" uk-img>
                     <div style="background-color: rgba(0, 0, 0, 0.5)" class="uk-width-1-1 uk-height-1-1 uk-flex uk-flex-center">

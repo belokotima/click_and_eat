@@ -86,6 +86,7 @@ class Product(models.Model):
     """
     name = models.CharField(max_length=32)
     photo = models.ImageField(upload_to=restaurant_products_directory_path, null=True)
+    description = models.CharField(max_length=1024, default='SOME STRING')
     price = models.PositiveIntegerField()
     value = models.CharField(max_length=16)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)

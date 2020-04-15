@@ -13,4 +13,6 @@ urlpatterns = [
     path('restaurateur', Restaurateur.as_view(), name='restaurateur'),
     path('restaurateur/register_form', RestaurantRegister.as_view(), name='restaurant_register_form'),
     path('restaurateur/register', RestaurantCreate.as_view(), name='restaurant_create'),
+    path('restaurateur/restaurant/<str:restaurante_id>/', RestaurantMenu.as_view(), name='restaurant'),
+    path('restaurateur/menu', RestaurantMenuAdd.as_view(), name='menu_create')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

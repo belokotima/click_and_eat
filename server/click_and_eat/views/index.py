@@ -3,7 +3,7 @@ from django import forms
 from django.views import View
 from django.shortcuts import render, redirect
 
-from ..models import Restaurant
+from ..models import *
 
 
 class Index(View):
