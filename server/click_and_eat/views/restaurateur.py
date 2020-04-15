@@ -5,15 +5,22 @@ from django.views import View
 from django.shortcuts import render, redirect
 
 
+class Restaurateur(LoginRequiredView):
+    template_name = 'restaurateur/restaurateur_welcome.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
+
+
 class RestaurantRegister(LoginRequiredView):
-    template_name = 'rest/register.html'
+    template_name = 'restaurateur/register_form.html'
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)
 
 
 class RestaurantCreate(LoginRequiredView):
-    template_name = 'rest/menu.html'
+    template_name = 'restaurateur/register.html'
 
     def get(self, request, *args, **kwargs):
         form = RestaurantEditForm()
@@ -22,7 +29,8 @@ class RestaurantCreate(LoginRequiredView):
 
     def post(self, request, *args, **kwargs):
         form = RestaurantEditForm(request.POST, request.FILES)
+        form.instance.owner = request.user
         if form.is_valid():
             form.save()
-            return redirect('/')
+            return redirect('index')
         return render(request, self.template_name)

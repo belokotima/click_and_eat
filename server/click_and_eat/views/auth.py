@@ -51,7 +51,7 @@ class Login(View):
 
 
 class Register(View):
-    template_name = os.path.join(auth_templates_dir, 'register.html')
+    template_name = os.path.join(auth_templates_dir, 'register_form.html')
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)

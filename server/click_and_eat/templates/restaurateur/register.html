@@ -1,4 +1,4 @@
-{% extends "rest/base/base.html" %}
+{% extends "restaurateur/base/base.html" %}
 {% load static %}
 {% block head %}
     <style>
@@ -74,7 +74,7 @@
             <div>
                 <label class="uk-form-label"><h2>Логотип</h2></label>
                 <div uk-form-custom="target: true">
-                    <input type="file">
+                    <input name="logo" type="file">
                     <input class="uk-input uk-form-width-medium" type="text" placeholder="Выберите логотип" disabled>
                     <label class="uk-form-label">Рекомендуемый размер изображения - 128x128px</label>
                 </div>
@@ -83,7 +83,7 @@
             <div>
                 <label class="uk-form-label"><h2>Превью ресторана</h2></label>
                 <div uk-form-custom="target: true">
-                    <input type="file">
+                    <input name="preview_image" type="file">
                     <input class="uk-input uk-form-width-medium" type="text" placeholder="Выберите превью" disabled>
                     <label class="uk-form-label">Рекомендуемый размер изображения - 123x456px</label>
                 </div>

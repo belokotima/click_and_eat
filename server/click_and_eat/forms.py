@@ -18,4 +18,4 @@ class RegisterForm(LoginForm):
 class RestaurantEditForm(ModelForm):
     class Meta:
         model = Restaurant
-        fields = '__all__'
+        fields = ['title', 'description', 'logo', 'preview_image', 'open_time', 'close_time']
