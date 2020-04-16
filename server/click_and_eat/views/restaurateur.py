@@ -37,14 +37,15 @@ class RestaurantCreate(LoginRequiredView):
 
 
 class RestaurantMenu(View):
-    pass
 
-    #     template_name = 'restaurateur/restaurant'
-    #
-    #     def get(self, request, restaurante_id, *args, **kwargs):
-    #         product = Product.objects.all()
-    #         context = {'restaurant': product}
-    #         return render(request, self.template_name/, context)
+    template_name = 'restaurateur/restaurant.html'
+
+    def get(self, request, restaurante_id, *args, **kwargs):
+        restaurant = Restaurant.objects.get(id=restaurante_id)
+        products = restaurant.product_set.all()
+        print(len(products))
+        context = {'products': products}
+        return render(request, self.template_name, context)
 
 
 class RestaurantMenuAdd(LoginRequiredView):
