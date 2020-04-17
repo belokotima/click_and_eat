@@ -43,7 +43,6 @@ class RestaurantMenu(View):
     def get(self, request, restaurante_id, *args, **kwargs):
         restaurant = Restaurant.objects.get(id=restaurante_id)
         products = restaurant.product_set.all()
-        print(len(products))
         context = {'products': products}
         return render(request, self.template_name, context)
 
