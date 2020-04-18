@@ -73,20 +73,11 @@
             </div>
         </div>
     </section>
-    <section class="uk-section uk-section-default uk-box-shadow-small uk-section-xsmall">
-        <div class="uk-container">
-            <div class="uk-flex uk-flex-center">
-                <script type="text/javascript">
-                function map_init_basic(map, options) {
-                    L.marker([60.5, 40.5]).addTo(map);
-                }
-                </script>
-                
-            </div>
-            
-        </div>
-        
-    </section>
+    <script type="text/javascript">
+    function map_init_basic(map, options) {
+        L.marker([60.5, 40.5]).addTo(map);
+    }
+    </script>
     {% leaflet_map "yourmap" callback="window.map_init_basic" %}
 {% endblock %}
 {% block main %}
