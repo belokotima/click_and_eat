@@ -1,5 +1,6 @@
-{% extends "main/../base/base.html" %}
+{% extends "maps/../base/base.html" %}
 {% load static %}
+{% load leaflet_tags %}
 {% block head %}
     <style>
         .overlay-wrap::before {
@@ -13,6 +14,22 @@
             background-color: rgba(0, 0, 0, 0.5);
         }
     </style>
+    <style>
+        .leaflet-container {
+            width: 100%;
+            height: 600px;
+        }
+        /* all maps */
+        #specialbigmap {
+            height: 800px;
+        }
+        /* Resize the "display_raw" textbox */
+        .django-leaflet-raw-textarea {
+            width: 100%;
+        }
+    </style>
+    {% leaflet_js %}
+    {% leaflet_css %}
 {% endblock %}
 {% block body %}
     <section class="uk-cover-container overlay-wrap">
@@ -23,9 +40,7 @@
                 <h1>Click&Eat</h1>
                 <h3 style="margin-top: 0">Мобильная касса в Вашем браузере</h3>
                 <div data-uk-margin>
-                    <a class="uk-button uk-button-primary" data-uk-toggle href="{% url 'restaurant_map' %}">
-                        Показать рестораны на карте
-                    </a>
+                    
                 </div>
             </div>
         </div>
@@ -58,6 +73,21 @@
             </div>
         </div>
     </section>
+    <section class="uk-section uk-section-default uk-box-shadow-small uk-section-xsmall">
+        <div class="uk-container">
+            <div class="uk-flex uk-flex-center">
+                <script type="text/javascript">
+                function map_init_basic(map, options) {
+                    L.marker([60.5, 40.5]).addTo(map);
+                }
+                </script>
+                
+            </div>
+            
+        </div>
+        
+    </section>
+    {% leaflet_map "yourmap" callback="window.map_init_basic" %}
 {% endblock %}
 {% block main %}
     <h1>Рестораны</h1>

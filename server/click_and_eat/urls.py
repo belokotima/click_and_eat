@@ -4,15 +4,17 @@ from django.conf.urls.static import static
 from .views.auth import Login, Register, Logout
 from .views.index import Index
 from .views.restaurateur import *
+from .simple_views import *
 
 urlpatterns = [
-    path('auth/login', Login.as_view(), name='login'),
-    path('auth/register', Register.as_view(), name='register'),
-    path('auth/logout', Logout.as_view(), name='logout'),
+    path('auth/login/', Login.as_view(), name='login'),
+    path('auth/register/', Register.as_view(), name='register'),
+    path('auth/logout/', Logout.as_view(), name='logout'),
     path('', Index.as_view(), name='index'),
-    path('restaurateur', Restaurateur.as_view(), name='restaurateur'),
-    path('restaurateur/register_form', RestaurantRegister.as_view(), name='restaurant_register_form'),
-    path('restaurateur/register', RestaurantCreate.as_view(), name='restaurant_create'),
+    path('restaurateur/', Restaurateur.as_view(), name='restaurateur'),
+    path('restaurateur/register_form/', RestaurantRegister.as_view(), name='restaurant_register_form'),
+    path('restaurateur/register/', RestaurantCreate.as_view(), name='restaurant_create'),
     path('restaurateur/restaurant/<str:restaurante_id>/', RestaurantMenu.as_view(), name='restaurant'),
-    path('restaurateur/menu', RestaurantMenuAdd.as_view(), name='menu_create')
+    path('restaurateur/menu/', RestaurantMenuAdd.as_view(), name='menu_create'),
+    path('map/', restaurant_map, name="restaurant_map"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
