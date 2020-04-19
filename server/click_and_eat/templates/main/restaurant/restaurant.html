@@ -1,30 +1,19 @@
-{% extends "restaurateur/base/base.html" %}
+{% extends "main/restaurant/base/base.html" %}
 {% load static %}
 {% block head %}
 
 {% endblock %}
 
-{% block body %}
-    <section class="uk-cover-container overlay-wrap">
-        <img data-src="{% static 'img/welcome/main.jpg' %}" alt="" data-uk-cover data-uk-img
-        >
-        <div class="uk-container uk-position-z-index uk-position-relative uk-section uk-section-medium uk-light">
-            <div class="uk-container uk-container-small uk-text-center">
-                <h1>Меню ресторана</h1>
-            </div>
-        </div>
-    </section>
-{% endblock %}
-
-
 {% block main %}
 
     {% for product in products %}
 
-<a href="{% url 'index' %}"  style="text-decoration: none">
+        <a href="{% url 'index' %}" style="text-decoration: none">
             <div class="uk-card uk-card-default uk-card-hover">
-                <div class="uk-card-media-top uk-height-1-1 uk-flex uk-flex-bottom uk-flex-center uk-background-cover uk-light" data-src="{{ product.photo.url }}" uk-img>
-                    <div style="background-color: rgba(0, 0, 0, 0.5)" class="uk-width-1-1 uk-height-1-1 uk-flex uk-flex-center">
+                <div class="uk-card-media-top uk-height-1-1 uk-flex uk-flex-bottom uk-flex-center uk-background-cover uk-light"
+                     data-src="{{ product.photo.url }}" uk-img>
+                    <div style="background-color: rgba(0, 0, 0, 0.5)"
+                         class="uk-width-1-1 uk-height-1-1 uk-flex uk-flex-center">
                         <div class="uk-grid-large" uk-grid>
                             <div class="uk-width-auto">
                                 <img class="uk-border-circle" width="50" height="50"
@@ -40,7 +29,7 @@
                                 </p>
                             </div>
                         </div>
-                </div>
+                    </div>
                 </div>
 
             </div>

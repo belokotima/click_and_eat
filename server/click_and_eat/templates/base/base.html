@@ -7,6 +7,7 @@
     <link rel="icon" href="{% static 'img/favicon.ico' %}">
     <!-- CSS FILES -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/uikit.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/cekit.css' %}">
 
     <title>
         {% block title %}
@@ -20,7 +21,9 @@
 </head>
 <body>
 <!--NAVBAR-->
-{% include 'base/navbar.html' %}
+{% block navbar %}
+    {% include 'base/navbar.html' %}
+{% endblock %}
 <!--NAVBAR-->
 
 {% block body %}

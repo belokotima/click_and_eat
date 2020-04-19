@@ -1,0 +1,6 @@
+{% extends 'restaurateur/restaurant/base/base.html' %}
+
+{% block main %}
+    <a class="uk-button uk-button-secondary" href="{% url 'restaurant_edit' restaurant_id=restaurant.id %}">Настройки</a>
+    <a class="uk-button uk-button-secondary" href="{% url 'restaurant_menu_create' restaurant_id=restaurant.id %}">Добавить блюдо</a>
+{% endblock %}

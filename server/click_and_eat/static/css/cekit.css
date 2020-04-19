@@ -1,0 +1,28 @@
+.ce-overlay-wrap::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    content: '';
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.ce-box-shadow-default {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.ce-text-shadow-default {
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.ce-one-to-one-ratio {
+    width: 100%;
+    padding-top: 100%;
+}
+
+.ce-two-to-one-ratio {
+    width: 100%;
+    padding-top: 50%;
+}

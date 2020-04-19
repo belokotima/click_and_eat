@@ -1,0 +1,18 @@
+{% extends 'restaurateur/base/base.html' %}
+
+{% block body %}
+    <section class="uk-cover-container ce-overlay-wrap">
+        <img data-src="{{ restaurant.preview_image.url }}" alt="Preview" data-uk-cover data-uk-img
+        >
+
+        <div class="uk-container uk-position-z-index uk-position-relative uk-section uk-section-medium uk-light">
+
+            <div class="uk-container uk-container-small uk-text-center">
+                <img class="uk-border-circle ce-box-shadow-default" data-src="{{ restaurant.logo.url }}" alt="Logo"
+                   height="100" width="100"  data-uk-img>
+
+                <h1 class="ce-text-shadow-default">{{ restaurant.title }}</h1>
+            </div>
+        </div>
+    </section>
+{% endblock %}
