@@ -29,6 +29,10 @@ def restaurant_products_directory_path(instance, filename):
     return restaurant_directory_path(instance, filename, 'products')
 
 
+def product_directory_path(instance, filename):
+    return restaurant_products_directory_path(instance.restaurant, 'product{}_{}'.format(instance.id, filename))
+
+
 class Restaurant(models.Model):
     """
     Модель ресторана. Рассматриваем ее как главную модель в бд
@@ -59,6 +63,18 @@ class Restaurant(models.Model):
 
         super(Restaurant, self).save(*args, **kwargs)
 
+    def get_products(self):
+        return Product.objects.filter(restaurant=self)
+
+    def get_no_category_products(self):
+        return Product.objects.filter(restaurant=self, category=None)
+
+    def has_no_category_products(self):
+        return len(self.get_no_category_products()) > 0
+
+    def get_categories(self):
+        return Category.objects.filter(restaurant=self)
+
 
 class AddressOfRestaurant(models.Model):
     """
@@ -67,6 +83,8 @@ class AddressOfRestaurant(models.Model):
     """
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     address = models.CharField(max_length=256)
+    longitude = models.FloatField()
+    latitude = models.FloatField()
 
 
 class Category(models.Model):
@@ -75,6 +93,9 @@ class Category(models.Model):
     """
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     title = models.CharField(max_length=256)
+
+    def get_products(self):
+        return self.restaurant.get_products().filter(category=self)
 
 
 class Product(models.Model):
@@ -85,11 +106,11 @@ class Product(models.Model):
     value - у тебя был weight, все-таки надо писать общую модель. У напитка, например, не вес, а объем
     """
     name = models.CharField(max_length=32)
-    photo = models.ImageField(upload_to=restaurant_products_directory_path, null=True)
+    photo = models.ImageField(upload_to=product_directory_path, null=True)
     description = models.CharField(max_length=1024, default='')
     price = models.PositiveIntegerField()
     value = models.CharField(max_length=16)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):

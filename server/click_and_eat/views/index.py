@@ -7,11 +7,9 @@ from ..models import *
 
 
 class Index(View):
-    template_name = 'welcome.html'
+    template_name = 'main/index.html'
 
     def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            context = {'restaurants': Restaurant.objects.all()}
-            return render(request, 'main/index.html', context)
-        else:
-            return render(request, self.template_name)
+        context = {'restaurants': Restaurant.objects.all()}
+        return render(request, self.template_name, context)
+

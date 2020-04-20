@@ -21,7 +21,25 @@ class RestaurantEditForm(ModelForm):
         fields = ['title', 'description', 'logo', 'preview_image', 'open_time', 'close_time']
 
 
-class RestaurantMenuAddForm(ModelForm):
+class CategoryModelChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return obj.title
+
+
+class RestaurantAddProductForm(ModelForm):
+    def set_restaurant(self, restaurant):
+        self.fields['category'].queryset = Category.objects.filter(restaurant=restaurant)
+
     class Meta:
         model = Product
-        fields = ['name', 'description', 'photo', 'price', 'value']
+        fields = ['name', 'description', 'photo', 'price', 'value', 'category']
+        field_classes = {'category': CategoryModelChoiceField}
+        widgets = {
+            'category': forms.Select(attrs={'class': 'uk-select'}),
+        }
+
+
+class RestaurantAddCategoryForm(ModelForm):
+    class Meta:
+        model = Category
+        fields = ['title']

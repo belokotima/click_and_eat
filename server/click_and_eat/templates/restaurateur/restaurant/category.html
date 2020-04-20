@@ -1,0 +1,39 @@
+{% extends "restaurateur/restaurant/base/base.html" %}
+
+{% block main %}
+    <h1>
+        {% if edit %}
+            Редактирование категории в меню
+        {% else %}
+            Добавьте новые категории в меню
+        {% endif %}
+    </h1>
+    <form class="uk-form-stacked" action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="uk-fieldset">
+
+            <div>
+                <label class="uk-form-label">Название категории</label>
+                <div class="uk-form-controls uk-inline uk-width-1-1">
+                    <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: tag"></span>
+                    <input name="title" class="uk-input uk-border" placeholder="Название" type="text"
+                           value="{{ form.title.value|default_if_none:"" }}" required>
+                </div>
+            </div>
+            <hr>
+            <div class="uk-margin-bottom">
+                <button type="submit" class="uk-button uk-button-secondary uk-border uk-width-1-1">
+                    {% if edit %}
+                        Редактировать
+                    {% else %}
+                        Добавить
+                    {% endif %}
+                </button>
+            </div>
+        </fieldset>
+    </form>
+{% endblock %}
+
+
+
+

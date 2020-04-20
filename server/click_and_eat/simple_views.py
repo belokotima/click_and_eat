@@ -3,6 +3,7 @@ from .models import *
 
 # Create your views here.
 
+
 def restaurant_map(request):
     if request.user.is_authenticated:
         context = {'restaurants': Restaurant.objects.all()}

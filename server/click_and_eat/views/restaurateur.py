@@ -68,7 +68,7 @@ class RestaurantEdit(LoginRequiredView):
     def get(self, request, restaurant_id, *args, **kwargs):
         restaurant = get_object_or_404(Restaurant, pk=restaurant_id)
         form = RestaurantEditForm(instance=restaurant)
-        context = {'form': form}
+        context = {'form': form, 'restaurant': restaurant, 'edit': True}
         return render(request, self.template_name, context)
 
     def post(self, request, restaurant_id, *args, **kwargs):
@@ -78,23 +78,73 @@ class RestaurantEdit(LoginRequiredView):
         if form.is_valid():
             form.save()
             return redirect('restaurant_dashboard', restaurant_id=restaurant_id)
-        return render(request, self.template_name)
-
-
-class RestaurantMenuAdd(LoginRequiredView):
-    template_name = 'restaurateur/restaurant/add_product.html'
-
-    def get(self, request, restaurant_id, *args, **kwargs):
-        restaurant = get_object_or_404(Restaurant, pk=restaurant_id, owner=request.user)
-        form = RestaurantMenuAddForm()
-        context = {'form': form, 'restaurant': restaurant}
+        context = {'form': form, 'restaurant': restaurant, 'edit': True}
         return render(request, self.template_name, context)
 
-    def post(self, request, restaurant_id, *args, **kwargs):
+
+class RestaurantAddProduct(LoginRequiredView):
+    template_name = 'restaurateur/restaurant/product.html'
+
+    def get(self, request, restaurant_id, product_id=None, *args, **kwargs):
         restaurant = get_object_or_404(Restaurant, pk=restaurant_id, owner=request.user)
-        form = RestaurantMenuAddForm(request.POST, request.FILES)
+
+        if product_id is not None:
+            product = get_object_or_404(Product, pk=product_id, restaurant=restaurant)
+            form = RestaurantAddProductForm(instance=product)
+        else:
+            form = RestaurantAddProductForm()
+
+        form.set_restaurant(restaurant)
+
+        context = {'form': form, 'restaurant': restaurant, 'edit': product_id}
+        return render(request, self.template_name, context)
+
+    def post(self, request, restaurant_id, product_id=None, *args, **kwargs):
+        restaurant = get_object_or_404(Restaurant, pk=restaurant_id, owner=request.user)
+
+        if product_id is not None:
+            product = get_object_or_404(Product, pk=product_id, restaurant=restaurant)
+            form = RestaurantAddProductForm(request.POST, request.FILES, instance=product)
+        else:
+            form = RestaurantAddProductForm(request.POST, request.FILES)
+
+        form.set_restaurant(restaurant)
+
         form.instance.restaurant_id = restaurant.id
         if form.is_valid():
             form.save()
-            return redirect('index')
+            return redirect('restaurant_dashboard', restaurant_id=restaurant_id)
         return render(request, self.template_name)
+
+
+class RestaurantAddCategory(LoginRequiredView):
+    template_name = 'restaurateur/restaurant/category.html'
+
+    def get(self, request, restaurant_id, category_id=None, *args, **kwargs):
+        restaurant = get_object_or_404(Restaurant, pk=restaurant_id, owner=request.user)
+
+        if category_id is not None:
+            category = get_object_or_404(Category, pk=category_id, restaurant=restaurant)
+            form = RestaurantAddCategoryForm(instance=category)
+        else:
+            form = RestaurantAddCategoryForm()
+
+        context = {'form': form, 'restaurant': restaurant, 'edit': category_id}
+        return render(request, self.template_name, context)
+
+    def post(self, request, restaurant_id, category_id=None, *args, **kwargs):
+        restaurant = get_object_or_404(Restaurant, pk=restaurant_id, owner=request.user)
+
+        if category_id is not None:
+            category = get_object_or_404(Product, pk=category_id, restaurant=restaurant)
+            form = RestaurantAddCategoryForm(request.POST, request.FILES, instance=category)
+        else:
+            form = RestaurantAddCategoryForm(request.POST, request.FILES)
+
+        form.instance.restaurant_id = restaurant.id
+        if form.is_valid():
+            form.save()
+            return redirect('restaurant_dashboard', restaurant_id=restaurant_id)
+
+        context = {'form': form, 'restaurant': restaurant, 'edit': category_id}
+        return render(request, self.template_name, context)
