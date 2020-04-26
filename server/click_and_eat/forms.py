@@ -43,3 +43,9 @@ class RestaurantAddCategoryForm(ModelForm):
     class Meta:
         model = Category
         fields = ['title']
+
+
+class RestaurantAddressForm(ModelForm):
+    class Meta:
+        model = AddressOfRestaurant
+        fields = ['address', 'longitude', 'latitude']

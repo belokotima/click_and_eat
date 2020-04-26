@@ -96,7 +96,7 @@ class RestaurantAddProduct(LoginRequiredView):
 
         form.set_restaurant(restaurant)
 
-        context = {'form': form, 'restaurant': restaurant, 'edit': product_id}
+        context = {'form': form, 'restaurant': restaurant, 'edit': product_id, 'product': product}
         return render(request, self.template_name, context)
 
     def post(self, request, restaurant_id, product_id=None, *args, **kwargs):
@@ -136,7 +136,7 @@ class RestaurantAddCategory(LoginRequiredView):
         restaurant = get_object_or_404(Restaurant, pk=restaurant_id, owner=request.user)
 
         if category_id is not None:
-            category = get_object_or_404(Product, pk=category_id, restaurant=restaurant)
+            category = get_object_or_404(Category, pk=category_id, restaurant=restaurant)
             form = RestaurantAddCategoryForm(request.POST, request.FILES, instance=category)
         else:
             form = RestaurantAddCategoryForm(request.POST, request.FILES)
@@ -147,4 +147,50 @@ class RestaurantAddCategory(LoginRequiredView):
             return redirect('restaurant_dashboard', restaurant_id=restaurant_id)
 
         context = {'form': form, 'restaurant': restaurant, 'edit': category_id}
+        return render(request, self.template_name, context)
+
+
+class RestaurantAddresses(LoginRequiredView):
+    template_name = 'restaurateur/restaurant/addresses.html'
+
+    def get(self, request, restaurant_id, *args, **kwargs):
+        restaurant = get_object_or_404(Restaurant, pk=restaurant_id, owner=request.user)
+
+        addresses = AddressOfRestaurant.objects.filter(restaurant=restaurant)
+
+        context = {'restaurant': restaurant, 'addresses': addresses}
+        return render(request, self.template_name, context)
+
+
+class RestaurantAddAddress(LoginRequiredView):
+    template_name = 'restaurateur/restaurant/address.html'
+
+    def get(self, request, restaurant_id, address_id=None, *args, **kwargs):
+        restaurant = get_object_or_404(Restaurant, pk=restaurant_id, owner=request.user)
+
+        if address_id is not None:
+            address = get_object_or_404(AddressOfRestaurant, pk=address_id, restaurant_id=restaurant_id)
+            form = RestaurantAddressForm(instance=address)
+        else:
+            form = RestaurantAddressForm()
+
+        context = {'restaurant': restaurant, 'form': form, 'edit': address_id}
+        return render(request, self.template_name, context)
+
+    def post(self, request, restaurant_id, address_id=None, *args, **kwargs):
+        restaurant = get_object_or_404(Restaurant, pk=restaurant_id, owner=request.user)
+
+        if address_id is not None:
+            address = get_object_or_404(AddressOfRestaurant, pk=address_id, restaurant_id=restaurant_id)
+            form = RestaurantAddressForm(request.POST, request.FILES, instance=address)
+        else:
+            form = RestaurantAddressForm(request.POST, request.FILES)
+
+        form.instance.restaurant_id = restaurant.id
+
+        if form.is_valid():
+            form.save()
+            return redirect('restaurant_addresses', restaurant_id=restaurant.id)
+
+        context = {'restaurant': restaurant, 'form': form, 'edit': address_id}
         return render(request, self.template_name, context)

@@ -12,6 +12,7 @@ urlpatterns = [
     path('auth/register', Register.as_view(), name='register'),
     path('auth/logout', Logout.as_view(), name='logout'),
     path('', Index.as_view(), name='index'),
+
     path('restaurateur', Restaurateur.as_view(), name='restaurateur'),
     path('restaurateur/register_form', RestaurantRegister.as_view(), name='restaurant_register_form'),
     path('restaurateur/register', RestaurantCreate.as_view(), name='restaurant_create'),
@@ -26,7 +27,16 @@ urlpatterns = [
          name='restaurant_menu_create'),
     path('restaurateur/restaurant/<int:restaurant_id>/edit_product/<int:product_id>', RestaurantAddProduct.as_view(),
          name='restaurant_edit_product'),
+    path('restaurateur/restaurant/<int:restaurant_id>/addresses', RestaurantAddresses.as_view(),
+         name='restaurant_addresses'),
+    path('restaurateur/restauratn/<int:restaurant_id>/addresses/add', RestaurantAddAddress.as_view(),
+         name='restaurant_add_address'),
+    path('restaurateur/restauratn/<int:restaurant_id>/addresses/edit/<int:address_id>', RestaurantAddAddress.as_view(),
+         name='restaurant_edit_address'),
+
     path('restaurant/<int:restaurant_id>/', RestaurantView.as_view(), name='restaurant'),
+    path('restaurant/<int:restaurant_id>/add_to_cart/<product_id>', RestaurantAddToCart.as_view(),
+         name='restaurant_add_to_cart'),
     path('map/', restaurant_map, name="restaurant_map"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)\
   + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

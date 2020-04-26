@@ -1,0 +1,57 @@
+{% extends "restaurateur/restaurant/base/base.html" %}
+
+{% block main %}
+    <h1>
+        {% if edit %}
+            Редактирование адреса ресторана
+        {% else %}
+            Добавьте адрес ресторана
+        {% endif %}
+    </h1>
+    <form class="uk-form-stacked" action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="uk-fieldset">
+
+            <div>
+                <label class="uk-form-label">Адрес</label>
+                <div class="uk-form-controls uk-inline uk-width-1-1">
+                    <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: tag"></span>
+                    <input name="address" class="uk-input uk-border"
+                           placeholder="Например, пр. 60-летия Октября, дом 25, корп. 1" type="text"
+                           value="{{ form.address.value|default_if_none:"" }}" required>
+                </div>
+            </div>
+            <hr>
+
+            <div>
+                <label class="uk-form-label">Координаты</label>
+                <div class="uk-form-controls uk-inline uk-width-1-1">
+                    <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: tag"></span>
+                    <input name="latitude" class="uk-input uk-border" placeholder="Широта" type="number" step="any"
+                           value="{{ form.latitude.value|default_if_none:"" }}" required>
+                </div>
+                <div class="uk-form-controls uk-inline uk-width-1-1">
+                    <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: tag"></span>
+                    <input name="longitude" class="uk-input uk-border" placeholder="Долгота" type="number" step="any"
+                           value="{{ form.longitude.value|default_if_none:"" }}" required>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="uk-margin-bottom">
+                <button type="submit" class="uk-button uk-button-secondary uk-border uk-width-1-1">
+                    {% if edit %}
+                        Редактировать
+                    {% else %}
+                        Добавить
+                    {% endif %}
+                </button>
+            </div>
+        </fieldset>
+    </form>
+{% endblock %}
+
+
+
+
