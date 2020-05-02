@@ -1,0 +1,9 @@
+<a class="ce-card-link"
+   href="{% url 'restaurant_edit_product' restaurant_id=restaurant.id product_id=product.id %}">
+    <div class="uk-inline-clip uk-transition-toggle uk-light" tabindex="0">
+        {% include 'base/product_card.html' %}
+        <div class="uk-position-center-right">
+            <span class="uk-transition-fade" uk-icon="icon: pencil; ratio: 4"></span>
+        </div>
+    </div>
+</a>
