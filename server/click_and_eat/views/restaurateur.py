@@ -88,6 +88,8 @@ class RestaurantAddProduct(LoginRequiredView):
     def get(self, request, restaurant_id, product_id=None, *args, **kwargs):
         restaurant = get_object_or_404(Restaurant, pk=restaurant_id, owner=request.user)
 
+        product = None
+
         if product_id is not None:
             product = get_object_or_404(Product, pk=product_id, restaurant=restaurant)
             form = RestaurantAddProductForm(instance=product)
@@ -117,11 +119,25 @@ class RestaurantAddProduct(LoginRequiredView):
         return render(request, self.template_name)
 
 
+class RestaurantDeleteProduct(LoginRequiredView):
+    template_name = ''
+
+    def get(self, request, restaurant_id, product_id, *args, **kwargs):
+        restaurant = get_object_or_404(Restaurant, pk=restaurant_id, owner=request.user)
+        product = get_object_or_404(Product, pk=product_id, restaurant=restaurant)
+
+        product.delete()
+
+        return redirect('restaurant_dashboard', restaurant_id=restaurant_id)
+
+
 class RestaurantAddCategory(LoginRequiredView):
     template_name = 'restaurateur/restaurant/category.html'
 
     def get(self, request, restaurant_id, category_id=None, *args, **kwargs):
         restaurant = get_object_or_404(Restaurant, pk=restaurant_id, owner=request.user)
+
+        category = None
 
         if category_id is not None:
             category = get_object_or_404(Category, pk=category_id, restaurant=restaurant)
@@ -129,12 +145,13 @@ class RestaurantAddCategory(LoginRequiredView):
         else:
             form = RestaurantAddCategoryForm()
 
-        context = {'form': form, 'restaurant': restaurant, 'edit': category_id}
+        context = {'form': form, 'restaurant': restaurant, 'edit': category_id, 'category': category}
         return render(request, self.template_name, context)
 
     def post(self, request, restaurant_id, category_id=None, *args, **kwargs):
         restaurant = get_object_or_404(Restaurant, pk=restaurant_id, owner=request.user)
 
+        category = None
         if category_id is not None:
             category = get_object_or_404(Category, pk=category_id, restaurant=restaurant)
             form = RestaurantAddCategoryForm(request.POST, request.FILES, instance=category)
@@ -146,20 +163,19 @@ class RestaurantAddCategory(LoginRequiredView):
             form.save()
             return redirect('restaurant_dashboard', restaurant_id=restaurant_id)
 
-        context = {'form': form, 'restaurant': restaurant, 'edit': category_id}
+        context = {'form': form, 'restaurant': restaurant, 'edit': category_id, 'category': category}
         return render(request, self.template_name, context)
 
 
-class RestaurantAddresses(LoginRequiredView):
-    template_name = 'restaurateur/restaurant/addresses.html'
+class RestaurantDeleteCategory(LoginRequiredView):
+    template_name = ''
 
-    def get(self, request, restaurant_id, *args, **kwargs):
+    def get(self, request, restaurant_id, category_id, *args, **kwargs):
         restaurant = get_object_or_404(Restaurant, pk=restaurant_id, owner=request.user)
+        category = get_object_or_404(Category, pk=category_id, restaurant=restaurant)
 
-        addresses = AddressOfRestaurant.objects.filter(restaurant=restaurant)
-
-        context = {'restaurant': restaurant, 'addresses': addresses}
-        return render(request, self.template_name, context)
+        category.delete()
+        return redirect('restaurant_dashboard', restaurant_id=restaurant.id)
 
 
 class RestaurantAddAddress(LoginRequiredView):
@@ -168,13 +184,15 @@ class RestaurantAddAddress(LoginRequiredView):
     def get(self, request, restaurant_id, address_id=None, *args, **kwargs):
         restaurant = get_object_or_404(Restaurant, pk=restaurant_id, owner=request.user)
 
+        address = None
+
         if address_id is not None:
             address = get_object_or_404(AddressOfRestaurant, pk=address_id, restaurant_id=restaurant_id)
             form = RestaurantAddressForm(instance=address)
         else:
             form = RestaurantAddressForm()
 
-        context = {'restaurant': restaurant, 'form': form, 'edit': address_id}
+        context = {'restaurant': restaurant, 'form': form, 'edit': address_id, 'address': address}
         return render(request, self.template_name, context)
 
     def post(self, request, restaurant_id, address_id=None, *args, **kwargs):
@@ -194,3 +212,14 @@ class RestaurantAddAddress(LoginRequiredView):
 
         context = {'restaurant': restaurant, 'form': form, 'edit': address_id}
         return render(request, self.template_name, context)
+
+
+class RestaurantDeleteAddress(LoginRequiredView):
+    template_name = ''
+
+    def get(self, request, restaurant_id, address_id, *args, **kwargs):
+        restaurant = get_object_or_404(Restaurant, pk=restaurant_id, owner=request.user)
+        address = get_object_or_404(AddressOfRestaurant, pk=address_id, restaurant=restaurant)
+
+        address.delete()
+        return redirect('restaurant_dashboard', restaurant_id=restaurant.id)

@@ -75,6 +75,9 @@ class Restaurant(models.Model):
     def get_categories(self):
         return Category.objects.filter(restaurant=self)
 
+    def get_addresses(self):
+        return AddressOfRestaurant.objects.filter(restaurant=self)
+
 
 class AddressOfRestaurant(models.Model):
     """
