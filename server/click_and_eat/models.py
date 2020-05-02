@@ -83,8 +83,8 @@ class AddressOfRestaurant(models.Model):
     """
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     address = models.CharField(max_length=256)
-    longitude = models.FloatField()
-    latitude = models.FloatField()
+    longitude = models.FloatField(default='1')
+    latitude = models.FloatField(default='1')
 
 
 class Category(models.Model):
