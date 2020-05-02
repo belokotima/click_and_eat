@@ -23,7 +23,9 @@
                                 <li class="uk-nav-divider"></li>
                                 {% if user.is_superuser %}
                                     <li><a href={% url 'restaurant_create' %}><span data-uk-icon="icon:  home"></span> Добавить ресторан</a></li>
-                                    <li><a href={% url 'menu_create' %}><span data-uk-icon="icon:  calendar"></span> Меню </a></li>
+                                        {% if restaurnate_id is not None %}
+                                    <li><a href={% url 'restaurant_menu_create' %}><span data-uk-icon="icon:  calendar"></span> Меню </a></li>
+                                {% endif %}
                                 {% endif %}
                                 <li><a href="{% url 'logout' %}"><span data-uk-icon="icon: sign-out"></span> Выйти</a>
                                 </li>
