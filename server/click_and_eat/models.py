@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 # Create your models here.
 
 
@@ -126,6 +127,8 @@ class Product(models.Model):
         super(Product, self).save(*args, **kwargs)
 
 
+class Profile:
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 # Твой код. Не удаляю, чтобы был, если мой не понравится
 # class Franchise(models.Model):
 #     title = models.CharField(max_length=32)
