@@ -5,37 +5,28 @@
     <section class="uk-section-muted ">
 
         <div class="uk-container">
-            <div class="uk-margin-medium-top"></div>
         <h2>Профиль</h2>
 
     <div uk-grid>
-        <div class="uk-margin-medium uk-padding-medium">
+        <div class="uk-width-auto@s" >
 
         <div class="uk-height-auto uk-width-auto uk-card uk-card-default uk-card-body">
             <ul class="uk-nav-default uk-nav-parent-icon" uk-nav>
-                <li><a href="#"><span data-uk-icon="icon:history"></span> История заказов</a></li>
-                <li><a href="#"><span data-uk-icon="icon:heart"></span> Предпочтения</a></li>
-                <li><a href="#"><span data-uk-icon="icon:warning"></span> Аллергии</a></li>
-                <li><a href="#"><span data-uk-icon="icon:cog"></span> Настройки профиля</a></li>
+                <li><a href={% url 'history' %}><span data-uk-icon="icon:history"></span> История заказов</a></li>
+                <li><a href={% url 'habits' %}><span data-uk-icon="icon:heart"></span> Предпочтения</a></li>
+                <li><a href={% url 'allergy' %}><span data-uk-icon="icon:warning"></span> Аллергии</a></li>
+                <li><a href={% url 'settings' %}><span data-uk-icon="icon:cog"></span> Настройки профиля</a></li>
             </ul>
          </div>
-        <h3 class="uk-flex">Личные данные</h3>
-
         </div>
-<div>
 
-    <div class="uk-width-expand">
+
+    <div class="uk-width-expand@xl" >
 
         <div class="uk-height-medium uk-card uk-card-default uk-card-body ">
-            <div class="" uk-grid>
-    <div>
-        <div class="uk-flex">
 
-        </div>
-        <div class="uk-flex">
-        <img src="../../../media/restaurant_2/data/logo.png" alt="ggg"  class="uk-border-rounded" width="150" height="150">
-        </div>
-    </div>
+            <div class="" uk-grid>
+
     <div>
         <div class="uk-child-width-1-2 uk-text-center" uk-grid>
             <div>
@@ -52,10 +43,9 @@
 
 
         </div>
-    </div>
+
     </div>
         </div>
-
     </section>
 {% endblock %}
 {% block main %}

@@ -6,13 +6,17 @@ from .views.index import Index
 from .views.restaurant import *
 from .views.restaurateur import *
 from .simple_views import *
-from .views.profile import *
+from .views.account import *
 urlpatterns = [
     path('auth/login', Login.as_view(), name='login'),
     path('auth/register', Register.as_view(), name='register'),
     path('auth/logout', Logout.as_view(), name='logout'),
     path('', Index.as_view(), name='index'),
     path('profile', Profile.as_view(), name='profile'),
+    path('habits', Habits.as_view(), name='habits'),
+    path('history', History.as_view(), name='history'),
+    path('allergy', Allergy.as_view(), name='allergy'),
+    path('settings', Settings.as_view(), name='settings'),
     path('restaurateur', Restaurateur.as_view(), name='restaurateur'),
     path('restaurateur/register_form', RestaurantRegister.as_view(), name='restaurant_register_form'),
     path('restaurateur/register', RestaurantCreate.as_view(), name='restaurant_create'),

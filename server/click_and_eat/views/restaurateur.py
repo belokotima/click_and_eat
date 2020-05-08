@@ -94,6 +94,7 @@ class RestaurantAddProduct(LoginRequiredView):
             product = get_object_or_404(Product, pk=product_id, restaurant=restaurant)
             form = RestaurantAddProductForm(instance=product)
         else:
+            product = None
             form = RestaurantAddProductForm()
 
         form.set_restaurant(restaurant)
