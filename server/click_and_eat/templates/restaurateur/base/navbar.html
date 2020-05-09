@@ -3,7 +3,7 @@
     <div class="uk-container">
         <nav class="uk-navbar-transparent" data-uk-navbar>
             <div class="uk-navbar-left">
-                <a class="uk-logo-lg uk-width-1-2 " title="" href={% url 'index' %}><img src="{% static 'img/logo_medium.png' %}" alt="Logo"></a>
+                <a class="uk-logo-lg uk-width-1-2 " title="" href={% url 'restaurateur_dashboard' %}><img src="{% static 'img/logo_medium.png' %}" alt="Logo"></a>
             </div>
             <div class="uk-navbar-center uk-visible@s">
                 <ul class="uk-navbar-nav">
@@ -19,14 +19,8 @@
                                 <li class="uk-nav-header uk-text-small uk-text-primary">{{ user.first_name }}</li>
                                 <li class="uk-nav-divider"></li>
                                 <li><a href="#"><span data-uk-icon="icon: history"></span> История заказов</a></li>
-                                <li><a href="#"><span data-uk-icon="icon: settings"></span> Профиль</a></li>
+                                <li><a href={% url 'profile' %}><span data-uk-icon="icon: settings"></span> Профиль</a></li>
                                 <li class="uk-nav-divider"></li>
-                                {% if user.is_superuser %}
-                                    <li><a href={% url 'restaurant_create' %}><span data-uk-icon="icon:  home"></span> Добавить ресторан</a></li>
-                                        {% if restaurnate_id is not None %}
-                                    <li><a href={% url 'restaurant_menu_create' %}><span data-uk-icon="icon:  calendar"></span> Меню </a></li>
-                                {% endif %}
-                                {% endif %}
                                 <li><a href="{% url 'logout' %}"><span data-uk-icon="icon: sign-out"></span> Выйти</a>
                                 </li>
                             </ul>
