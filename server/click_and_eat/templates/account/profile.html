@@ -23,18 +23,37 @@
 
     <div class="uk-width-expand@xl" >
 
-        <div class="uk-height-medium uk-card uk-card-default uk-card-body ">
+        <div class=" uk-card uk-card-default uk-card-body ">
 
-            <div class="" uk-grid>
 
     <div>
-        <div class="uk-child-width-1-2 uk-text-center" uk-grid>
             <div>
-                <div class="">Item</div>
-            </div>
-            <div>
-                <div class="">Item</div>
-            </div>
+            <form class="uk-form-stacked" action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+<fieldset class="uk-fieldset">
+                <div class="uk-margin">
+                <input name="first_name" class="uk-input uk-width-1-2@l" placeholder="Name" required type="text" value="{{ form.first_name.value}}">
+                </div>
+                <div class="uk-margin">
+                <input name="username" class="uk-input uk-width-1-2@l" placeholder="Username" required type="text" value="{{ form.username.value}}">
+                </div>
+                <div class="uk-margin">
+                <input name="email" class="uk-input uk-width-1-2@l" placeholder="E-mail" required type="email" value="{{ form.email.value}}">
+                </div>
+                <div class="uk-margin">
+                <input name="password" class="uk-input uk-width-1-2@l" placeholder="Password" required type="password" value="{{ form.password.value }}">
+                </div>
+                <div class="uk-margin">
+                <input name="repeat_password" class="uk-input uk-width-1-2@l" placeholder="repeat_password" required type="password" value="{{ form.password.value }}">
+                </div>
+
+                <div class="uk-margin-bottom">
+            <button type="submit" class="uk-button uk-button-secondary uk-border">Изменить</button>
+        </div>
+</fieldset>
+            </form>
+
+
         </div>
     </div>
 </div>

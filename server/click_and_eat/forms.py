@@ -15,6 +15,11 @@ class RegisterForm(LoginForm):
     repeat_password = forms.CharField(widget=forms.PasswordInput())
 
 
+class UserEditForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'email', 'password']
+        localized_fields = ['repeat_password']
 class RestaurantEditForm(ModelForm):
     class Meta:
         model = Restaurant
