@@ -2,6 +2,9 @@ from ..forms import *
 from .base_views import *
 from django.views import View
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+from django.contrib import messages
 
 
 class Profile(LoginRequiredView):
@@ -11,22 +14,42 @@ class Profile(LoginRequiredView):
         user = request.user
         user_id = user.id
         usermodel = get_object_or_404(User, pk=user_id)
-        form = UserEditForm(instance=usermodel)
-        context = {'form': form, 'user': usermodel}
+        form_edit = UserEditForm(instance=usermodel)
+        form_edit_password = None
+        change_password = False
+        if request.GET.get('change_password'):
+            form_edit_password = PasswordChangeForm(user=user, data=request.POST)
+            change_password = True
+
+        elif request.GET.get('cancel'):
+            change_password = False
+        context = {'form_edit': form_edit, 'form_edit_password': form_edit_password, 'user': usermodel,
+                   'change_password': change_password}
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
+
         user = request.user
         user_id = user.id
         usermodel = get_object_or_404(User, pk=user_id)
-        form = UserEditForm(request.POST, instance=usermodel)
-        form.instance.username = user
+        form_edit = UserEditForm(request.POST, instance=usermodel)
+        form_edit_password = PasswordChangeForm(user=user, data=request.POST)
 
-        if form.is_valid():
-            if form.repeat_password == form.instance.password:
-                form.save()
+        if form_edit.is_valid():
+            form_edit.save()
+            messages.success(request, 'Профиль обновлён.')
+            if form_edit_password.is_valid():
+                messages.success(request, 'Пароль обновлён.')
+                form_edit_password.save()
+                update_session_auth_hash(request, form_edit_password.user)
+
+            else:
+                messages.error(request, 'Ошибка ввода пароля.')
                 return redirect('profile')
-        context = {'form': form, 'user': usermodel, 'edit': True}
+        else:
+            messages.error(request, 'Ошибка введённых данных.')
+
+        context = {'form_edit_password': form_edit_password, 'user': usermodel, 'form_edit': form_edit}
         return render(request, self.template_name, context)
 
 

@@ -1,12 +1,11 @@
 {% extends "main/../base/base.html" %}
 {% load static %}
-
+{% load widget_tweaks %}
 {% block body %}
     <section class="uk-section-muted ">
 
         <div class="uk-container">
         <h2>Профиль</h2>
-
     <div uk-grid>
         <div class="uk-width-auto@s" >
 
@@ -32,27 +31,50 @@
         {% csrf_token %}
 <fieldset class="uk-fieldset">
                 <div class="uk-margin">
-                <input name="first_name" class="uk-input uk-width-1-2@l" placeholder="Name" required type="text" value="{{ form.first_name.value}}">
+                    <label class="uk-form-label" for="form-stacked-text">Имя</label>
+                <input name="first_name" class="uk-input uk-width-1-2@l" placeholder="Name" required type="text" value="{{ form_edit.first_name.value}}">
                 </div>
                 <div class="uk-margin">
-                <input name="username" class="uk-input uk-width-1-2@l" placeholder="Username" required type="text" value="{{ form.username.value}}">
+                    <label class="uk-form-label" for="form-stacked-text">Логин</label>
+                <input name="username" class="uk-input uk-width-1-2@l" placeholder="Username" required type="text" value="{{ form_edit.username.value}}">
                 </div>
                 <div class="uk-margin">
-                <input name="email" class="uk-input uk-width-1-2@l" placeholder="E-mail" required type="email" value="{{ form.email.value}}">
-                </div>
-                <div class="uk-margin">
-                <input name="password" class="uk-input uk-width-1-2@l" placeholder="Password" required type="password" value="{{ form.password.value }}">
-                </div>
-                <div class="uk-margin">
-                <input name="repeat_password" class="uk-input uk-width-1-2@l" placeholder="repeat_password" required type="password" value="{{ form.password.value }}">
+                    <label class="uk-form-label" for="form-stacked-text">Почта</label>
+                <input name="email" class="uk-input uk-width-1-2@l" placeholder="E-mail"  required type="email" value="{{ form_edit.email.value}}">
                 </div>
 
+                {% if change_password %}
+
+    <div class="field"> <div class="uk-margin">
+
+                {% with WIDGET_ERROR_CLASS='uk-input uk-width-1-2@l' WIDGET_REQUIRED_CLASS='uk-input uk-width-1-2@l' %}
+                    <label class="uk-form-label" for="form-stacked-text">Старый пароль</label>
+                    {% render_field form_edit_password.old_password %}
+                    <label class="uk-form-label" for="form-stacked-text">Новый пароль</label>
+                    {% render_field form_edit_password.new_password1 %}
+                    <label class="uk-form-label" for="form-stacked-text">Подтверждение нового пароля</label>
+                    {% render_field form_edit_password.new_password2 %}
+                {% endwith %}
+
+
+</div>
+                </div>
+
+                {% endif %}
                 <div class="uk-margin-bottom">
-            <button type="submit" class="uk-button uk-button-secondary uk-border">Изменить</button>
+            <button type="submit" class="uk-button uk-button-secondary uk-border">Применить</button>
         </div>
 </fieldset>
             </form>
 
+            <form method='GET' action=''>
+                {% if not change_password %}
+                    <button name="change_password" value="change_password" type="submit" class="uk-button uk-button-secondary uk-border">Изменить пароль</button>
+                {% endif %}
+                {% if change_password %}
+                <button name="cancel" value="cancel" type="submit" class="uk-button uk-button-danger uk-border">Отмена</button>
+                {% endif%}
+            </form>
 
         </div>
     </div>
@@ -68,5 +90,13 @@
     </section>
 {% endblock %}
 {% block main %}
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
 
 {% endblock %}

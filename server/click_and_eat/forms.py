@@ -18,8 +18,9 @@ class RegisterForm(LoginForm):
 class UserEditForm(ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'email', 'password']
-        localized_fields = ['repeat_password']
+        fields = ['username', 'first_name', 'email']
+
+
 class RestaurantEditForm(ModelForm):
     class Meta:
         model = Restaurant
