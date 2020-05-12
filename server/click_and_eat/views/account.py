@@ -16,7 +16,7 @@ class Profile(LoginRequiredView):
         usermodel = get_object_or_404(User, pk=user_id)
         form_edit = UserEditForm(instance=usermodel)
 
-        context = {'form_edit': form_edit, 'user': usermodel,}
+        context = {'form_edit': form_edit, 'user': usermodel}
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
@@ -36,7 +36,7 @@ class Profile(LoginRequiredView):
         return render(request, self.template_name, context)
 
 
-class Password_change(LoginRequiredView):
+class PasswordChange(LoginRequiredView):
     template_name = 'account/password_change.html'
 
     def get(self, request, *args, **kwargs):
@@ -44,10 +44,8 @@ class Password_change(LoginRequiredView):
         user_id = user.id
         usermodel = get_object_or_404(User, pk=user_id)
         form_edit_password = PasswordChangeForm(user=user, data=request.POST)
-        change_password = True
 
-        context = {'form_edit_password': form_edit_password, 'user': usermodel,
-                   'change_password': change_password}
+        context = {'form_edit_password': form_edit_password, 'user': usermodel}
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
@@ -55,14 +53,11 @@ class Password_change(LoginRequiredView):
         user = request.user
         user_id = user.id
         usermodel = get_object_or_404(User, pk=user_id)
-        form_edit = UserEditForm(request.POST, instance=usermodel)
         form_edit_password = PasswordChangeForm(user=user, data=request.POST)
         if form_edit_password.is_valid():
             form_edit_password.save()
             update_session_auth_hash(request, form_edit_password.user)
             messages.success(request, 'Пароль обновлён.')
-        else:
-            messages.error(request, 'Ошибка ввода пароля.')
             return redirect('profile')
 
         context = {'form_edit_password': form_edit_password, 'user': usermodel, 'form_edit': form_edit}
