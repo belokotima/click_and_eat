@@ -20,83 +20,85 @@
         </div>
 
 
-    <div class="uk-width-expand@xl" >
-
+    <div class="uk-width-expand " >
         <div class=" uk-card uk-card-default uk-card-body ">
 
 
-    <div>
-            <div>
+
+            <div class="uk-flex uk-flex-center">
             <form class="uk-form-stacked" action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
 <fieldset class="uk-fieldset">
                 <div class="uk-margin">
                     <label class="uk-form-label" for="form-stacked-text">Имя</label>
-                <input name="first_name" class="uk-input uk-width-1-2@l" placeholder="Name" required type="text" value="{{ form_edit.first_name.value}}">
+                    <div class="uk-inline uk-width-1-1">
+                    <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: user"></span>
+                <input name="first_name" class="uk-input uk-width-1-1@l" placeholder="Name" required type="text" value="{{ form_edit.first_name.value}}">
+                </div>
                 </div>
                 <div class="uk-margin">
                     <label class="uk-form-label" for="form-stacked-text">Логин</label>
-                <input name="username" class="uk-input uk-width-1-2@l" placeholder="Username" required type="text" value="{{ form_edit.username.value}}">
+                    <div class="uk-inline uk-width-1-1">
+                    <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: users"></span>
+
+                <input name="username" class="uk-input uk-width-1-1@l" placeholder="Username" required type="text" value="{{ form_edit.username.value}}">
+                </div>
                 </div>
                 <div class="uk-margin">
                     <label class="uk-form-label" for="form-stacked-text">Почта</label>
-                <input name="email" class="uk-input uk-width-1-2@l" placeholder="E-mail"  required type="email" value="{{ form_edit.email.value}}">
+                    <div class="uk-inline uk-width-1-1">
+                    <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: mail"></span>
+                <input name="email" class="uk-input uk-width-1-1@l" placeholder="E-mail"  required type="email" value="{{ form_edit.email.value}}">
                 </div>
-
-                {% if change_password %}
-
-    <div class="field"> <div class="uk-margin">
-
-                {% with WIDGET_ERROR_CLASS='uk-input uk-width-1-2@l' WIDGET_REQUIRED_CLASS='uk-input uk-width-1-2@l' %}
-                    <label class="uk-form-label" for="form-stacked-text">Старый пароль</label>
-                    {% render_field form_edit_password.old_password %}
-                    <label class="uk-form-label" for="form-stacked-text">Новый пароль</label>
-                    {% render_field form_edit_password.new_password1 %}
-                    <label class="uk-form-label" for="form-stacked-text">Подтверждение нового пароля</label>
-                    {% render_field form_edit_password.new_password2 %}
-                {% endwith %}
-
-
-</div>
                 </div>
-
-                {% endif %}
                 <div class="uk-margin-bottom">
-            <button type="submit" class="uk-button uk-button-secondary uk-border">Применить</button>
-        </div>
-</fieldset>
-            </form>
-
-            <form method='GET' action=''>
-                {% if not change_password %}
-                    <button name="change_password" value="change_password" type="submit" class="uk-button uk-button-secondary uk-border">Изменить пароль</button>
-                {% endif %}
-                {% if change_password %}
-                <button name="cancel" value="cancel" type="submit" class="uk-button uk-button-danger uk-border">Отмена</button>
-                {% endif%}
+                    <div class="" uk-grid>
+                        <div class="uk-flex">
+                        <button type="submit" class="uk-button uk-button-secondary uk-border">Применить</button>
+                        </div>
+                        <div class="uk-flex">
+                        <a  class="uk-button uk-button-danger uk-border" href={% url 'password_change' %}>Изменить пароль</a>
+                        </div>
+                    </div>
+                    </div>
+    </fieldset>
             </form>
 
         </div>
-    </div>
+
 </div>
 
 </div>
 
 
-        </div>
-
     </div>
         </div>
+
     </section>
 {% endblock %}
 {% block main %}
 
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% if form_edit.errors %}
+    {% for field in form_edit %}
+        {% for error in field.errors %}
+
+
+        <div class="uk-alert-danger" uk-alert>
+    <a class="uk-alert-close" uk-close></a>
+    <p>{{ error|escape }}</p>
+</div>
+
+        {% endfor %}
     {% endfor %}
-</ul>
+    {% for error in form_edit.non_field_errors %}
+
+<div class="uk-alert-success" uk-alert>
+    <a class="uk-alert-close" uk-close></a>
+    <p>{{ error|escape }}</p>
+</div>
+    {% endfor %}
 {% endif %}
+
+
 
 {% endblock %}
