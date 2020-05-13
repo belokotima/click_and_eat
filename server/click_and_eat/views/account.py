@@ -60,7 +60,7 @@ class PasswordChange(LoginRequiredView):
             messages.success(request, 'Пароль обновлён.')
             return redirect('profile')
 
-        context = {'form_edit_password': form_edit_password, 'user': usermodel, 'form_edit': form_edit}
+        context = {'form_edit_password': form_edit_password, 'user': usermodel}
         return render(request, self.template_name, context)
 
 
