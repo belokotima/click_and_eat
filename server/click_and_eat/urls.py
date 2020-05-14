@@ -46,8 +46,15 @@ urlpatterns = [
          name='restaurant_delete_address'),
 
     path('restaurant/<int:restaurant_id>/', RestaurantView.as_view(), name='restaurant'),
-    path('restaurant/<int:restaurant_id>/add_to_cart/<product_id>', RestaurantAddToCart.as_view(),
-         name='restaurant_add_to_cart'),
+    path('cart/add/<int:product_id>/<int:count>', CartAdd.as_view(),
+         name='cart_add'),
+    path('cart/delete/<int:product_id>/<int:count>', CartDelete.as_view(),
+         name='cart_delete'),
+    path('cart/remove/<int:product_id>', CartRemove.as_view(), name='cart_remove'),
+    path('cart/clear', CartClear.as_view(),
+         name='cart_clear'),
+    path('cart/view', CartViewComponent.as_view(),
+         name='cart_view'),
     path('map/', restaurant_map, name="restaurant_map"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)\
   + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -15,21 +15,8 @@
             <div class="uk-navbar-right">
                 <ul class="uk-navbar-nav">
                     <li>
-                        <a href="#" data-uk-icon="icon:cart; ratio: 1.5;"></a>
-                        <div class="uk-navbar-dropdown uk-navbar-dropdown-bottom-left">
-                            <ul class="uk-nav uk-navbar-dropdown-nav uk-width-large">
-                                {% if request.session.cart|length > 0 %}
-                                    {% for product in request.session.cart %}
-                                        <li>{{ product.name }}</li>
-                                    {% endfor %}
-                                    <br>
-                                {% else %}
-                                    <li class="uk-nav-header uk-text-small uk-text-primary">Корзина пуста</li>
-                                {% endif %}
-                                <li><a class="uk-button-small uk-button-default">Оформить заказ</a></li>
-                                <li><a class="uk-button-small uk-button-danger">Очистить корзину</a></li>
-                            </ul>
-                        </div>
+                        <a data-uk-toggle="target: #cart-nav" class="uk-navbar-toggle"
+                           data-uk-icon="icon:cart; ratio: 1.5;"></a>
                     </li>
                     <li>
                         <a href="#" data-uk-icon="icon:user; ratio: 1.5;"></a>
@@ -41,10 +28,6 @@
                                     <li><a href="#"><span data-uk-icon="icon: history"></span> История заказов</a></li>
                                     <li><a href={% url 'profile' %}><span data-uk-icon="icon: settings"></span> Профиль</a></li>
                                     <li class="uk-nav-divider"></li>
-                                    {% if user.is_superuser %}
-                                        <li><a href={% url 'restaurant_create' %}><span
-                                                data-uk-icon="icon:  home"></span> Добавить ресторан</a></li>
-                                    {% endif %}
                                     <li><a href="{% url 'logout' %}"><span data-uk-icon="icon: sign-out"></span>
                                         Выйти</a>
                                     </li>
@@ -61,3 +44,16 @@
         </nav>
     </div>
 </header>
+
+<div id="cart">
+    {% include 'base/cart.html' %}
+</div>
+
+<script>
+    function update_cart(url) {
+        $.get(url, function (data) {
+
+        });
+        document.location.reload(true);
+    }
+</script>
