@@ -2,6 +2,14 @@ html {
   scroll-behavior: smooth;
 }
 
+body::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    -ms-overflow-style: none;
+}
+
 .ce-overlay-wrap::before {
     position: absolute;
     top: 0;
