@@ -126,3 +126,11 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOGIN_URL = 'login'
+
+
+LEAFLET_CONFIG = {
+    'DEFAULT_CENTER': (55.751244, 37.618423),
+    'DEFAULT_ZOOM': 16,
+    'MIN_ZOOM': 3,
+    'MAX_ZOOM': 18,
+}

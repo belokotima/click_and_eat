@@ -52,8 +52,9 @@
 <script>
     function update_cart(url) {
         $.get(url, function (data) {
-
+            $("*[id*=cart_contents]").each(function () {
+                $(this).html(data);
+            });
         });
-        document.location.reload(true);
     }
 </script>

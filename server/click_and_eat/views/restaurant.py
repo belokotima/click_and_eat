@@ -6,10 +6,12 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 
 
 class CartProduct:
-    def __init__(self, product_id, name, count):
+    def __init__(self, product_id, name, price, count, **kwargs):
         self.product_id = product_id
         self.name = name
         self.count = count
+        self.price = price
+        self.total = self.price * self.count
 
     @classmethod
     def from_json(cls, json_string):
@@ -25,9 +27,9 @@ class CartProduct:
 
 
 class Cart:
-    def __init__(self, products, **kwargs):
+    def __init__(self, products, total, **kwargs):
         self.products = []
-
+        self.total = total
         for product in products:
             self.products.append(CartProduct.from_dict(product))
 
@@ -39,17 +41,17 @@ class Cart:
         else:
             return None
 
-    def append(self, product_id, name, count=1):
-        product = self.find(product_id)
-        if product is None:
-            product = CartProduct(product_id, name, count)
-            self.products.append(product)
+    def append(self, product, count=1):
+        cart_product = self.find(product.id)
+        if cart_product is None:
+            cart_product = CartProduct(product.id, product.name, product.price, count)
+            self.products.append(cart_product)
         else:
-            product.name = name
-            product.count = product.count + count
+            cart_product.name = product.name
+            cart_product.count = cart_product.count + count
 
-        if product.count <= 0:
-            self.products.remove(product)
+        if cart_product.count <= 0:
+            self.products.remove(cart_product)
 
     def remove(self, product_id):
         product = self.find(product_id)
@@ -61,10 +63,11 @@ class Cart:
 
     @classmethod
     def load(cls, request):
-        cart = request.session.get('cart', Cart([]).to_dict())
+        cart = request.session.get('cart', Cart([], 0).to_dict())
         return Cart.from_dict(cart)
 
     def save(self, request):
+        self.total = sum([product.count * product.price for product in self.products])
         request.session['cart'] = self.to_dict()
 
     @classmethod
@@ -84,7 +87,7 @@ class Cart:
             products_ids.append(product.product_id)
             products.append(product.to_dict())
 
-        return {'products_ids': products_ids, 'products': products}
+        return {'products_ids': products_ids, 'products': products, 'total': self.total}
 
 
 class RestaurantView(View):
@@ -97,7 +100,7 @@ class RestaurantView(View):
 
 
 class CartViewComponent(View):
-    template_name = 'templates/base/cart.html'
+    template_name = 'base/cart_contents.html'
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)
@@ -110,9 +113,9 @@ class CartAdd(View):
 
         product = get_object_or_404(Product, id=product_id)
 
-        cart.append(product.id, product.name, count)
+        cart.append(product, count)
         cart.save(request)
-        return HttpResponse('OK')
+        return redirect('cart_view')
 
 
 class CartDelete(View):
@@ -122,9 +125,9 @@ class CartDelete(View):
 
         product = get_object_or_404(Product, id=product_id)
 
-        cart.append(product.id, product.name, -count)
+        cart.append(product, -count)
         cart.save(request)
-        return HttpResponse('OK')
+        return redirect('cart_view')
 
 
 class CartRemove(View):
@@ -136,7 +139,8 @@ class CartRemove(View):
 
         cart.remove(product.id)
         cart.save(request)
-        return HttpResponse('OK')
+        return redirect('cart_view')
+
 
 class CartClear(View):
 
@@ -144,5 +148,5 @@ class CartClear(View):
         cart = Cart.load(request)
         cart.clear()
         cart.save(request)
-        return HttpResponse('OK')
+        return redirect('cart_view')
 

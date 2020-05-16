@@ -1,7 +1,29 @@
 {% extends "main/../base/base.html" %}
 {% load static %}
+{% load leaflet_tags %}
+
+{% block head %}
+    {% leaflet_js %}
+    {% leaflet_css %}
+{% endblock %}
 
 {% block body %}
+
+    <div id="modal-map" class="uk-flex-top" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+            <button class="uk-modal-close-default" type="button" uk-close></button>
+
+            <script type="text/javascript">
+                function map_init_basic(map, options) {
+                    //map.locate(options);
+                    L.marker([60.5, 40.5]).addTo(map);
+                }
+            </script>
+
+            {% leaflet_map "rest_map" callback="window.map_init_basic" %}
+        </div>
+    </div>
+
     <section class="uk-cover-container ce-overlay-wrap">
         <img data-src="{% static 'img/welcome/main.jpg' %}" alt="" data-uk-cover data-uk-img
         >
@@ -10,7 +32,7 @@
                 <h1 class="uk-text-light">Click&Eat</h1>
                 <h3 style="margin-top: 0" class="uk-text-light">Мобильная касса в Вашем браузере</h3>
                 <div data-uk-margin>
-                    <a class="uk-button uk-button-primary" data-uk-toggle href="{% url 'restaurant_map' %}">
+                    <a class="uk-button uk-button-primary" href="#modal-map" uk-toggle>
                         Показать рестораны на карте
                     </a>
                 </div>

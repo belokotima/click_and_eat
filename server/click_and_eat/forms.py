@@ -21,7 +21,6 @@ class UserEditForm(ModelForm):
         fields = ['username', 'first_name', 'email']
        
 
-
 class RestaurantEditForm(ModelForm):
     class Meta:
         model = Restaurant

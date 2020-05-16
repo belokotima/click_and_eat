@@ -10,3 +10,4 @@ def restaurant_map(request):
         return render(request, 'maps/rest_map.html', context)
     else:
         return render(request, 'welcome.html')
+

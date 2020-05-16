@@ -2,42 +2,8 @@
     <div class="uk-offcanvas-bar">
 
         <button class="uk-offcanvas-close" type="button" uk-close></button>
-
-        <h1 class="uk-text-light">Корзина</h1>
-        <hr>
-        {% if request.session.cart.products|length > 0 %}
-            <ul class="uk-list-striped">
-
-                {% for product in request.session.cart.products %}
-                    <li>
-                        {{ product.name }}
-                        <div>
-                        <span class="uk-text-right">
-                            <a onclick="update_cart('{% url 'cart_add' product_id=product.product_id count=1 %}')">
-                            <span data-uk-icon="icon: plus; ratio: 0.75;"></span>
-                            </a>
-                            {{ product.count }}
-                            <a onclick="update_cart('{% url 'cart_delete' product_id=product.product_id count=1 %}')">
-                            <span data-uk-icon="icon: minus; ratio: 0.75;">
-                            </span>
-                            </a>
-                        </span>
-                        </div>
-                    </li>
-                {% endfor %}
-                <br>
-
-            </ul>
-            <div>
-                <a class="uk-width-1-1 uk-button uk-button-large uk-button-primary">Оформить заказ</a>
-                <hr>
-                <a onclick="update_cart('{% url 'cart_clear' %}')" class="uk-width-1-1 uk-button uk-button-large uk-button-danger">Очистить
-                    корзину</a>
-            </div>
-        {% else %}
-            <h2 class="uk-text-light">Корзина пуста</h2>
-        {% endif %}
-
-
+        <div id="cart_contents">
+            {% include 'base/cart_contents.html' %}
+        </div>
     </div>
 </div>
