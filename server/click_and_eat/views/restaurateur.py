@@ -209,7 +209,7 @@ class RestaurantAddAddress(LoginRequiredView):
 
         if form.is_valid():
             form.save()
-            return redirect('restaurant_addresses', restaurant_id=restaurant.id)
+            return redirect('restaurant_add_address', restaurant_id=restaurant.id)
 
         context = {'restaurant': restaurant, 'form': form, 'edit': address_id}
         return render(request, self.template_name, context)
