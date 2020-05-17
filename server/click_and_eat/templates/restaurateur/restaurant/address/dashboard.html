@@ -1,0 +1,21 @@
+{% extends 'restaurateur/restaurant/base/base.html' %}
+
+{% block main %}
+    <h1>
+        <a href="{% url 'restaurant_dashboard' restaurant_id=restaurant.id %}" uk-tooltip="Назад"
+           class="ce-card-link uk-text-secondary">
+            <span data-uk-icon="icon: arrow-left; ratio: 2;">
+            </span>
+        </a>
+        {{ restaurant.title }}
+        <span>
+            <a href="{% url 'restaurant_edit' restaurant_id=restaurant.id %}" uk-tooltip="Настройки"
+               class="ce-card-link uk-text-secondary">
+                <span data-uk-icon="icon: pencil; ratio: 2;">
+                </span>
+            </a>
+        </span>
+    </h1>
+    <hr>
+    <h1>Заказы</h1>
+{% endblock %}

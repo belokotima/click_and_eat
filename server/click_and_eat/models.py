@@ -134,10 +134,12 @@ class Profile:
 class Order(models.Model):
     customer = models.ForeignKey(User, on_delete=models.CASCADE)
     restaurant = models.ForeignKey(AddressOfRestaurant, on_delete=models.CASCADE)
+    code = models.CharField(max_length=8)
     secret_code = models.CharField(max_length=8)
     order_time = models.DateTimeField(auto_now_add=True)
     pickup_time = models.DateTimeField()
     order_close_time = models.DateTimeField()
+    ready = models.BooleanField()
 
     def get_products(self):
         return OrderProduct.objects.filter(order=self)

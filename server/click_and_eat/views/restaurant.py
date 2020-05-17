@@ -100,7 +100,7 @@ class RestaurantView(View):
 
 
 class CartViewComponent(View):
-    template_name = 'base/cart_contents.html'
+    template_name = 'base/cart.html'
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)
@@ -149,4 +149,11 @@ class CartClear(View):
         cart.clear()
         cart.save(request)
         return redirect('cart_view')
+
+
+class Checkout(View):
+    template_name = 'main/checkout.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
 

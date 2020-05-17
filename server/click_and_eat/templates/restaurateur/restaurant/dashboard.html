@@ -9,7 +9,7 @@
         </a>
         {{ restaurant.title }}
         <span>
-            <a href="{% url 'restaurateur_dashboard' %}" uk-tooltip="Настройки"
+            <a href="{% url 'restaurant_edit' restaurant_id=restaurant.id %}" uk-tooltip="Настройки"
                class="ce-card-link uk-text-secondary">
                 <span data-uk-icon="icon: pencil; ratio: 2;">
                 </span>

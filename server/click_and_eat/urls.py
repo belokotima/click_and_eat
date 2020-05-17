@@ -55,6 +55,8 @@ urlpatterns = [
          name='cart_clear'),
     path('cart/view', CartViewComponent.as_view(),
          name='cart_view'),
+
+    path('checkout', Checkout.as_view(), name='checkout'),
     path('map', restaurant_map, name="restaurant_map"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)\
   + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
