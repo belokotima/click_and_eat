@@ -5,7 +5,14 @@
 {% endblock %}
 
 {% block main %}
-    <h1>Меню</h1>
+    <h1>
+        <a href="{% url 'index' %}" uk-tooltip="Назад"
+           class="ce-card-link uk-text-secondary">
+            <span data-uk-icon="icon: arrow-left; ratio: 2;">
+            </span>
+        </a>
+        Меню
+    </h1>
 
     <hr>
 

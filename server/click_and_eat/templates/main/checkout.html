@@ -17,11 +17,40 @@
 {% endblock %}
 
 {% block main %}
-    <h1>Оформление заказа</h1>
-    <form>
+    <h1 class="uk-text-light">Оформление заказа в <b>{{ restaurant.title }}</b></h1>
 
-    </form>
-    <div id="cart_contents_checkout">
-        {% include 'base/cart.html' %}
+    <div id="checkout_contents">
+        {% include 'base/cart_checkout.html' %}
     </div>
+    <hr>
+    <form class="uk-form-stacked" action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="uk-fieldset">
+
+            <div>
+                <label class="uk-form-label">Ресторан</label>
+                {{ form.address }}
+            </div>
+            <br>
+            <div>
+                <label class="uk-form-label">Сейчас</label>
+                {{ form.instant }}
+            </div>
+            <div>
+                <label class="uk-form-label">Время выдачи</label>
+                <div class="uk-form-controls uk-inline uk-width-1-1">
+                    <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: clock"></span>
+                    {{ form.pickup_time }}
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="uk-margin-bottom">
+                <button type="submit" class="uk-margin-small-bottom uk-width-1-1 uk-button uk-button-secondary">
+                    Оформить заказ
+                </button>
+            </div>
+        </fieldset>
+    </form>
 {% endblock %}

@@ -1,9 +1,20 @@
-{% extends "main/../base/base.html" %}
+{% extends "account/base/base.html" %}
 {% load static %}
 
-{% block body %}
-
-{% endblock %}
-{% block main %}
-
+{% block profile_block %}
+    <ul class="uk-width-expand" uk-accordion="multiple: true">
+        {% for order in orders %}
+                <li class="uk-card uk-card-secondary uk-card-body">
+                    <a class="uk-accordion-title" href="#">{{ order.restaurant.restaurant.title }}
+                        <br>
+                        <p>{{ order.order_time }} - {{ order.get_status }}</p>
+                    </a>
+                    <div class="uk-accordion-content">
+                        {% include 'base/order_contents.html' %}
+                        <br>
+                    </div>
+                    <a class="uk-button uk-button-secondary" href="{% url 'order' order_id=order.id %}">Страница заказа</a>
+                </li>
+        {% endfor %}
+    </ul>
 {% endblock %}

@@ -1,0 +1,26 @@
+<ul class="uk-list">
+    <li>
+        <h3>Содержимое заказа</h3>
+        <div>
+            <ul class="uk-list-striped">
+                {% for product in order.get_products %}
+                    <li>
+                        <div class="uk-grid">
+                            <div class="uk-width-expand">
+                                <h3 class="uk-text-light">{{ product.product.name }}</h3>
+                                <div class="uk-text-light">
+                                    {{ product.product.value }}
+                                </div>
+                            </div>
+                            <div class="uk-text-right uk-text-middle">
+                                <h1><b class="uk-text-right">{{ product.quantity }}</b> x {{ product.price }} ₽</h1>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+                <br>
+            </ul>
+        </div>
+    </li>
+</ul>
+<h1 class="uk-text-light">Итого <b>{{ order.total }}</b></h1>

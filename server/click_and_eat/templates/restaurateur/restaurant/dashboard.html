@@ -80,7 +80,7 @@
             {% for address in restaurant.get_addresses %}
                 <h3 class="uk-text-light">
                     <span>
-                        <a href="{% url 'restaurant_edit_address' restaurant_id=restaurant.id address_id=address.id %}"
+                        <a href="{% url 'restaurant_address_dashboard' restaurant_id=restaurant.id address_id=address.id %}"
                            uk-tooltip="Перейти"
                             class="uk-align uk-align-left uk-text-middle uk-button uk-button-secondary">
                             <span data-uk-icon="icon: sign-in; ratio: 1.5;"></span>

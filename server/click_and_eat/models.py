@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+import datetime
+import string
+import random
 
 # Create your models here.
 
@@ -90,6 +92,21 @@ class AddressOfRestaurant(models.Model):
     longitude = models.FloatField(default='1')
     latitude = models.FloatField(default='1')
 
+    def get_last_orders(self):
+        return Order.objects.filter(restaurant=self, canceled=False, finished=False).order_by('-pickup_time')
+
+    def get_today_orders(self):
+        return Order.objects.filter(restaurant=self, order_time__gte=datetime.datetime.today()).order_by('-order_time')
+
+    def set_order_codes(self, order):
+        index = Order.objects.filter(restaurant=self, id__lte=order.id).count()
+
+        char = string.ascii_uppercase[(index % 100) % len(string.ascii_uppercase)]
+        append = str(index % 100)
+        order.code = char + append
+        order.secret_code = str(random.randint(1000, 9999))
+        order.save()
+
 
 class Category(models.Model):
     """
@@ -134,18 +151,47 @@ class Profile:
 class Order(models.Model):
     customer = models.ForeignKey(User, on_delete=models.CASCADE)
     restaurant = models.ForeignKey(AddressOfRestaurant, on_delete=models.CASCADE)
+    total = models.PositiveIntegerField()
     code = models.CharField(max_length=8)
     secret_code = models.CharField(max_length=8)
     order_time = models.DateTimeField(auto_now_add=True)
-    pickup_time = models.DateTimeField()
-    order_close_time = models.DateTimeField()
+    pickup_time = models.DateTimeField(null=True)
+    order_finish_time = models.DateTimeField(null=True)
+    finished = models.BooleanField()
+    instant = models.BooleanField()
+    canceled = models.BooleanField()
+    in_progress = models.BooleanField()
     ready = models.BooleanField()
 
     def get_products(self):
         return OrderProduct.objects.filter(order=self)
+
+    def add_product(self, product, quantity, price, total):
+        product = OrderProduct(order=self, product=product, quantity=quantity, price=price, total=total)
+        product.save()
+
+    def get_status(self):
+        if self.ready:
+            return 'Готов к выдаче'
+        elif self.finished:
+            return 'Завершён'
+        elif self.canceled:
+            return 'Отменён'
+        elif self.in_progress:
+            return 'Готовится'
+        else:
+            return 'Принят'
+
+    def clear_status(self):
+        self.finished = False
+        self.canceled = False
+        self.in_progress = False
+        self.ready = False
 
 
 class OrderProduct(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
+    price = models.PositiveIntegerField()
+    total = models.PositiveIntegerField()

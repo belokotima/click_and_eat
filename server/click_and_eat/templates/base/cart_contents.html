@@ -1,11 +1,9 @@
+<ul class="uk-list-striped">
 
-
-    <ul class="uk-list-striped">
-
-        {% for product in request.session.cart.products %}
-            <li>
-                {{ product.name }}
-                <div>
+    {% for product in request.session.cart.products %}
+        <li>
+            {{ product.name }}
+            <div>
                         <span class="uk-text-right">
                             <button class="uk-button uk-button-text"
                                     onclick="update_cart('{% url 'cart_add' product_id=product.product_id count=1 %}')">
@@ -18,11 +16,11 @@
                             </span>
                             </button>
                         </span>
-                </div>
-            </li>
-        {% endfor %}
-        <br>
+            </div>
+        </li>
+    {% endfor %}
+    <br>
 
-    </ul>
+</ul>
 
-    <h1 class="uk-text-light">Итого <b>{{ request.session.cart.total }}</b></h1>
+<h1 class="uk-text-light">Итого <b>{{ request.session.cart.total }}</b></h1>

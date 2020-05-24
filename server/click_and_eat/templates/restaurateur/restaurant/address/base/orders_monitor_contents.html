@@ -1,0 +1,14 @@
+<div class="uk-grid" uk-grid>
+    <div class="uk-width-1-2">
+        <h1 class="uk-heading-large uk-text-center">Готовятся</h1>
+        {% for order in orders %}
+            <h1 class="uk-heading-medium uk-text-center">{{ order.code }}</h1>
+        {% endfor %}
+    </div>
+    <div class="uk-width-1-2">
+        <h1 class="uk-heading-large uk-text-center">Готовы</h1>
+        {% for order in ready_orders %}
+            <h1 class="uk-heading-medium uk-text-center uk-label-success">{{ order.code }}</h1>
+        {% endfor %}
+    </div>
+</div>

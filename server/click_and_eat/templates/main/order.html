@@ -1,0 +1,22 @@
+{% extends "main/restaurant/base/base.html" %}
+
+{% load static %}
+
+{% block main %}
+    <h1>
+        <a href="{% url 'history' %}" uk-tooltip="История заказов"
+           class="ce-card-link uk-text-secondary">
+            <span data-uk-icon="icon: arrow-left; ratio: 2;">
+            </span>
+        </a>
+        Заказ
+    </h1>
+    <div id="order_contents">
+        {% include 'main/base/order_base.html' %}
+    </div>
+    <script>
+        window.onload = function (event) {
+            setUpdater("{% url 'order_contents' order_id=order.id %}", "#order_contents", 10000);
+        };
+    </script>
+{% endblock %}

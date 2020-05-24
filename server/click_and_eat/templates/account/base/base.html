@@ -1,0 +1,40 @@
+{% extends "main/../base/base.html" %}
+{% load static %}
+
+{% block body %}
+    <section class="uk-cover-container ce-overlay-wrap">
+        <img data-src="{% static 'img/welcome/main.jpg' %}" alt="" data-uk-cover data-uk-img
+        >
+        <div class="uk-container uk-position-z-index uk-position-relative uk-section uk-section-medium uk-light">
+            <div class="uk-container uk-container-small uk-text-center">
+                <h1 class="uk-text-light">Профиль</h1>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block main %}
+    <div uk-grid>
+        <div class="uk-width-auto@s">
+            <div class="uk-height-auto uk-width-auto uk-card uk-card-default uk-card-body">
+                <ul class="uk-nav-default uk-nav-parent-icon" uk-nav>
+                    <li><a href={% url 'profile' %}><span data-uk-icon="icon:cog"></span> Настройки профиля</a>
+                    </li>
+                    <li><a href={% url 'history' %}><span data-uk-icon="icon:history"></span> История
+                        заказов</a></li>
+                    <li><a href={% url 'habits' %}><span data-uk-icon="icon:heart"></span> Предпочтения</a></li>
+                    <li><a href={% url 'allergy' %}><span data-uk-icon="icon:warning"></span> Аллергии</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="uk-width-expand ">
+            <div class="uk-card uk-card-default uk-card-body ">
+                <div class="uk-flex uk-flex-center">
+                    {% block profile_block %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

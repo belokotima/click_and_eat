@@ -1,16 +1,5 @@
-<h1 class="uk-text-light">Заказ</h1>
-<hr>
 {% if request.session.cart.products|length > 0 %}
     {% include 'base/cart_contents.html' %}
-    <hr>
-
-    <div>
-        <a href="{% url 'checkout' %}" class="uk-width-1-1 uk-button uk-button-large uk-button-primary">Оформить заказ</a>
-        <hr>
-        <a onclick="update_cart('{% url 'cart_clear' %}')"
-           class="uk-width-1-1 uk-button uk-button-large uk-button-danger">Очистить
-            корзину</a>
-    </div>
 {% else %}
     <h2 class="uk-text-light">Корзина пуста</h2>
 {% endif %}

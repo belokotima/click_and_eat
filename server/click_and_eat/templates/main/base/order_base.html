@@ -1,0 +1,37 @@
+<div class="uk-card uk-card-secondary uk-card-body">
+    <h1 class="uk-text-center uk-heading-2xlarge">{{ order.code }}</h1>
+    <div class="uk-text-center">
+        {% if order.ready %}
+            <h1 class="uk-label-success">Готов
+                {% if not address %}
+                    <br>Назовите код для выдачи: <b>{{ order.secret_code }}</b>
+                {% endif %}
+            </h1>
+        {% elif order.finished %}
+            <h1 class="uk-label-success">Завершён</h1>
+        {% elif order.canceled %}
+            <h1 class="uk-label-danger">Отменён</h1>
+        {% elif order.in_progress %}
+            <h1 class="uk-label-warning">Готовится</h1>
+        {% else %}
+            <h1 class="uk-label-warning">Принят</h1>
+        {% endif %}
+    </div>
+</div>
+<h2 class="uk-text-light">Адрес ресторана: <b>{{ order.restaurant.address }}</b>
+
+    <br>
+    Время выдачи: <b>
+        {% if order.instant %}
+            по готовности
+        {% else %}
+            {{ order.pickup_time }}
+        {% endif %}
+    </b>
+    <br>
+    Время заказа: <b>
+        {{ order.order_time }}
+    </b>
+</h2>
+<hr>
+{% include 'base/order_contents.html' %}

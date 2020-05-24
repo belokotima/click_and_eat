@@ -1,0 +1,19 @@
+<ul class="uk-width-expand">
+    {% for order in address.get_last_orders %}
+        <li class="uk-card uk-card-secondary uk-card-body">
+            <h2 class="ce-card-link uk-card-title">{{ order.code }} -
+                {% if order.instant %}
+                    по готовности
+                {% else %}
+                    к {{ order.pickup_time }}
+                {% endif %}
+                <br>
+                <p>{{ order.order_time }} - {{ order.get_status }}</p>
+            </h2>
+            <a class="uk-button uk-button-secondary"
+               href="{% url 'restaurant_address_order' restaurant_id=restaurant.id address_id=address.id order_id=order.id %}">Страница
+                заказа</a>
+        </li>
+        <hr>
+    {% endfor %}
+</ul>

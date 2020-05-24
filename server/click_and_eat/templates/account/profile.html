@@ -1,91 +1,52 @@
-{% extends "main/../base/base.html" %}
+{% extends "account/base/base.html" %}
 {% load static %}
 {% load widget_tweaks %}
-{% block body %}
-    <section class="uk-section-muted ">
 
-        <div class="uk-container">
-            <h2>Профиль</h2>
-            <div uk-grid>
-                <div class="uk-width-auto@s">
-
-                    <div class="uk-height-auto uk-width-auto uk-card uk-card-default uk-card-body">
-                        <ul class="uk-nav-default uk-nav-parent-icon" uk-nav>
-                            <li><a href={% url 'settings' %}><span data-uk-icon="icon:cog"></span> Настройки профиля</a>
-                            </li>
-                            <li><a href={% url 'history' %}><span data-uk-icon="icon:history"></span> История
-                                заказов</a></li>
-                            <li><a href={% url 'habits' %}><span data-uk-icon="icon:heart"></span> Предпочтения</a></li>
-                            <li><a href={% url 'allergy' %}><span data-uk-icon="icon:warning"></span> Аллергии</a></li>
-                        </ul>
-                    </div>
+{% block profile_block %}
+    <form class="uk-form-stacked" action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="uk-fieldset">
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Имя</label>
+                <div class="uk-inline uk-width-1-1">
+                    <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: user"></span>
+                    <input name="first_name" class="uk-input uk-width-1-1@l" placeholder="Name"
+                           required type="text" value="{{ form_edit.first_name.value }}">
                 </div>
-
-
-                <div class="uk-width-expand ">
-                    <div class=" uk-card uk-card-default uk-card-body ">
-
-
-                        <div class="uk-flex uk-flex-center">
-                            <form class="uk-form-stacked" action="" method="POST" enctype="multipart/form-data">
-                                {% csrf_token %}
-                                <fieldset class="uk-fieldset">
-                                    <div class="uk-margin">
-                                        <label class="uk-form-label" for="form-stacked-text">Имя</label>
-                                        <div class="uk-inline uk-width-1-1">
-                                            <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: user"></span>
-                                            <input name="first_name" class="uk-input uk-width-1-1@l" placeholder="Name"
-                                                   required type="text" value="{{ form_edit.first_name.value }}">
-                                        </div>
-                                    </div>
-                                    <div class="uk-margin">
-                                        <label class="uk-form-label" for="form-stacked-text">Логин</label>
-                                        <div class="uk-inline uk-width-1-1">
-                                            <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: users"></span>
-
-                                            <input name="username" class="uk-input uk-width-1-1@l"
-                                                   placeholder="Username" required type="text"
-                                                   value="{{ form_edit.username.value }}">
-                                        </div>
-                                    </div>
-                                    <div class="uk-margin">
-                                        <label class="uk-form-label" for="form-stacked-text">Почта</label>
-                                        <div class="uk-inline uk-width-1-1">
-                                            <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: mail"></span>
-                                            <input name="email" class="uk-input uk-width-1-1@l" placeholder="E-mail"
-                                                   required type="email" value="{{ form_edit.email.value }}">
-                                        </div>
-                                    </div>
-                                    <div class="uk-margin-bottom">
-                                        <div class="uk-flex uk-flex-center" uk-grid>
-                                            <div class="uk-flex">
-                                                <button type="submit" class="uk-button uk-button-secondary uk-border">
-                                                    Применить
-                                                </button>
-                                            </div>
-                                            <div class="uk-flex">
-                                                <a class="uk-button uk-button-danger uk-border"
-                                                   href={% url 'password_change' %}>Изменить пароль</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                            </form>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
             </div>
-        </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Логин</label>
+                <div class="uk-inline uk-width-1-1">
+                    <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: users"></span>
 
-    </section>
-{% endblock %}
-{% block main %}
-
+                    <input name="username" class="uk-input uk-width-1-1@l"
+                           placeholder="Username" required type="text"
+                           value="{{ form_edit.username.value }}">
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Почта</label>
+                <div class="uk-inline uk-width-1-1">
+                    <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: mail"></span>
+                    <input name="email" class="uk-input uk-width-1-1@l" placeholder="E-mail"
+                           required type="email" value="{{ form_edit.email.value }}">
+                </div>
+            </div>
+            <div class="uk-margin-bottom">
+                <div class="uk-flex uk-flex-center" uk-grid>
+                    <div class="uk-flex">
+                        <button type="submit" class="uk-button uk-button-secondary uk-border">
+                            Применить
+                        </button>
+                    </div>
+                    <div class="uk-flex">
+                        <a class="uk-button uk-button-danger uk-border"
+                           href={% url 'password_change' %}>Изменить пароль</a>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </form>
     {% if form_edit.errors %}
         {% for field in form_edit %}
             {% for error in field.errors %}
@@ -114,6 +75,4 @@
             {% endfor %}
         </div>
     {% endif %}
-
-
 {% endblock %}

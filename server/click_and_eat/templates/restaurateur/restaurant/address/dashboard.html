@@ -7,15 +7,29 @@
             <span data-uk-icon="icon: arrow-left; ratio: 2;">
             </span>
         </a>
-        {{ restaurant.title }}
+        {{ restaurant.title }} - {{ address.address }}
         <span>
-            <a href="{% url 'restaurant_edit' restaurant_id=restaurant.id %}" uk-tooltip="Настройки"
+            <a href="{% url 'restaurant_edit_address' restaurant_id=restaurant.id address_id=address.id %}"
+               uk-tooltip="Настройки"
                class="ce-card-link uk-text-secondary">
                 <span data-uk-icon="icon: pencil; ratio: 2;">
                 </span>
             </a>
         </span>
     </h1>
+    <a href="{% url 'restaurant_address_order_monitor' restaurant_id=restaurant.id address_id=address.id %}"
+       class="uk-button uk-button-secondary">
+        Монитор Заказов
+    </a>
     <hr>
     <h1>Заказы</h1>
+    <div id="orders_contents">
+        {% include 'restaurateur/restaurant/address/base/orders.html' %}
+    </div>
+    <script>
+        window.onload = function (event) {
+            setUpdater("{% url 'restaurant_address_orders_contents' restaurant_id=restaurant.id address_id=address.id %}",
+                "#orders_contents", 5000);
+        };
+    </script>
 {% endblock %}

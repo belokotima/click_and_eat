@@ -9,3 +9,11 @@ function cePreviewImage(input, id, a) {
         reader.readAsDataURL(input.files[0]);
     }
 }
+
+function setUpdater(url, element, delay) {
+    setInterval(function () {
+        $.get(url, function (data) {
+            $(element).html(data)
+        });
+    }, delay);
+}

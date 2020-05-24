@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 from .models import *
+import datetime
 
 
 class LoginForm(forms.Form):
@@ -32,6 +33,11 @@ class CategoryModelChoiceField(forms.ModelChoiceField):
         return obj.title
 
 
+class AddressModelChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return obj.address
+
+
 class RestaurantAddProductForm(ModelForm):
     def set_restaurant(self, restaurant):
         self.fields['category'].queryset = Category.objects.filter(restaurant=restaurant)
@@ -55,3 +61,21 @@ class RestaurantAddressForm(ModelForm):
     class Meta:
         model = AddressOfRestaurant
         fields = ['address', 'longitude', 'latitude']
+
+
+class CheckoutForm(forms.Form):
+    address = AddressModelChoiceField(None)
+    pickup_time = forms.DateTimeField()
+    instant = forms.BooleanField()
+
+    def set_restaurant(self, restaurant):
+        self.fields['instant'].widget = forms.CheckboxInput(attrs={'class': 'uk-checkbox'})
+        self.fields['instant'].required = False
+        self.fields['pickup_time'].widget = forms.DateTimeInput(attrs={'class': 'uk-input uk-border'})
+        self.fields['pickup_time'].initial = datetime.datetime.now()
+        self.fields['address'].widget = forms.Select(attrs={'class': 'uk-select'})
+        self.fields['address'].queryset = AddressOfRestaurant.objects.filter(restaurant=restaurant)
+
+
+class OrderFinishForm(forms.Form):
+    secret_code = forms.IntegerField()

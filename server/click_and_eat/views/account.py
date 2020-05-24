@@ -7,7 +7,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 
 
-class Profile(LoginRequiredView):
+class ProfileView(LoginRequiredView):
     template_name = 'account/profile.html'
 
     def get(self, request, *args, **kwargs):
@@ -68,7 +68,8 @@ class History(LoginRequiredView):
     template_name = 'account/history.html'
 
     def get(self, request):
-        return render(request, self.template_name)
+        context = {'orders': Order.objects.filter(customer=request.user).order_by('-order_time')}
+        return render(request, self.template_name, context)
 
 
 class Habits(LoginRequiredView):
