@@ -23,32 +23,48 @@ class Checkout(LoginRequiredView):
         restaurant = get_object_or_404(Restaurant, id=cart.restaurant_id)
         form.set_restaurant(restaurant)
 
+        error = None
+
         if form.is_valid():
             address = get_object_or_404(AddressOfRestaurant, id=form.cleaned_data['address'].id)
-            order = Order(customer=request.user,
-                          restaurant=address,
-                          total=cart.total,
-                          pickup_time=form.cleaned_data['pickup_time'],
-                          instant=form.cleaned_data['instant'],
-                          finished=False,
-                          canceled=False,
-                          in_progress=False,
-                          ready=False)
 
-            order.save()
+            instant = form.cleaned_data['instant']
+            comment = form.cleaned_data['comment']
+            pickup_time = form.cleaned_data['pickup_time'] if not instant else datetime.datetime.now()
+            time = pickup_time.time()
+            if not (restaurant.open_time <= time <= restaurant.close_time) and\
+                    restaurant.open_time != restaurant.close_time:
+                if instant:
+                    error = 'Ресторан сейчас не работает'
+                else:
+                    error = 'Ресторан не работает в указанное время выдачи'
+            else:
+                order = Order(customer=request.user,
+                              restaurant=address,
+                              total=cart.total,
+                              order_time=datetime.datetime.now(),
+                              pickup_time=pickup_time,
+                              instant=instant,
+                              comment=comment,
+                              finished=False,
+                              canceled=False,
+                              in_progress=False,
+                              ready=False)
 
-            for cart_product in cart.products:
-                product = get_object_or_404(Product, id=cart_product.product_id)
-                order.add_product(product, cart_product.count, cart_product.price, cart_product.total)
+                order.save()
 
-            address.set_order_codes(order)
+                for cart_product in cart.products:
+                    product = get_object_or_404(Product, id=cart_product.product_id)
+                    order.add_product(product, cart_product.count, cart_product.price, cart_product.total)
 
-            cart.clear()
-            cart.save(request)
-            return redirect('order', order_id=order.id)
-        else:
-            context = {'form': form}
-            return render(request, self.template_name, context)
+                address.set_order_codes(order)
+
+                cart.clear()
+                cart.save(request)
+                return redirect('order', order_id=order.id)
+
+        context = {'form': form, 'error': error}
+        return render(request, self.template_name, context)
 
 
 class OrderView(LoginRequiredView):

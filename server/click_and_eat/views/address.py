@@ -127,12 +127,14 @@ class RestaurantAddressOrderInProgress(LoginRequiredView):
 
 class RestaurantAddressOrderCancel(LoginRequiredView):
 
-    def get(self, request, address_id, order_id, *args, **kwargs):
+    def post(self, request, address_id, order_id, *args, **kwargs):
+        reason = request.POST.get('cancel_reason', None)
         address = get_object_or_404(AddressOfRestaurant, restaurant__owner=request.user, id=address_id)
         restaurant = address.restaurant
         order = get_object_or_404(Order, restaurant=address, id=order_id)
         order.clear_status()
         order.canceled = True
+        order.cancel_reason = reason
         order.save()
         return redirect('restaurant_address_order', restaurant_id=restaurant.id, address_id=address_id,
                         order_id=order_id)

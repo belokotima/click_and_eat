@@ -18,7 +18,12 @@
 
 {% block main %}
     <h1 class="uk-text-light">Оформление заказа в <b>{{ restaurant.title }}</b></h1>
-
+    {% if error %}
+        <div class="uk-alert-danger" uk-alert>
+            <a class="uk-alert-close" uk-close></a>
+            <p>{{ error }}</p>
+        </div>
+    {% endif %}
     <div id="checkout_contents">
         {% include 'base/cart_checkout.html' %}
     </div>
@@ -41,6 +46,14 @@
                 <div class="uk-form-controls uk-inline uk-width-1-1">
                     <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: clock"></span>
                     {{ form.pickup_time }}
+                </div>
+            </div>
+            <hr>
+            <div>
+                <label class="uk-form-label">Комментарий к заказу</label>
+                <div class="uk-form-controls uk-inline uk-width-1-1">
+                    <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: comment"></span>
+                    {{ form.comment }}
                 </div>
             </div>
 

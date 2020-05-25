@@ -23,8 +23,23 @@
         <div class="uk-modal-dialog uk-modal-body">
             <button class="uk-modal-close-default" type="button" uk-close></button>
             <h2 class="uk-modal-title">Отмена заказа</h2>
-            <a href="{% url 'restaurant_address_order_cancel' restaurant_id=restaurant.id address_id=address.id order_id=order.id %}"
-               class="uk-button uk-button-danger">Отменить заказ</a>
+            <form class="uk-form-stacked"
+                  action="{% url 'restaurant_address_order_cancel' restaurant_id=restaurant.id address_id=address.id order_id=order.id %}"
+                  method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <fieldset class="uk-fieldset">
+                    <div class="uk-margin">
+                        <div class="uk-inline uk-width-1-1">
+                            <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: ban"></span>
+                            <input name="cancel_reason" class="uk-input uk-width-1-1@l" placeholder="Причина отмены"
+                                   type="text" value="">
+                        </div>
+                    </div>
+                </fieldset>
+                <button type="submit" class="uk-button uk-button-danger uk-border">
+                    Отменить заказ
+                </button>
+            </form>
         </div>
     </div>
 

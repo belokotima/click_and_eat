@@ -10,7 +10,11 @@
         {% elif order.finished %}
             <h1 class="uk-label-success">Завершён</h1>
         {% elif order.canceled %}
-            <h1 class="uk-label-danger">Отменён</h1>
+            <h1 class="uk-label-danger">Отменён
+                {% if order.cancel_reason %}
+                    <br>
+                    {{ order.cancel_reason }}
+                {% endif %}</h1>
         {% elif order.in_progress %}
             <h1 class="uk-label-warning">Готовится</h1>
         {% else %}
@@ -32,6 +36,12 @@
     Время заказа: <b>
         {{ order.order_time }}
     </b>
+    {% if order.comment %}
+        <br>
+        Комментарий к заказу: <b>
+        {{ order.comment }}
+    </b>
+    {% endif %}
 </h2>
 <hr>
 {% include 'base/order_contents.html' %}

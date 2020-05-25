@@ -101,7 +101,7 @@ class AddressOfRestaurant(models.Model):
     def set_order_codes(self, order):
         index = Order.objects.filter(restaurant=self, id__lte=order.id).count()
 
-        char = string.ascii_uppercase[(index % 100) % len(string.ascii_uppercase)]
+        char = string.ascii_uppercase[(index // 100) % len(string.ascii_uppercase)]
         append = str(index % 100)
         order.code = char + append
         order.secret_code = str(random.randint(1000, 9999))
@@ -154,12 +154,14 @@ class Order(models.Model):
     total = models.PositiveIntegerField()
     code = models.CharField(max_length=8)
     secret_code = models.CharField(max_length=8)
-    order_time = models.DateTimeField(auto_now_add=True)
+    comment = models.CharField(max_length=512, default=None, null=True)
+    order_time = models.DateTimeField()
     pickup_time = models.DateTimeField(null=True)
     order_finish_time = models.DateTimeField(null=True)
     finished = models.BooleanField()
     instant = models.BooleanField()
     canceled = models.BooleanField()
+    cancel_reason = models.CharField(max_length=512, default=None, null=True)
     in_progress = models.BooleanField()
     ready = models.BooleanField()
 
