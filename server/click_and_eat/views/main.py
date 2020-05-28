@@ -13,8 +13,22 @@ class Checkout(LoginRequiredView):
         form = CheckoutForm()
         cart = Cart.load(request)
         restaurant = get_object_or_404(Restaurant, id=cart.restaurant_id)
-        form.set_restaurant(restaurant)
-        context = {'restaurant': restaurant, 'form': form}
+
+        address = None
+
+        address_id = request.GET.get('address', None)
+
+        if address_id is not None:
+            cart.address_id = address_id
+
+        if cart.address_id is not None:
+            try:
+                address = AddressOfRestaurant.objects.get(id=cart.address_id, restaurant=restaurant)
+            except Exception as e:
+                pass
+
+        form.set_restaurant(restaurant, address)
+        context = {'restaurant': restaurant, 'form': form, 'address': address}
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
@@ -24,9 +38,10 @@ class Checkout(LoginRequiredView):
         form.set_restaurant(restaurant)
 
         error = None
+        address = None
 
         if form.is_valid():
-            address = get_object_or_404(AddressOfRestaurant, id=form.cleaned_data['address'].id)
+            address = get_object_or_404(AddressOfRestaurant, id=cart.address_id)
 
             instant = form.cleaned_data['instant']
             comment = form.cleaned_data['comment']
@@ -63,7 +78,7 @@ class Checkout(LoginRequiredView):
                 cart.save(request)
                 return redirect('order', order_id=order.id)
 
-        context = {'form': form, 'error': error}
+        context = {'restaurant': restaurant, 'form': form, 'address': address, 'error': error}
         return render(request, self.template_name, context)
 
 

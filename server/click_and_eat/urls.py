@@ -81,6 +81,7 @@ urlpatterns = [
 
 
     path('restaurant/<int:restaurant_id>/', RestaurantView.as_view(), name='restaurant'),
+    path('restaurant_address', RestaurantAddressView.as_view(), name='restaurant_address'),
     path('order/<int:order_id>', OrderView.as_view(), name='order'),
     path('order/<int:order_id>/contents', OrderContentsView.as_view(), name='order_contents'),
     path('checkout', Checkout.as_view(), name='checkout'),
@@ -95,8 +96,9 @@ urlpatterns = [
     path('cart/view', CartViewComponent.as_view(),
          name='cart_view'),
     path('cart/checkout_view', CartCheckoutViewComponent.as_view(), name='cart_checkout_view'),
+    path('cart/set_address', CartSetAddress.as_view(), name='cart_set_address'),
 
-    path('map', restaurant_map, name="restaurant_map"),
+    path('map_contents', restaurants_map_data, name="restaurants_map_data"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)\
   + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

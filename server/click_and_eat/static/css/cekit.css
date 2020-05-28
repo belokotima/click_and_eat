@@ -1,5 +1,5 @@
 html {
-  scroll-behavior: smooth;
+    scroll-behavior: smooth;
 }
 
 body::-webkit-scrollbar {
@@ -58,4 +58,41 @@ body {
 
 .ce-card-link:hover {
     text-decoration: none;
+}
+
+.ce-placemark-layout-container {
+    position: relative;
+    text-align: center;
+    font-weight: bold;
+}
+
+.ce-circle-layout {
+    background-color: white;
+    position: absolute;
+    left: -27px;
+    top: -27px;
+    width: 54px;
+    height: 54px;
+    color: #ffffff;
+    line-height: 54px;
+    /* Это CSS свойство не будет работать в Internet Explorer 8 */
+    border-radius: 50%;
+}
+
+.ce-unselected-map-icon
+{
+    border: 2px solid #ffffff;
+}
+
+.ce-selected-map-icon
+{
+    border: 2px solid #078f00;
+}
+
+.ce-map-icon
+{
+    position: absolute;
+    -ms-transform: translate(-50%, 2px);
+    transform: translate(-50%, 2px);
+    border-radius: 50%
 }

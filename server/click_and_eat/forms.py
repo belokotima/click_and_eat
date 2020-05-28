@@ -64,17 +64,14 @@ class RestaurantAddressForm(ModelForm):
 
 
 class CheckoutForm(forms.Form):
-    address = AddressModelChoiceField(None)
     pickup_time = forms.DateTimeField()
     instant = forms.BooleanField(required=False)
     comment = forms.CharField(max_length=512, required=False)
 
-    def set_restaurant(self, restaurant):
+    def set_restaurant(self, restaurant, address=None):
         self.fields['instant'].widget = forms.CheckboxInput(attrs={'class': 'uk-checkbox'})
         self.fields['pickup_time'].widget = forms.DateTimeInput(attrs={'class': 'uk-input uk-border'})
         self.fields['pickup_time'].initial = datetime.datetime.now()
-        self.fields['address'].widget = forms.Select(attrs={'class': 'uk-select'})
-        self.fields['address'].queryset = AddressOfRestaurant.objects.filter(restaurant=restaurant)
         self.fields['comment'].widget = forms.Textarea(attrs={'class': 'uk-textarea'})
 
 

@@ -1,0 +1,68 @@
+<div class="uk-container">
+    <script type="text/javascript">
+        ymaps.ready(init);
+        let myMap;
+
+        function init() {
+            // Создание карты.
+            let center = [55.76, 37.64];
+
+            {% if address %}
+                center = [{{ address.latitude }}, {{ address.longitude }}];
+            {% endif %}
+
+
+            myMap = new ymaps.Map("map", {
+                center: center,
+                // Уровень масштабирования. Допустимые значения:
+                // от 0 (весь мир) до 19.
+                zoom: {{ settings.MAPS_CONFIG.DEFAULT_ZOOM }}
+            });
+            updatePlacemarks();
+        }
+
+        function updatePlacemarks() {
+
+            $.get("{% url 'restaurants_map_data' %}?restaurant_id=" + {{ restaurant.id }}, function (map_data) {
+                myMap.geoObjects.removeAll();
+                let selected_address_id = map_data['selected_address_id'];
+
+                map_data['restaurants'].forEach(function (rest) {
+                    let circleLayoutUnselected = ymaps.templateLayoutFactory.createClass('<div class="ce-placemark-layout-container"><div class="ce-unselected-map-icon ce-circle-layout ce-box-shadow-default"><img src=\"' + rest['logo'] + '\" height="50" width="50" class="ce-map-icon"></div></div>');
+
+                    rest['addresses'].forEach(function (address) {
+                        let selected = selected_address_id == address['id'];
+
+                        let circleLayout = circleLayoutUnselected;
+
+                        if (selected)
+                        {
+                            $("#restaurant_address").html(address['address']);
+                            circleLayout = ymaps.templateLayoutFactory.createClass('<div class="ce-placemark-layout-container"><div class="ce-selected-map-icon ce-circle-layout ce-box-shadow-default"><img src=\"' + rest['logo'] + '\" height="50" width="50" class="ce-map-icon"></div></div>');
+                        }
+
+
+                        let url = '{% url 'checkout' %}?address=' + address['id'];
+                        let body = '';
+                        if (selected) {
+                            body =
+                            {% include 'base/maps/restaurant_balloon/checkout_selected_body.html' %}
+                        } else {
+                            body = {% include 'base/maps/restaurant_balloon/checkout_body.html' %};
+                        }
+                        let placemark = {% include 'base/maps/placemark.js' %};
+                        // Добавим метку на карту.
+                        myMap.geoObjects.add(placemark);
+
+                        if (selected) {
+                            placemark.balloon.open();
+                        }
+                    });
+                });
+
+            });
+        }
+    </script>
+
+    <div id="map" style="width: 100%; height: 35vh"></div>
+</div>

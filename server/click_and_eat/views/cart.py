@@ -44,9 +44,7 @@ class Cart:
             return None
 
     def append(self, product, count=1):
-        if product.restaurant.id != self.restaurant_id:
-            self.clear()
-            self.restaurant_id = product.restaurant_id
+        self.set_restaurant(product.restaurant)
 
         cart_product = self.find(product.id)
         if cart_product is None:
@@ -64,12 +62,21 @@ class Cart:
         if product is not None:
             self.products.remove(product)
 
+    def set_restaurant(self, restaurant):
+        if restaurant.id != self.restaurant_id:
+            self.clear()
+            self.restaurant_id = restaurant.id
+
+    def set_address(self, address):
+        self.set_restaurant(address.restaurant)
+        self.address_id = address.id
+
     def clear(self):
         self.products = []
 
     @classmethod
     def load(cls, request):
-        cart = request.session.get('cart', Cart(0, 0, [], 0).to_dict())
+        cart = request.session.get('cart', Cart(None, None, [], 0).to_dict())
         return Cart.from_dict(cart)
 
     def save(self, request):
@@ -154,5 +161,15 @@ class CartClear(View):
         cart.clear()
         cart.save(request)
         return redirect('cart_view')
+
+
+class CartSetAddress(View):
+
+    def get(self, request, *args, **kwargs):
+        address_id = request.GET.get('address', None)
+        cart = Cart.load(request)
+        cart.set_address(get_object_or_404(AddressOfRestaurant, id=address_id))
+        cart.save(request)
+        return HttpResponse()
 
 

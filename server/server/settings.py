@@ -11,9 +11,9 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -26,7 +26,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', '192.168.0.75']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,7 +36,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'click_and_eat',
-    'leaflet',
     'widget_tweaks',
 ]
 
@@ -64,13 +62,13 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django_settings_export.settings_export',
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'server.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -81,7 +79,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -101,7 +98,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
@@ -118,7 +114,6 @@ USE_L10N = False
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
@@ -129,10 +124,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOGIN_URL = 'login'
 
+SETTINGS_EXPORT = [
+    'DEBUG',
+    'MAPS_CONFIG',
+]
 
-LEAFLET_CONFIG = {
+MAPS_CONFIG = {
+    'API_KEY': 'd84af4f5-0840-4493-8349-6ada126f0c52',
     'DEFAULT_CENTER': (55.751244, 37.618423),
-    'DEFAULT_ZOOM': 16,
-    'MIN_ZOOM': 3,
-    'MAX_ZOOM': 18,
+    'DEFAULT_ZOOM': 15,
 }
