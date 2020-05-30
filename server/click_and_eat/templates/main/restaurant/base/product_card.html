@@ -1,15 +1,5 @@
 <a class="ce-card-link" onclick="update_cart('{% url 'cart_add' product_id=product.id count=1 %}')">
     <div class="uk-inline-clip uk-transition-toggle uk-animation-toggle uk-light" tabindex="0">
         {% include 'base/product_card.html' %}
-
-        {% if product.id in request.session.cart.products_ids %}
-        <div class="uk-position-center-right">
-            <span class="uk-animation-slide-right uk-animation-reverse" uk-icon="icon: cart; ratio: 4;"></span>
-        </div>
-        {% endif %}
-        <div class="uk-position-center-right">
-            <span class="uk-transition-slide-left" uk-icon="icon: plus; ratio: 4;"></span>
-        </div>
-
     </div>
 </a>

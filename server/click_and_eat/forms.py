@@ -4,6 +4,26 @@ from .models import *
 import datetime
 
 
+class CategoryModelChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return obj.title
+
+
+class AddressModelChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return obj.address
+
+
+class RestaurantCategoryModelChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return obj.title
+
+
+class RestaurantCategoryModelMultipleChoiceField(forms.ModelMultipleChoiceField):
+    def label_from_instance(self, obj):
+        return obj.title
+
+
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=12)
     password = forms.CharField(widget=forms.PasswordInput())
@@ -20,22 +40,19 @@ class UserEditForm(ModelForm):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'email']
-       
+
 
 class RestaurantEditForm(ModelForm):
     class Meta:
         model = Restaurant
-        fields = ['title', 'description', 'logo', 'preview_image', 'open_time', 'close_time']
-
-
-class CategoryModelChoiceField(forms.ModelChoiceField):
-    def label_from_instance(self, obj):
-        return obj.title
-
-
-class AddressModelChoiceField(forms.ModelChoiceField):
-    def label_from_instance(self, obj):
-        return obj.address
+        fields = ['title', 'description', 'logo', 'preview_image', 'open_time', 'close_time', 'main_category',
+                  'categories']
+        field_classes = {'main_category': RestaurantCategoryModelChoiceField,
+                         'categories': RestaurantCategoryModelMultipleChoiceField}
+        widgets = {
+            'main_category': forms.Select(attrs={'class': 'uk-select'}),
+            'categories': forms.SelectMultiple(attrs={'class': 'uk-select'})
+        }
 
 
 class RestaurantAddProductForm(ModelForm):
@@ -71,8 +88,8 @@ class CheckoutForm(forms.Form):
     def set_restaurant(self, restaurant, address=None):
         self.fields['instant'].widget = forms.CheckboxInput(attrs={'class': 'uk-checkbox'})
         self.fields['pickup_time'].widget = forms.DateTimeInput(attrs={'class': 'uk-input uk-border'})
-        self.fields['pickup_time'].initial = datetime.datetime.now()
-        self.fields['comment'].widget = forms.Textarea(attrs={'class': 'uk-textarea'})
+        self.fields['pickup_time'].initial = datetime.datetime.now() + datetime.timedelta(minutes=15)
+        self.fields['comment'].widget = forms.TextInput(attrs={'class': 'uk-textarea'})
 
 
 class OrderFinishForm(forms.Form):

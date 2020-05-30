@@ -41,7 +41,7 @@
         <fieldset class="uk-fieldset">
 
             <div>
-                <label class="uk-form-label"><h2>О ресторане</h2></label>
+                <label class="uk-form-label">О ресторане</label>
                 <div class="uk-form-controls uk-inline uk-width-1-1">
                     <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: tag"></span>
                     <input id="input_title" name="title" class="uk-input uk-border"
@@ -53,7 +53,7 @@
             <hr>
 
             <div>
-                <label class="uk-form-label"><h2>Описание</h2></label>
+                <label class="uk-form-label">Описание</label>
                 <div class="uk-inline uk-width-1-1">
                     <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: info"></span>
                     <textarea name="description" class="uk-input uk-border" placeholder="Описание" type=""
@@ -64,7 +64,7 @@
             <hr>
 
             <div>
-                <label class="uk-form-label"><h2>Часы работы</h2></label>
+                <label class="uk-form-label">Часы работы</label>
                 <div class="uk-inline uk-width-1-2">
                     <label class="uk-form-label">Время открытия</label>
                     <div class="uk-inline">
@@ -87,7 +87,7 @@
             <hr>
 
             <div>
-                <label class="uk-form-label"><h2>Логотип</h2></label>
+                <label class="uk-form-label">Логотип</label>
                 <div uk-form-custom="target: true">
                     <input id="input_logo" name="logo" type="file">
                     <input class="uk-input uk-form-width-medium" type="text"
@@ -98,7 +98,7 @@
             </div>
 
             <div>
-                <label class="uk-form-label"><h2>Превью ресторана</h2></label>
+                <label class="uk-form-label">Превью ресторана</label>
                 <div uk-form-custom="target: true">
                     <input id="input_preview" name="preview_image" type="file">
                     <input class="uk-input uk-form-width-medium" type="text" placeholder="Выберите превью"
@@ -106,6 +106,15 @@
                     <label class="uk-form-label">Рекомендуемый размер изображения - 123x456px</label>
                 </div>
             </div>
+
+            <hr>
+
+        <div>
+            <label class="uk-form-label">Основная категория ресторана</label>
+            {{ form.main_category }}
+            <label class="uk-form-label">Категории ресторана</label>
+            {{ form.categories }}
+        </div>
 
             <hr>
 

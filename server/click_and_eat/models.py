@@ -36,6 +36,10 @@ def product_directory_path(instance, filename):
     return restaurant_products_directory_path(instance.restaurant, 'product{}_{}'.format(instance.id, filename))
 
 
+class RestaurantCategory(models.Model):
+    title = models.CharField(max_length=32)
+
+
 class Restaurant(models.Model):
     """
     Модель ресторана. Рассматриваем ее как главную модель в бд
@@ -51,7 +55,8 @@ class Restaurant(models.Model):
     preview_image = models.ImageField(upload_to=restaurant_data_directory_path)
     open_time = models.TimeField()
     close_time = models.TimeField()
-
+    main_category = models.ForeignKey(RestaurantCategory, on_delete=models.SET_NULL, null=True, default=None)
+    categories = models.ManyToManyField(RestaurantCategory, related_name='provider')
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
