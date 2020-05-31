@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from ..forms import *
-
+from ..models import Profile
 
 auth_templates_dir = 'auth'
 
@@ -79,17 +79,18 @@ class Register(View):
                         context['error'] = 'Пароли не совпадают'
                     else:
                         try:
-                            User.objects.create_user(username=username, email=email, password=password,
-                                                     first_name=first_name)
+                            user = User.objects.create_user(username=username, email=email, password=password,
+                                                            first_name=first_name)
+                            Profile.get(user)
                             if Login.login(request, username, password, remember_me):
                                 return redirect('index')
                             else:
                                 context['error'] = 'Неверный логин или пароль'
                         except:
                             context['error'] = 'Ошибка при регистрации'
-                
+
             return render(request, self.template_name, context)
-            
+
         else:
             context['error'] = 'Неверный формат ввода'
             return render(request, self.template_name, context)

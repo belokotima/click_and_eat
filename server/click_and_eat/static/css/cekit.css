@@ -79,20 +79,26 @@ body {
     border-radius: 50%;
 }
 
-.ce-unselected-map-icon
-{
+.ce-unselected-map-icon {
     border: 2px solid #ffffff;
 }
 
-.ce-selected-map-icon
-{
+.ce-selected-map-icon {
     border: 2px solid #078f00;
 }
 
-.ce-map-icon
-{
+.ce-map-icon {
     position: absolute;
     -ms-transform: translate(-50%, 2px);
     transform: translate(-50%, 2px);
     border-radius: 50%
+}
+
+.ce-bottom-navbar {
+    overflow: hidden;
+    background-color: #333;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 2;
 }

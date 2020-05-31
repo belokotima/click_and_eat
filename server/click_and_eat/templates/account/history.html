@@ -2,7 +2,9 @@
 {% load static %}
 
 {% block profile_block %}
-    <ul class="uk-width-expand" uk-accordion="multiple: true">
+    <div class="uk-width-expand">
+    <h1>История заказов</h1>
+    <ul uk-accordion="multiple: true">
         {% for order in orders %}
                 <li class="uk-card uk-card-secondary uk-card-body">
                     <a class="uk-accordion-title" href="#">{{ order.restaurant.restaurant.title }}
@@ -17,4 +19,5 @@
                 </li>
         {% endfor %}
     </ul>
+    </div>
 {% endblock %}

@@ -1,5 +1,14 @@
-<a class="ce-card-link" onclick="update_cart('{% url 'cart_add' product_id=product.id count=1 %}')">
-    <div class="uk-inline-clip uk-transition-toggle uk-animation-toggle uk-light" tabindex="0">
-        {% include 'base/product_card.html' %}
-    </div>
-</a>
+{% with allergies=product.allergies.all %}
+    <a id="product{{ product.id }}" type="button" class="ce-card-link" onclick="update_cart('{% url 'cart_add' product_id=product.id count=1 %}');"
+       {% if allergies|length > 0 %}uk-tooltip="title: <b>Содержит аллергены:</b>{% for allergy in allergies %}<br>{{ allergy.title }}{% endfor %}"{% endif %}>
+        <div class="uk-inline-clip uk-transition-toggle uk-animation-toggle uk-light" tabindex="0">
+            {% include 'base/product_card.html' %}
+            {% if product in allergy_products %}
+            <div class="uk-position-center-right">
+                                    <span
+                                          uk-icon="icon: warning; ratio: 4;"></span>
+            </div>
+            {% endif %}
+        </div>
+    </a>
+{% endwith %}

@@ -11,7 +11,24 @@ class RestaurantView(View):
 
     def get(self, request, restaurant_id, *args, **kwargs):
         restaurant = get_object_or_404(Restaurant, id=restaurant_id)
-        context = {'restaurant': restaurant}
+        products = restaurant.get_products()
+
+        allergy_products = []
+
+        profile = None
+
+        if request.user.is_authenticated:
+            profile = Profile.get(request.user)
+
+        for product in products:
+            if profile is not None:
+                profile_allergies = profile.allergies.all()
+                product_allergies = product.allergies.all()
+                intersection = list(set(profile_allergies) & set(product_allergies))
+                if len(intersection) > 0:
+                    allergy_products.append(product)
+
+        context = {'restaurant': restaurant, 'allergy_products': allergy_products}
         return render(request, self.template_name, context)
 
 

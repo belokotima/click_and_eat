@@ -1,4 +1,4 @@
-<ul class="uk-list-striped">
+<ul class="uk-list-striped uk-list">
 
     {% for product in request.session.cart.products %}
         <li>
@@ -23,4 +23,4 @@
 
 </ul>
 
-<h1 class="uk-text-light">Итого <b>{{ request.session.cart.total }}</b></h1>
+<h1 class="uk-text-light">Итого <b id="cart_total">{{ request.session.cart.total }}</b></h1>

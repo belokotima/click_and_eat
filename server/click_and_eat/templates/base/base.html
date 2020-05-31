@@ -32,7 +32,26 @@
 {% block body %}
 {% endblock %}
 
-<section class="uk-section uk-section-muted" style="padding: 20px 0;">
+<section class="uk-section uk-section-muted" style="padding-bottom: 20px; padding-top: 0">
+    {% block navigation %}
+        <div class="uk-tile uk-tile-default uk-padding-small ce-box-shadow-default" uk-sticky>
+            <div class="uk-container">
+                <div class="uk-flex uk-flex-middle">
+                    <span class="uk-flex-left" style="position: absolute">
+                        <a href="{% block nav_url %}{% url 'index' %}{% endblock %}"
+                           uk-tooltip="{% block nav_tooltip %}Назад{% endblock %}"
+                           class="ce-card-link uk-text-secondary">
+                            <span data-uk-icon="icon: arrow-left; ratio: 2;">
+                            </span>
+                        </a>
+                    </span>
+                    <h3 class="uk-width-1-1 uk-text-center uk-text-lighter uk-text-truncate uk-margin-remove">
+                        {% block nav_title %}Меню{% endblock %}
+                    </h3>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
     <div class="uk-container">
         {% block main %}
         {% endblock %}
@@ -41,7 +60,7 @@
 
 <!--FOOTER-->
 {% block footer %}
-{% include 'base/footer.html' %}
+    {% include 'base/footer.html' %}
 {% endblock %}
 <!--FOOTER-->
 

@@ -1,9 +1,15 @@
-{% extends "main/../base/base.html" %}
+{% extends "account/base/base.html" %}
 {% load static %}
 
-{% block body %}
-
-{% endblock %}
-{% block main %}
-
+{% block profile_block %}
+    <div>
+        <h1>Аллергии</h1>
+        <form class="uk-form-stacked" action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.allergies }}
+            <button type="submit" class="uk-button uk-button-secondary uk-border">
+                Применить
+            </button>
+        </form>
+    </div>
 {% endblock %}

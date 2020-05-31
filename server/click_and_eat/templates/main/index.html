@@ -5,6 +5,9 @@
     {% include 'base/maps/maps_header.html' %}
 {% endblock %}
 
+{% block navigation %}
+{% endblock %}
+
 {% block body %}
 
     <div id="modal-map" class="uk-modal-container" uk-modal>
@@ -65,37 +68,62 @@
             </div>
         </div>
     </section>
-    <section class="uk-section uk-section-default uk-box-shadow-small uk-section-xsmall uk-visible@s">
+    <section class="uk-section uk-section-default uk-box-shadow-small uk-section-xsmall">
         <div class="uk-container">
-            <div class="uk-flex uk-flex-center">
-                <ul class="uk-subnav uk-subnav-pill uk-subnav-divider">
-                    <li class="uk-active"><a href="#">Все</a></li>
-                    <li><a href="#">Бургеры</a></li>
-                    <li><a href="#">Суши</a></li>
-                    <li><a href="#">Пицца</a></li>
-                    <li><a href="#">Стрит-фуд</a></li>
-                    <li>
-                        <a href="#">Еще <span uk-icon="icon:  triangle-down"></span></a>
-                        <div uk-dropdown="mode: click;">
-                            <ul class="uk-nav uk-dropdown-nav">
-                                <li><a href="#">Здоровая еда</a></li>
-                                <li class="uk-nav-divider"></li>
-                                <li><a href="#">Кофе</a></li>
-                                <li class="uk-nav-divider"></li>
-                                <li><a href="#">Выпечка</a></li>
-                            </ul>
-                        </div>
-                    </li>
+            <div class="uk-flex uk-flex-center uk-visible@s">
+                <ul class="uk-subnav uk-subnav-pill">
+                    <li {% if not selected_category_id %}class="uk-active"{% endif %}><a
+                            href="{% url 'index' %}">Все</a></li>
+                    {% with overflow=4 %}
+                        {% for category in categories %}
+
+                            {% if forloop.counter < overflow %}
+                                <li class="{% if category.id == selected_category_id %}uk-active{% endif %} uk-margin-auto">
+                                    <a href="{% url 'index' %}?category={{ category.id }}">{{ category.title }}</a></li>
+                            {% else %}
+                                {% if forloop.counter == overflow %}
+                                    <li class="uk-margin-auto">
+                                    <a href="#">Еще <span uk-icon="icon:  triangle-down"></span></a>
+                                    <div uk-dropdown="mode: click;">
+                                    <ul class="uk-nav uk-dropdown-nav">
+                                {% endif %}
+                            <li class="{% if category.id == selected_category_id %}uk-active{% endif %} uk-margin-auto">
+                                <a href="{% url 'index' %}?category={{ category.id }}">{{ category.title }}</a></li>
+                            <li class="uk-nav-divider"></li>
+                            {% if forloop.last %}
+                                </ul>
+                                </div>
+                                </li>
+                            {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endwith %}
+
                 </ul>
             </div>
             <div class="uk-flex uk-flex-center">
-                <input class="uk-input" type="text" placeholder="Название, кухня или блюдо">
+                <input id="search_box" class="uk-input" type="text" placeholder="Название, кухня или блюдо">
+                <div uk-dropdown="mode: none" id="search_contents"></div>
+                <script>
+                    $("#search_box").on("input", function (e) {
+                        $.get("{% url 'search' %}?query=" + $(e.target).val(), function (data) {
+                            let result_container = $("#search_contents");
+                            result_container.html(data);
+                            UIkit.dropdown(result_container).show();
+                        });
+                    });
+                </script>
             </div>
         </div>
     </section>
 {% endblock %}
 {% block main %}
-    <h1>Рестораны</h1>
+    {% if bad_query %}
+        <br>
+        <h1 class="uk-text-center">По данному запросу ничего не найдено, но есть много других ресторанов, откуда можно
+            заказать еду!</h1>
+    {% endif %}
+    <h1 style="padding-top: 20px">Рестораны</h1>
     <div class="uk-grid uk-grid-small uk-child-width-1-1@s uk-child-width-1-2@m uk-child-width-1-3@l uk-grid-match"
          data-uk-grid>
         {% for restaurant in restaurants %}

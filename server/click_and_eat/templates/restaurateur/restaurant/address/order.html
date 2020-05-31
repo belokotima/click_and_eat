@@ -2,16 +2,12 @@
 
 {% load static %}
 
+{% block nav_title %}Заказ{% endblock %}
+{% block nav_url %}{% url 'restaurant_address_dashboard' restaurant_id=restaurant.id address_id=address.id %}{% endblock %}
+{% block nav_tooltip %}Назад{% endblock %}
+
 {% block main %}
-    <h1>
-        <a href="{% url 'restaurant_address_dashboard' restaurant_id=restaurant.id address_id=address.id %}"
-           uk-tooltip="Назад"
-           class="ce-card-link uk-text-secondary">
-            <span data-uk-icon="icon: arrow-left; ratio: 2;">
-            </span>
-        </a>
-        Заказ
-    </h1>
+    <hr>
     <a href="#cancel_modal" class="uk-button uk-button-danger" uk-toggle>Отменить</a>
     <a href="{% url 'restaurant_address_order_in_progress' restaurant_id=restaurant.id address_id=address.id order_id=order.id %}"
        class="uk-button uk-button-default">Готовится</a>

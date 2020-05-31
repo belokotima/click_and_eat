@@ -2,7 +2,7 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from .views.auth import Login, Register, Logout
-from .views.index import Index
+from .views.index import Index, Search
 from .views.restaurant import *
 from .views.restaurateur import *
 from .simple_views import *
@@ -16,11 +16,12 @@ urlpatterns = [
     path('auth/register', Register.as_view(), name='register'),
     path('auth/logout', Logout.as_view(), name='logout'),
     path('', Index.as_view(), name='index'),
+    path('search', Search.as_view(), name='search'),
     path('profile', ProfileView.as_view(), name='profile'),
     path('profile/password_change', PasswordChange.as_view(), name='password_change'),
     path('habits', Habits.as_view(), name='habits'),
     path('history', History.as_view(), name='history'),
-    path('allergy', Allergy.as_view(), name='allergy'),
+    path('allergy', AllergyView.as_view(), name='allergy'),
     path('settings', Settings.as_view(), name='settings'),
 
     path('restaurateur', Restaurateur.as_view(), name='restaurateur'),

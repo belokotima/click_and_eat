@@ -124,6 +124,11 @@ class Category(models.Model):
         return self.restaurant.get_products().filter(category=self)
 
 
+class Allergy(models.Model):
+    title = models.CharField(max_length=32)
+    icon = models.CharField(max_length=32)
+
+
 class Product(models.Model):
     """
     Ресторан будет добавлять блюда сколько хотят. Мы просто будем выводить их все пользователю
@@ -138,6 +143,7 @@ class Product(models.Model):
     value = models.CharField(max_length=16)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    allergies = models.ManyToManyField(Allergy)
 
     def save(self, *args, **kwargs):
         if self.pk is None:
@@ -149,8 +155,14 @@ class Product(models.Model):
         super(Product, self).save(*args, **kwargs)
 
 
-class Profile:
+class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    allergies = models.ManyToManyField(Allergy)
+
+    @staticmethod
+    def get(user):
+        obj, created = Profile.objects.get_or_create(user=user)
+        return obj
 
 
 class Order(models.Model):
@@ -202,3 +214,4 @@ class OrderProduct(models.Model):
     quantity = models.PositiveIntegerField()
     price = models.PositiveIntegerField()
     total = models.PositiveIntegerField()
+

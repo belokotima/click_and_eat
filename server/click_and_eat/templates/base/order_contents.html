@@ -5,9 +5,9 @@
             <ul class="uk-list-striped">
                 {% for product in order.get_products %}
                     <li>
-                        <div class="uk-grid">
+                        <div class="uk-grid uk-child-width-1-1@s uk-child-width-1-2@m">
                             <div class="uk-width-expand">
-                                <h3 class="uk-text-light">{{ product.product.name }}</h3>
+                                <h2 class="uk-text-light">{{ product.product.name }}</h2>
                                 <div class="uk-text-light">
                                     {{ product.product.value }}
                                 </div>

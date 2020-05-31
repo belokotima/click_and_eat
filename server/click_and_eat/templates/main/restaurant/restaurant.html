@@ -4,15 +4,11 @@
 
 {% endblock %}
 
+{% block nav_title %}<b>{{ restaurant.title }}</b>{% endblock %}
+{% block nav_url %}{% url 'index' %}{% endblock %}
+{% block nav_tooltip %}Назад{% endblock %}
+
 {% block main %}
-    <h1>
-        <a href="{% url 'index' %}" uk-tooltip="Назад"
-           class="ce-card-link uk-text-secondary">
-            <span data-uk-icon="icon: arrow-left; ratio: 2;">
-            </span>
-        </a>
-        Меню
-    </h1>
 
     <hr>
 
@@ -51,4 +47,9 @@
     </div>
 
 
+{% endblock %}
+
+{% block footer %}
+    {% include 'base/cart_bottom.html' %}
+    {% include 'base/footer.html' %}
 {% endblock %}

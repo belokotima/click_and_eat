@@ -1,14 +1,14 @@
 {% extends 'base/base.html' %}
 {% load static %}
 
+{% block navigation %}
+{% endblock %}
+
 {% block navbar %}
 {% endblock %}
 
 {% block body %}
-{% endblock %}
-
-{% block main %}
-    <div id="monitor_contents">
+    <div id="monitor_contents" style="background-color: white; height: 100%">
         {% include 'restaurateur/restaurant/address/base/orders_monitor_contents.html' %}
     </div>
     <script>
@@ -22,6 +22,9 @@
 
         window.onload = setUpdater;
     </script>
+{% endblock %}
+
+{% block main %}
 {% endblock %}
 
 {% block footer %}

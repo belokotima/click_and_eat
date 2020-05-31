@@ -160,7 +160,7 @@ class RestaurantAddressOrdersMonitor(LoginRequiredView):
         address = get_object_or_404(AddressOfRestaurant, restaurant__owner=request.user, id=address_id)
         restaurant = address.restaurant
         all_orders = address.get_last_orders()
-        orders = all_orders.filter(ready=False)
+        orders = all_orders.filter(ready=False, in_progress=True)
         ready_orders = all_orders.filter(ready=True)
         context = {'restaurant': restaurant, 'address': address, 'orders': orders, 'ready_orders': ready_orders}
         return render(request, self.template_name, context)

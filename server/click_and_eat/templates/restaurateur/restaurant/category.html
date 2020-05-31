@@ -1,18 +1,11 @@
 {% extends "restaurateur/restaurant/base/base.html" %}
 
+{% block nav_title %}{% if edit %}Редактирование категории в меню{% else %}Добавьте новые категории в меню{% endif %}{% endblock %}
+{% block nav_url %}{% url 'restaurant_dashboard' restaurant_id=restaurant.id %}{% endblock %}
+{% block nav_tooltip %}Назад{% endblock %}
+
 {% block main %}
-    <h1>
-        <a href="{% url 'restaurant_dashboard' restaurant_id=restaurant.id %}" uk-tooltip="Назад"
-           class="ce-card-link uk-text-secondary">
-            <span data-uk-icon="icon: arrow-left; ratio: 2;">
-            </span>
-        </a>
-        {% if edit %}
-            Редактирование категории в меню
-        {% else %}
-            Добавьте новые категории в меню
-        {% endif %}
-    </h1>
+    <hr>
     <form class="uk-form-stacked" action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <fieldset class="uk-fieldset">

@@ -20,15 +20,11 @@
 
 {% endblock %}
 
+{% block nav_title %}Оформление заказа{% endblock %}
+{% block nav_url %}{% url 'restaurant' restaurant_id=restaurant.id %}{% endblock %}
+{% block nav_tooltip %}Назад{% endblock %}
+
 {% block main %}
-    <h1 class="uk-text-light">
-        <a href="{% url 'restaurant' restaurant_id=restaurant.id %}" uk-tooltip="Назад"
-           class="ce-card-link uk-text-secondary">
-            <span data-uk-icon="icon: arrow-left; ratio: 2;">
-            </span>
-        </a>
-        Оформление заказа в <b>{{ restaurant.title }}</b>
-    </h1>
     {% if error %}
         <div class="uk-alert-danger" uk-alert>
             <a class="uk-alert-close" uk-close></a>

@@ -42,17 +42,17 @@ class PasswordChange(LoginRequiredView):
     def get(self, request, *args, **kwargs):
         user = request.user
         user_id = user.id
-        usermodel = get_object_or_404(User, pk=user_id)
-        form_edit_password = PasswordChangeForm(user=user, data=request.POST)
+        user_model = get_object_or_404(User, pk=user_id)
+        form_edit_password = PasswordChangeForm(user=user)
 
-        context = {'form_edit_password': form_edit_password, 'user': usermodel}
+        context = {'form_edit_password': form_edit_password, 'user': user_model}
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
 
         user = request.user
         user_id = user.id
-        usermodel = get_object_or_404(User, pk=user_id)
+        user_model = get_object_or_404(User, pk=user_id)
         form_edit_password = PasswordChangeForm(user=user, data=request.POST)
         if form_edit_password.is_valid():
             form_edit_password.save()
@@ -60,7 +60,7 @@ class PasswordChange(LoginRequiredView):
             messages.success(request, 'Пароль обновлён.')
             return redirect('profile')
 
-        context = {'form_edit_password': form_edit_password, 'user': usermodel}
+        context = {'form_edit_password': form_edit_password, 'user': user_model}
         return render(request, self.template_name, context)
 
 
@@ -86,8 +86,19 @@ class Settings(LoginRequiredView):
         return render(request, self.template_name)
 
 
-class Allergy(LoginRequiredView):
+class AllergyView(LoginRequiredView):
     template_name = 'account/allergy.html'
 
-    def get(self, request):
-        return render(request, self.template_name)
+    def get(self, request, *args, **kwargs):
+        form = AllergyProfileForm(instance=Profile.get(request.user))
+        context = {'form': form}
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        form = AllergyProfileForm(request.POST, instance=Profile.get(request.user))
+        form.user = request.user
+        if form.is_valid():
+            form.save()
+
+        context = {'form': form}
+        return render(request, self.template_name, context)

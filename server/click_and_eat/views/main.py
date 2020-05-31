@@ -12,7 +12,11 @@ class Checkout(LoginRequiredView):
     def get(self, request, *args, **kwargs):
         form = CheckoutForm()
         cart = Cart.load(request)
-        restaurant = get_object_or_404(Restaurant, id=cart.restaurant_id)
+
+        try:
+            restaurant = Restaurant.objects.get(id=cart.restaurant_id)
+        except:
+            return redirect('index')
 
         address = None
 

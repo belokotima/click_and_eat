@@ -10,11 +10,9 @@
                 <div class="uk-width-1-2 uk-text-middle uk-padding-small">
                     <h2 id="id_card_title" class="uk-text-light uk-margin-remove-bottom">{{ restaurant.title }}</h2>
                     <p class="uk-text-lighter uk-margin-remove-top uk-text-bottom">
-                        <span data-uk-icon="icon: star; ratio: 1;"></span>
-                        5
                         {% if restaurant.main_category %}
                         <span data-uk-icon="icon: triangle-right; ratio: 1;"></span>
-                        {{ restaurant.main_category.title }}
+                        <span id="id_card_category">{{ restaurant.main_category.title }}</span>
                         {% endif %}
                     </p>
                 </div>
