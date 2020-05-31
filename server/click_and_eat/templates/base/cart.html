@@ -1,0 +1,18 @@
+<h1 class="uk-text-light">Корзина</h1>
+<div {% if request.session.cart.products|length == 0 %}class="uk-hidden">{% endif %}
+
+     {% include 'base/cart_contents.html' %}
+     <hr>
+
+     <div>
+         <a href="{% url 'checkout' %}" class="uk-width-1-1 uk-button uk-button-large uk-button-primary">Оформить
+             заказ</a>
+         <hr>
+         <a onclick="update_cart('{% url 'cart_clear' %}')"
+            class="uk-width-1-1 uk-button uk-button-large uk-button-danger">Очистить
+             корзину</a>
+     </div>
+</div>
+{% if request.session.cart.products|length == 0 %}
+    <h2 class="uk-text-light">Корзина пуста</h2>
+{% endif %}

@@ -1,0 +1,69 @@
+{% extends "restaurateur/restaurant/base/base.html" %}
+
+{% block nav_title %}{% if edit %}Редактирование адреса ресторана{% else %}Добавьте адрес ресторана{% endif %}{% endblock %}
+{% block nav_url %}{% url 'restaurant_dashboard' restaurant_id=restaurant.id %}{% endblock %}
+{% block nav_tooltip %}Назад{% endblock %}
+
+{% block main %}
+    <hr>
+    <form class="uk-form-stacked" action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="uk-fieldset">
+
+            <div>
+                <label class="uk-form-label">Адрес</label>
+                <div class="uk-form-controls uk-inline uk-width-1-1">
+                    <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: tag"></span>
+                    <input name="address" class="uk-input uk-border"
+                           placeholder="Например, пр. 60-летия Октября, дом 25, корп. 1" type="text"
+                           value="{{ form.address.value|default_if_none:"" }}" required>
+                </div>
+            </div>
+            <hr>
+
+            <div>
+                <label class="uk-form-label">Координаты</label>
+                <div class="uk-form-controls uk-inline uk-width-1-1">
+                    <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: tag"></span>
+                    <input name="latitude" class="uk-input uk-border" placeholder="Широта" type="number" step="any"
+                           value="{{ form.latitude.value|default_if_none:"" }}" required>
+                </div>
+                <div class="uk-form-controls uk-inline uk-width-1-1">
+                    <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: tag"></span>
+                    <input name="longitude" class="uk-input uk-border" placeholder="Долгота" type="number" step="any"
+                           value="{{ form.longitude.value|default_if_none:"" }}" required>
+                </div>
+
+                <div>
+                    <br>
+                    <p class="uk-text-light">Для определения координат ресторана воспользуйтесь <a target="_blank"
+                                                                                                   rel="noopener noreferrer"
+                                                                                                   href="http://dimik.github.io/ymaps/examples/location-tool/">этим
+                        сайтом</a></p>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="uk-margin-bottom">
+                <button type="submit" class="uk-margin-small-bottom uk-width-1-1 uk-button uk-button-secondary">
+                    {% if edit %}
+                        Редактировать
+                    {% else %}
+                        Добавить
+                    {% endif %}
+                </button>
+                {% if edit %}
+                    <a class="uk-width-1-1 uk-button uk-button-danger"
+                       href="{% url 'restaurant_delete_address' restaurant_id=restaurant.id address_id=address.id %}">
+                        Удалить
+                    </a>
+                {% endif %}
+            </div>
+        </fieldset>
+    </form>
+{% endblock %}
+
+
+
+

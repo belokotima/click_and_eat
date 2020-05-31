@@ -1,0 +1,85 @@
+{% extends "main/../base/base.html" %}
+
+{% load static %}
+
+{% block head %}
+    {% include 'base/maps/maps_header.html' %}
+{% endblock %}
+
+{% block body %}
+    <section class="uk-cover-container ce-overlay-wrap">
+        <img data-src="{% static 'img/welcome/main.jpg' %}" alt="" data-uk-cover data-uk-img
+        >
+        <div class="uk-container uk-position-z-index uk-position-relative uk-section uk-section-medium uk-light">
+            <div class="uk-container uk-container-small uk-text-center">
+                <h1 class="uk-text-light">Click&Eat</h1>
+                <h3 style="margin-top: 0" class="uk-text-light">Оформление заказа</h3>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block nav_title %}Оформление заказа{% endblock %}
+{% block nav_url %}{% url 'restaurant' restaurant_id=restaurant.id %}{% endblock %}
+{% block nav_tooltip %}Назад{% endblock %}
+
+{% block main %}
+    {% if error %}
+        <div class="uk-alert-danger" uk-alert>
+            <a class="uk-alert-close" uk-close></a>
+            <p>{{ error }}</p>
+        </div>
+    {% endif %}
+    <div id="checkout_contents">
+        {% include 'base/cart_checkout.html' %}
+    </div>
+    <hr>
+    <form class="uk-form-stacked" action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="uk-fieldset">
+
+            <div>
+                <h1>Ресторан: <span class="uk-text-light" id="restaurant_address"></span></h1>
+                <div id="checkout_map">
+                    {% include 'base/maps/checkout_map.html' %}
+                </div>
+                <script>
+                    function updateMap(address_id) {
+                        $.get("{% url 'cart_set_address' %}?address=" + address_id, function (data) {
+                            updatePlacemarks();
+                        });
+                    }
+                </script>
+            </div>
+            <br>
+            <div>
+                <label class="uk-form-label">Сейчас</label>
+                {{ form.instant }}
+            </div>
+            <div>
+                <label class="uk-form-label">Время выдачи</label>
+                <div class="uk-form-controls uk-inline uk-width-1-1">
+                    <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: clock"></span>
+                    {{ form.pickup_time }}
+                </div>
+            </div>
+            <hr>
+            <div>
+                <label class="uk-form-label">Комментарий к заказу</label>
+                <div class="uk-form-controls uk-inline uk-width-1-1">
+                    <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: comment"></span>
+                    {{ form.comment }}
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="uk-margin-bottom">
+                <button type="submit" class="uk-margin-small-bottom uk-width-1-1 uk-button uk-button-secondary">
+                    Оформить заказ
+                </button>
+            </div>
+        </fieldset>
+    </form>
+{% endblock %}

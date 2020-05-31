@@ -1,0 +1,31 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block navigation %}
+{% endblock %}
+
+{% block navbar %}
+{% endblock %}
+
+{% block body %}
+    <div id="monitor_contents" style="background-color: white; height: 100%">
+        {% include 'restaurateur/restaurant/address/base/orders_monitor_contents.html' %}
+    </div>
+    <script>
+        function setUpdater() {
+            setInterval(function () {
+                $.get("{% url 'restaurant_address_order_monitor_contents' restaurant_id=restaurant.id address_id=address.id %}", function (data) {
+                    $('#monitor_contents').html(data);
+                })
+            }, 5000);
+        }
+
+        window.onload = setUpdater;
+    </script>
+{% endblock %}
+
+{% block main %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

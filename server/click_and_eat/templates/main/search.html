@@ -1,0 +1,21 @@
+{% if result|length > 0 %}
+    <ul class="uk-list-striped uk-list">
+        {% for res in result %}
+            <li>
+
+                <a href="{% url 'restaurant' restaurant_id=res.restaurant.id %}" class="uk-button uk-button-text uk-text-middle"><h3><span><img class="uk-border-circle" width="50" height="50"
+                                  src="{{ res.restaurant.logo.url }}" alt="Logo"></span> {{ res.restaurant.title }}</h3>
+                </a>
+                <ul class="uk-list-striped uk-list">
+                    {% for product in res.products %}
+                        <li><a href="{% url 'restaurant' restaurant_id=res.restaurant.id %}#product{{ product.id }}" class="uk-button uk-button-text uk-text-middle">{{ product.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+{% elif text %}
+    <h1>{{ text }}</h1>
+{% else %}
+    <h1>Ничего не нашлось</h1>
+{% endif %}

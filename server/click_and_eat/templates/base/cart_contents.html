@@ -1,0 +1,26 @@
+<ul class="uk-list-striped uk-list">
+
+    {% for product in request.session.cart.products %}
+        <li>
+            {{ product.name }}
+            <div>
+                        <span class="uk-text-right">
+                            <button class="uk-button uk-button-text"
+                                    onclick="update_cart('{% url 'cart_add' product_id=product.product_id count=1 %}')">
+                            <span data-uk-icon="icon: plus; ratio: 0.75;"></span>
+                            </button>
+                            {{ product.count }}
+                            <button class="uk-button uk-button-text"
+                                    onclick="update_cart('{% url 'cart_delete' product_id=product.product_id count=1 %}')">
+                            <span data-uk-icon="icon: minus; ratio: 0.75;">
+                            </span>
+                            </button>
+                        </span>
+            </div>
+        </li>
+    {% endfor %}
+    <br>
+
+</ul>
+
+<h1 class="uk-text-light">Итого <b id="cart_total">{{ request.session.cart.total }}</b></h1>

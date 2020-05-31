@@ -1,0 +1,43 @@
+{% extends "restaurateur/restaurant/base/base.html" %}
+
+{% block nav_title %}{% if edit %}Редактирование категории в меню{% else %}Добавьте новые категории в меню{% endif %}{% endblock %}
+{% block nav_url %}{% url 'restaurant_dashboard' restaurant_id=restaurant.id %}{% endblock %}
+{% block nav_tooltip %}Назад{% endblock %}
+
+{% block main %}
+    <hr>
+    <form class="uk-form-stacked" action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="uk-fieldset">
+
+            <div>
+                <label class="uk-form-label">Название категории</label>
+                <div class="uk-form-controls uk-inline uk-width-1-1">
+                    <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: tag"></span>
+                    <input name="title" class="uk-input uk-border" placeholder="Название" type="text"
+                           value="{{ form.title.value|default_if_none:"" }}" required>
+                </div>
+            </div>
+            <hr>
+            <div class="uk-margin-bottom">
+                <button type="submit" class="uk-margin-small-bottom uk-width-1-1 uk-button uk-button-secondary">
+                    {% if edit %}
+                        Редактировать
+                    {% else %}
+                        Добавить
+                    {% endif %}
+                </button>
+                {% if edit %}
+                    <a class="uk-width-1-1 uk-button uk-button-danger"
+                       href="{% url 'restaurant_delete_category' restaurant_id=restaurant.id category_id=category.id %}">
+                        Удалить
+                    </a>
+                {% endif %}
+            </div>
+        </fieldset>
+    </form>
+{% endblock %}
+
+
+
+

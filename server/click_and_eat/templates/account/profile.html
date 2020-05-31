@@ -1,0 +1,80 @@
+{% extends "account/base/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block profile_block %}
+    <div>
+        <form class="uk-form-stacked" action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="uk-fieldset">
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="form-stacked-text">Имя</label>
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: user"></span>
+                        <input name="first_name" class="uk-input uk-width-1-1@l" placeholder="Name"
+                               required type="text" value="{{ form_edit.first_name.value }}">
+                    </div>
+                </div>
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="form-stacked-text">Логин</label>
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: users"></span>
+
+                        <input name="username" class="uk-input uk-width-1-1@l"
+                               placeholder="Username" required type="text"
+                               value="{{ form_edit.username.value }}">
+                    </div>
+                </div>
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="form-stacked-text">Почта</label>
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: mail"></span>
+                        <input name="email" class="uk-input uk-width-1-1@l" placeholder="E-mail"
+                               required type="email" value="{{ form_edit.email.value }}">
+                    </div>
+                </div>
+                <div class="uk-margin-bottom">
+                    <div class="uk-flex uk-flex-center" uk-grid>
+                        <div class="uk-flex">
+                            <button type="submit" class="uk-button uk-button-secondary uk-border">
+                                Применить
+                            </button>
+                        </div>
+                        <div class="uk-flex">
+                            <a class="uk-button uk-button-danger uk-border"
+                               href={% url 'password_change' %}>Изменить пароль</a>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        {% if form_edit.errors %}
+            {% for field in form_edit %}
+                {% for error in field.errors %}
+                    <div class="uk-alert-danger" uk-alert>
+                        <a class="uk-alert-close" uk-close></a>
+                        <p>{{ error|escape }}</p>
+                    </div>
+
+                {% endfor %}
+            {% endfor %}
+            {% for error in form_edit.non_field_errors %}
+
+                <div class="uk-alert-success" uk-alert>
+                    <a class="uk-alert-close" uk-close></a>
+                    <p>{{ error|escape }}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="uk-alert-success" uk-alert>
+                        <a class="uk-alert-close" uk-close></a>
+                        <p>{{ message }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

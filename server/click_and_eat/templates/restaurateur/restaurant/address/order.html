@@ -1,0 +1,75 @@
+{% extends "restaurateur/restaurant/base/base.html" %}
+
+{% load static %}
+
+{% block nav_title %}Заказ{% endblock %}
+{% block nav_url %}{% url 'restaurant_address_dashboard' restaurant_id=restaurant.id address_id=address.id %}{% endblock %}
+{% block nav_tooltip %}Назад{% endblock %}
+
+{% block main %}
+    <hr>
+    <a href="#cancel_modal" class="uk-button uk-button-danger" uk-toggle>Отменить</a>
+    <a href="{% url 'restaurant_address_order_in_progress' restaurant_id=restaurant.id address_id=address.id order_id=order.id %}"
+       class="uk-button uk-button-default">Готовится</a>
+    <a href="{% url 'restaurant_address_order_ready' restaurant_id=restaurant.id address_id=address.id order_id=order.id %}"
+       class="uk-button uk-button-secondary">Готов</a>
+    <a href="#finish_modal" class="uk-button uk-button-secondary" uk-toggle>Завершить</a>
+
+    <div id="cancel_modal" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body">
+            <button class="uk-modal-close-default" type="button" uk-close></button>
+            <h2 class="uk-modal-title">Отмена заказа</h2>
+            <form class="uk-form-stacked"
+                  action="{% url 'restaurant_address_order_cancel' restaurant_id=restaurant.id address_id=address.id order_id=order.id %}"
+                  method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <fieldset class="uk-fieldset">
+                    <div class="uk-margin">
+                        <div class="uk-inline uk-width-1-1">
+                            <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: ban"></span>
+                            <input name="cancel_reason" class="uk-input uk-width-1-1@l" placeholder="Причина отмены"
+                                   type="text" value="">
+                        </div>
+                    </div>
+                </fieldset>
+                <button type="submit" class="uk-button uk-button-danger uk-border">
+                    Отменить заказ
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div id="finish_modal" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body">
+            <button class="uk-modal-close-default" type="button" uk-close></button>
+            <h2 class="uk-modal-title">Завершение заказа</h2>
+            <form class="uk-form-stacked" action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <fieldset class="uk-fieldset">
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="form-stacked-text">Код</label>
+                        <div class="uk-inline uk-width-1-1">
+                            <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
+                            <input name="secret_code" class="uk-input uk-width-1-1@l" placeholder="Код"
+                                   required type="text" value="">
+                        </div>
+                    </div>
+                </fieldset>
+                <button type="submit" class="uk-button uk-button-secondary uk-border">
+                    Завершить
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <hr>
+    <div id="order_contents">
+        {% include 'main/base/order_base.html' %}
+    </div>
+    <script>
+        window.onload = function (event) {
+            setUpdater("{% url 'restaurant_address_order_contents' restaurant_id=restaurant.id address_id=address.id order_id=order.id %}",
+                "#order_contents", 10000);
+        };
+    </script>
+{% endblock %}

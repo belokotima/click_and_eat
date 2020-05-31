@@ -1,0 +1,156 @@
+{% extends "restaurateur/base/base.html" %}
+{% load static %}
+
+{% block nav_title %}{% if edit %}Редактирование ресторана{% else %}Оставьте заявку на подключение к сервису Click&Eat{% endif %}{% endblock %}
+{% block nav_url %}{% url 'restaurateur_dashboard' %}{% endblock %}
+{% block nav_tooltip %}Назад{% endblock %}
+
+{% block body %}
+    <section class="uk-cover-container ce-overlay-wrap">
+        <img data-src="{% static 'img/welcome/main.jpg' %}" alt="" data-uk-cover data-uk-img
+        >
+        <div class="uk-container uk-position-z-index uk-position-relative uk-section uk-section-medium uk-light">
+            <div class="uk-container uk-container-small uk-text-center">
+                <h1>
+                    {% if edit %}
+                        Редактирование ресторана
+                    {% else %}
+                        Станьте партнёром сервиса Click&Eat
+                    {% endif %}
+                </h1>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block main %}
+    <h1>
+
+    </h1>
+    <div class="uk-grid uk-grid-small uk-child-width-1-1@s uk-child-width-1-2@m uk-child-width-1-3@l" uk-grid>
+        <div>
+            <h2>Предпросмотр</h2>
+            {% include 'base/restaurant_card.html' %}
+        </div>
+    </div>
+
+    <hr>
+
+    <form class="uk-form-stacked" action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="uk-fieldset">
+
+            <div>
+                <label class="uk-form-label">О ресторане</label>
+                <div class="uk-form-controls uk-inline uk-width-1-1">
+                    <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: tag"></span>
+                    <input id="input_title" name="title" class="uk-input uk-border"
+                           placeholder="Название ресторана" type="text"
+                           value="{{ form.title.value|default_if_none:"" }}" required>
+                </div>
+            </div>
+
+            <hr>
+
+            <div>
+                <label class="uk-form-label">Описание</label>
+                <div class="uk-inline uk-width-1-1">
+                    <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: info"></span>
+                    <textarea name="description" class="uk-input uk-border" placeholder="Описание" type=""
+                              required>{{ form.description.value|default_if_none:"" }}</textarea>
+                </div>
+            </div>
+
+            <hr>
+
+            <div>
+                <label class="uk-form-label">Часы работы</label>
+                <div class="uk-inline uk-width-1-2">
+                    <label class="uk-form-label">Время открытия</label>
+                    <div class="uk-inline">
+                        <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: clock"></span>
+                        <input name="open_time" class="uk-input uk-border" type="time"
+                               value="{{ form.open_time.value|date:"H:i"|default_if_none:"" }}" required>
+                    </div>
+                </div>
+                <div class="uk-width-auto">
+                    <label class="uk-form-label">Время закрытия</label>
+                    <div class="uk-inline">
+                        <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: clock"></span>
+                        <input name="close_time" class="uk-input uk-border" placeholder="Время закрытия"
+                               type="time"
+                               value="{{ form.close_time.value|date:"H:i"|default_if_none:"" }}" required>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <div>
+                <label class="uk-form-label">Логотип</label>
+                <div uk-form-custom="target: true">
+                    <input id="input_logo" name="logo" type="file">
+                    <input class="uk-input uk-form-width-medium" type="text"
+                           placeholder="Выберите логотип"
+                           disabled>
+                    <label class="uk-form-label">Рекомендуемый размер изображения - 128x128px</label>
+                </div>
+            </div>
+
+            <div>
+                <label class="uk-form-label">Превью ресторана</label>
+                <div uk-form-custom="target: true">
+                    <input id="input_preview" name="preview_image" type="file">
+                    <input class="uk-input uk-form-width-medium" type="text" placeholder="Выберите превью"
+                           disabled>
+                    <label class="uk-form-label">Рекомендуемый размер изображения - 123x456px</label>
+                </div>
+            </div>
+
+            <hr>
+
+            <div>
+                <label class="uk-form-label">Основная категория ресторана</label>
+                {{ form.main_category }}
+                <label class="uk-form-label">Категории ресторана</label>
+                {{ form.categories }}
+            </div>
+
+            <hr>
+
+            <div class="uk-margin-bottom">
+                <button type="submit" class="uk-button uk-button-secondary uk-border uk-width-1-1">
+                    {% if edit %}
+                        Редактировать
+                    {% else %}
+                        Отправить заявку
+                    {% endif %}
+                </button>
+            </div>
+        </fieldset>
+    </form>
+
+    <script>
+
+        $("#input_title").on("input", function (e) {
+            $("#id_card_title").html($(e.target).val());
+        });
+
+        $("#id_main_category").on("change", function (e) {
+            $("#id_card_category").html($("#id_main_category option:selected").text());
+        })
+
+
+        $("#input_logo").change(function () {
+            cePreviewImage(this, "#id_card_logo", "src");
+        })
+
+        $("#input_preview").change(function () {
+            cePreviewImage(this, "#id_card_preview", "data-src");
+        })
+    </script>
+
+{% endblock %}
+
+
+
+

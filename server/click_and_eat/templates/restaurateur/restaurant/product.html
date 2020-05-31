@@ -1,0 +1,132 @@
+{% extends "restaurateur/restaurant/base/base.html" %}
+
+{% block nav_title %}{% if edit %}Редактирование позиции в меню{% else %}Добавьте новые позиции в меню{% endif %}{% endblock %}
+{% block nav_url %}{% url 'restaurant_dashboard' restaurant_id=restaurant.id %}{% endblock %}
+{% block nav_tooltip %}Назад{% endblock %}
+
+{% block main %}
+    <hr>
+    <div class="uk-grid uk-grid-small uk-child-width-1-1@s uk-child-width-1-2@m uk-child-width-1-3@l" uk-grid>
+        <div>
+            <h2>Предпросмотр</h2>
+            {% include 'base/product_card.html' %}
+        </div>
+    </div>
+    <hr>
+    <form class="uk-form-stacked" action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="uk-fieldset">
+
+            <div>
+                <label class="uk-form-label">Название позиции</label>
+                <div class="uk-form-controls uk-inline uk-width-1-1">
+                    <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: tag"></span>
+                    <input id="product_name" name="name" class="uk-input uk-border" placeholder="Название" type="text"
+                           value="{{ form.name.value|default_if_none:"" }}" required>
+                </div>
+            </div>
+
+            <hr>
+
+            <div>
+                <label class="uk-form-label">Описание</label>
+                <div class="uk-inline uk-width-1-1">
+                    <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: info"></span>
+                    <textarea name="description" class="uk-input uk-border" placeholder="Описание" type=""
+                              required>{{ form.description.value|default_if_none:"" }}</textarea>
+                </div>
+            </div>
+            <br>
+            <div>
+                <label class="uk-form-label">Категория</label>
+                <div class="uk-inline uk-width-1-1">
+                    {{ form.category }}
+                </div>
+            </div>
+
+            <hr>
+
+            <div>
+
+                <div class="uk-inline uk-width-1-2">
+                    <label class="uk-form-label">Вес, объем, кол-во</label>
+                    <div class="uk-inline">
+                        <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: hashtag"></span>
+                        <input id="product_value" name="value" class="uk-input uk-border" type="text"
+                               value="{{ form.value.value|default_if_none:"" }}" required>
+                    </div>
+                </div>
+                <div class="uk-width-auto">
+                    <label class="uk-form-label">Цена</label>
+                    <div class="uk-inline">
+                        <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: credit-card"></span>
+                        <input id="product_price" name="price" class="uk-input uk-border" placeholder="Цена"
+                               type="number"
+                               value="{{ form.price.value | default_if_none:"" }}" required>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <div>
+                <label class="uk-form-label">Аллергены</label>
+                {{ form.allergies }}
+            </div>
+
+            <hr>
+
+            <div>
+                <div uk-form-custom="target: true">
+                    <input id="product_photo" name="photo" type="file">
+                    <input class="uk-input uk-form-width-medium" type="text" placeholder="Выберите превью" disabled>
+                    <label class="uk-form-label">Рекомендуемый размер изображения - 272x272</label>
+                </div>
+            </div>
+
+
+            <hr>
+
+            <div class="uk-margin-bottom">
+                <div class="uk-grid uk-child-width-1-1@s
+                {% if edit %} uk-child-width-1-2@m {% endif %} ">
+                    <button type="submit" class="uk-button uk-button-secondary uk-border">
+                        {% if edit %}
+                            Редактировать
+                        {% else %}
+                            Добавить
+                        {% endif %}
+                    </button>
+                    {% if edit %}
+                        <a class="uk-button uk-button-danger"
+                           href="{% url 'restaurant_delete_product' restaurant_id=restaurant.id product_id=product.id %}">
+                            Удалить
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </fieldset>
+    </form>
+
+    <script>
+        $("#product_name").on("input", function (e) {
+            $("#product_card_name").html($(e.target).val());
+        });
+
+        $("#product_value").on("input", function (e) {
+            $("#product_card_value").html($(e.target).val());
+        });
+
+        $("#product_price").on("input", function (e) {
+            $("#product_card_price").html($(e.target).val());
+        });
+
+        $("#product_photo").change(function () {
+            cePreviewImage(this, "#product_card_photo", "data-src");
+        });
+    </script>
+{% endblock %}
+
+
+
+

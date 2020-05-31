@@ -1,0 +1,19 @@
+{% extends "main/restaurant/base/base.html" %}
+
+{% load static %}
+
+{% block nav_title %}Заказ в {{ order.restaurant.restaurant.title }}{% endblock %}
+{% block nav_url %}{% url 'history' %}{% endblock %}
+{% block nav_tooltip %}История заказов{% endblock %}
+
+{% block main %}
+    <hr>
+    <div id="order_contents">
+        {% include 'main/base/order_base.html' %}
+    </div>
+    <script>
+        window.onload = function (event) {
+            setUpdater("{% url 'order_contents' order_id=order.id %}", "#order_contents", 10000);
+        };
+    </script>
+{% endblock %}

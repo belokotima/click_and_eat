@@ -1,0 +1,55 @@
+{% extends "main/restaurant/base/base.html" %}
+{% load static %}
+{% block head %}
+
+{% endblock %}
+
+{% block nav_title %}<b>{{ restaurant.title }}</b>{% endblock %}
+{% block nav_url %}{% url 'index' %}{% endblock %}
+{% block nav_tooltip %}Назад{% endblock %}
+
+{% block main %}
+
+    <hr>
+
+    {% include 'base/restaurant_categories.html' %}
+    <div class="uk-grid" uk-grid>
+
+        <div class="uk-width-expand">
+            {% if restaurant.has_no_category_products %}
+                <hr>
+
+
+                <div class="uk-grid uk-grid-small uk-child-width-1-1@s uk-child-width-1-2@m uk-child-width-1-3@l uk-grid-match"
+                     data-uk-grid>
+                    {% for product in restaurant.get_no_category_products %}
+                        {% include 'main/restaurant/base/product_card.html' %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% for category in restaurant.get_categories %}
+                <hr>
+                <h2 id="category{{ category.id }}">{{ category.title }}</h2>
+                <div class="uk-grid uk-grid-small uk-child-width-1-1@s uk-child-width-1-2@m uk-child-width-1-3@l uk-grid-match"
+                     data-uk-grid>
+                    {% for product in category.get_products %}
+                        {% include 'main/restaurant/base/product_card.html' %}
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="uk-width-auto@s uk-visible@s">
+            <div id="cart_contents_page" class="uk-height-auto uk-width-auto uk-card uk-card-default uk-card-body">
+                {% include 'base/cart.html' %}
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block footer %}
+    {% include 'base/cart_bottom.html' %}
+    {% include 'base/footer.html' %}
+{% endblock %}

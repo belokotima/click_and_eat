@@ -1,0 +1,32 @@
+{% extends 'restaurateur/restaurant/base/base.html' %}
+
+{% block nav_title %}{{ address.address }}
+    <span>
+            <a href="{% url 'restaurant_edit_address' restaurant_id=restaurant.id address_id=address.id %}"
+               uk-tooltip="Настройки"
+               class="ce-card-link uk-text-secondary">
+                <span data-uk-icon="icon: pencil; ratio: 2;">
+                </span>
+            </a>
+        </span>{% endblock %}
+{% block nav_url %}{% url 'restaurant_dashboard' restaurant_id=restaurant.id %}{% endblock %}
+{% block nav_tooltip %}Назад{% endblock %}
+
+{% block main %}
+    <hr>
+    <a href="{% url 'restaurant_address_order_monitor' restaurant_id=restaurant.id address_id=address.id %}"
+       class="uk-button uk-button-secondary">
+        Монитор Заказов
+    </a>
+    <hr>
+    <h1>Заказы</h1>
+    <div id="orders_contents">
+        {% include 'restaurateur/restaurant/address/base/orders.html' %}
+    </div>
+    <script>
+        window.onload = function (event) {
+            setUpdater("{% url 'restaurant_address_orders_contents' restaurant_id=restaurant.id address_id=address.id %}",
+                "#orders_contents", 5000);
+        };
+    </script>
+{% endblock %}

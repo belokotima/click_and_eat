@@ -1,0 +1,5 @@
+{% if request.session.cart.products|length > 0 %}
+    {% include 'base/cart_contents.html' %}
+{% else %}
+    <h2 class="uk-text-light">Корзина пуста</h2>
+{% endif %}

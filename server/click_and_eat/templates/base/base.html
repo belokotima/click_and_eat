@@ -1,0 +1,72 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{% static 'img/favicon.ico' %}">
+    <!-- CSS FILES -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/uikit.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/cekit.css' %}">
+
+    <script type="text/javascript" src="{% static 'js/jquery-3.5.0.min.js' %}"></script>
+
+    <title>
+        {% block title %}
+            Click&Eat
+        {% endblock %}
+    </title>
+
+    {% block head %}
+    {% endblock %}
+
+</head>
+<body>
+<!--NAVBAR-->
+{% block navbar %}
+    {% include 'base/navbar.html' %}
+{% endblock %}
+<!--NAVBAR-->
+
+{% block body %}
+{% endblock %}
+
+<section class="uk-section uk-section-muted" style="padding-bottom: 20px; padding-top: 0">
+    {% block navigation %}
+        <div class="uk-tile uk-tile-default uk-padding-small ce-box-shadow-default" uk-sticky>
+            <div class="uk-container">
+                <div class="uk-flex uk-flex-middle">
+                    <span class="uk-flex-left" style="position: absolute">
+                        <a href="{% block nav_url %}{% url 'index' %}{% endblock %}"
+                           uk-tooltip="{% block nav_tooltip %}Назад{% endblock %}"
+                           class="ce-card-link uk-text-secondary">
+                            <span data-uk-icon="icon: arrow-left; ratio: 2;">
+                            </span>
+                        </a>
+                    </span>
+                    <h3 class="uk-width-1-1 uk-text-center uk-text-lighter uk-text-truncate uk-margin-remove">
+                        {% block nav_title %}Меню{% endblock %}
+                    </h3>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+    <div class="uk-container">
+        {% block main %}
+        {% endblock %}
+    </div>
+</section>
+
+<!--FOOTER-->
+{% block footer %}
+    {% include 'base/footer.html' %}
+{% endblock %}
+<!--FOOTER-->
+
+<!-- JS FILES -->
+<script type="text/javascript" src="{% static 'js/uikit.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/uikit-icons.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/cekit.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{% if restaurant.get_categories|length > 0 %}
+<div class="uk-flex uk-flex-center uk-flex-middle">
+    <ul class="uk-subnav uk-subnav-pill uk-subnav-divider">
+        {% for category in restaurant.get_categories %}
+            <li><a href="#category{{ category.id }}">{{ category.title }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}

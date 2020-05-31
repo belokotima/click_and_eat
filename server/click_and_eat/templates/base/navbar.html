@@ -1,0 +1,67 @@
+{% load static %}
+<header id="header" style="background-color: #fff;">
+    <div class="uk-container">
+        <nav class="uk-navbar-transparent" data-uk-navbar>
+            <div class="uk-navbar-left">
+                <a class="uk-logo-lg uk-width-1-2 " title="" href="{% url 'index' %}"><img
+                        src="{% static 'img/logo_medium.png' %}" alt="Logo"></a>
+            </div>
+            <div class="uk-navbar-center uk-visible@m">
+                <ul class="uk-navbar-nav">
+                    <li class="uk-active"><a href="#">Рестораны</a></li>
+                    <li><a href="{% url 'restaurateur' %}">Ресторанам</a></li>
+                </ul>
+            </div>
+            <div class="uk-navbar-right">
+                <ul class="uk-navbar-nav">
+                    <li>
+                        <a data-uk-toggle="target: #cart-nav" class="uk-navbar-toggle"
+                           data-uk-icon="icon:cart; ratio: 1.5;"></a>
+                    </li>
+                    <li>
+                        <a href="#" data-uk-icon="icon:user; ratio: 1.5;"></a>
+                        <div class="uk-navbar-dropdown uk-navbar-dropdown-bottom-left">
+                            <ul class="uk-nav uk-navbar-dropdown-nav">
+                                {% if user.is_authenticated %}
+                                    <li class="uk-nav-header uk-text-small uk-text-secondary">{{ user.first_name }}</li>
+                                    <li class="uk-nav-divider"></li>
+                                    <li><a href="{% url 'history' %}"><span data-uk-icon="icon: history"></span> История заказов</a></li>
+                                    <li><a href="{% url 'profile' %}"><span data-uk-icon="icon: settings"></span> Профиль</a>
+                                    </li>
+                                    <li class="uk-nav-divider"></li>
+                                    <li><a href="{% url 'logout' %}"><span data-uk-icon="icon: sign-out"></span>
+                                        Выйти</a>
+                                    </li>
+                                {% else %}
+                                    <li><a href="{% url 'login' %}"><span data-uk-icon="icon: sign-in"></span>
+                                    Войти</a>
+                                {% endif %}
+
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<div id="cart">
+    {% include 'base/cart_navbar.html' %}
+</div>
+
+<script>
+    function update_cart(url) {
+        $.get(url, function (data) {
+            $("*[id*=cart_contents]").each(function () {
+                $(this).html(data);
+            });
+            $.get('{% url 'cart_checkout_view' %}', function (data) {
+                $("*[id*=checkout_contents]").each(function () {
+                    $(this).html(data);
+                });
+            });
+            $("#bottom_cart_total").html($("#cart_total").html());
+        });
+    }
+</script>
