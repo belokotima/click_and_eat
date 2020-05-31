@@ -105,6 +105,8 @@ class RestaurantAddProduct(LoginRequiredView):
     def post(self, request, restaurant_id, product_id=None, *args, **kwargs):
         restaurant = get_object_or_404(Restaurant, pk=restaurant_id, owner=request.user)
 
+        product = None
+
         if product_id is not None:
             product = get_object_or_404(Product, pk=product_id, restaurant=restaurant)
             form = RestaurantAddProductForm(request.POST, request.FILES, instance=product)
@@ -117,7 +119,9 @@ class RestaurantAddProduct(LoginRequiredView):
         if form.is_valid():
             form.save()
             return redirect('restaurant_dashboard', restaurant_id=restaurant_id)
-        return render(request, self.template_name)
+
+        context = {'form': form, 'restaurant': restaurant, 'edit': product_id, 'product': product}
+        return render(request, self.template_name, context)
 
 
 class RestaurantDeleteProduct(LoginRequiredView):

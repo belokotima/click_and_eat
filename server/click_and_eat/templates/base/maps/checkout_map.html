@@ -53,10 +53,6 @@
                         let placemark = {% include 'base/maps/placemark.js' %};
                         // Добавим метку на карту.
                         myMap.geoObjects.add(placemark);
-
-                        if (selected) {
-                            placemark.balloon.open();
-                        }
                     });
                 });
 
@@ -64,5 +60,5 @@
         }
     </script>
 
-    <div id="map" style="width: 100%; height: 35vh"></div>
+    <div id="map" style="width: 100%; height: 45vh"></div>
 </div>

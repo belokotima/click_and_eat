@@ -143,7 +143,7 @@ class Product(models.Model):
     value = models.CharField(max_length=16)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
-    allergies = models.ManyToManyField(Allergy)
+    allergies = models.ManyToManyField(Allergy, blank=True)
 
     def save(self, *args, **kwargs):
         if self.pk is None:
@@ -157,7 +157,7 @@ class Product(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    allergies = models.ManyToManyField(Allergy)
+    allergies = models.ManyToManyField(Allergy, blank=True)
 
     @staticmethod
     def get(user):
