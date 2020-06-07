@@ -3,7 +3,7 @@
         <a href="#cart-nav" class="uk-button uk-button-secondary uk-width-1-1" uk-toggle>
             <div class="uk-flex uk-flex-middle uk-padding-small">
                     <span class="uk-flex-right" style="position: absolute">
-                        <b id="bottom_cart_total">{{ request.session.cart.total }}</b> ₽
+                        <b id="bottom_cart_total">{% if request.session.cart %}{{ request.session.cart.total }}{% else %}0{% endif %}</b> ₽
                     </span>
                 <h2 class="uk-width-1-1 uk-text-center uk-light uk-text-light uk-text-truncate uk-margin-remove">
                     Заказ
