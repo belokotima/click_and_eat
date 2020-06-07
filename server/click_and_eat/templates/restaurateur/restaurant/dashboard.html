@@ -13,6 +13,12 @@
 
 {% block main %}
     <hr>
+    {% if restaurant.addresses.count <= 0 %}
+        <h1 class="uk-align-center uk-text-center uk-label uk-label-danger uk-text-large">Добавьте адрес ресторана</h1>
+    {% endif %}
+    {% if restaurant.products.count <= 0 %}
+        <h1 class="uk-align-center uk-text-center uk-label uk-label-danger uk-text-large">Добавьте позицию в меню</h1>
+    {% endif %}
     <ul class="uk-flex uk-flex-center uk-flex-middle uk-subnav uk-subnav-pill uk-subnav-divider"
         uk-switcher="animation: uk-animation-slide-left-medium, uk-animation-slide-right-medium">
         <li><a href="#">Меню</a></li>

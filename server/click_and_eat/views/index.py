@@ -10,22 +10,23 @@ class Index(View):
     template_name = 'main/index.html'
 
     def get(self, request, *args, **kwargs):
+        all_restaurants = Restaurant.get_active_restaurants()
         restaurants = None
         bad_query = None
 
         category_id = request.GET.get('category', None)
 
         if category_id is None:
-            restaurants = Restaurant.objects.all()
+            restaurants = all_restaurants
         else:
             try:
                 category_id = int(category_id)
-                restaurants = Restaurant.objects.filter(categories__id=category_id)
+                restaurants = all_restaurants.filter(categories__id=category_id)
                 if restaurants.count() <= 0:
                     bad_query = True
-                    restaurants = Restaurant.objects.all()
+                    restaurants = all_restaurants
             except:
-                restaurants = Restaurant.objects.all()
+                restaurants = all_restaurants
 
         context = {'restaurants': restaurants, 'categories': RestaurantCategory.objects.all(),
                    'selected_category_id': category_id, 'bad_query': bad_query}

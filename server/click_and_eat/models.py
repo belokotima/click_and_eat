@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 import datetime
 import string
 import random
+from PIL import Image
+
 
 # Create your models here.
 
@@ -71,6 +73,14 @@ class Restaurant(models.Model):
 
         super(Restaurant, self).save(*args, **kwargs)
 
+        # resize images
+        try:
+            logo = Image.open(self.logo.path)
+            logo_resized = logo.resize((150, 150))
+            logo_resized.save(self.logo.path)
+        except:
+            pass
+
     def get_products(self):
         return Product.objects.filter(restaurant=self)
 
@@ -86,13 +96,19 @@ class Restaurant(models.Model):
     def get_addresses(self):
         return AddressOfRestaurant.objects.filter(restaurant=self)
 
+    @staticmethod
+    def get_active_restaurants():
+        return Restaurant.objects.annotate(addresses_count=models.Count('addresses'),
+                                           products_count=models.Count('products')).filter(addresses_count__gt=0,
+                                                                                           products_count__gt=0)
+
 
 class AddressOfRestaurant(models.Model):
     """
     Модель, которая решит проблемы сетевых ресторанов. Если ресторан один, то будет просто один адрес и все.
     Если много, то будете предлагать пользователю выбирать/ближайший к его геолокации
     """
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    restaurant = models.ForeignKey(Restaurant, related_name='addresses', on_delete=models.CASCADE)
     address = models.CharField(max_length=256)
     longitude = models.FloatField(default='1')
     latitude = models.FloatField(default='1')
@@ -142,7 +158,7 @@ class Product(models.Model):
     price = models.PositiveIntegerField()
     value = models.CharField(max_length=16)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    restaurant = models.ForeignKey(Restaurant, related_name='products', on_delete=models.CASCADE)
     allergies = models.ManyToManyField(Allergy, blank=True)
 
     def save(self, *args, **kwargs):
@@ -214,4 +230,3 @@ class OrderProduct(models.Model):
     quantity = models.PositiveIntegerField()
     price = models.PositiveIntegerField()
     total = models.PositiveIntegerField()
-

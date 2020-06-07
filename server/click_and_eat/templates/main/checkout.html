@@ -82,4 +82,9 @@
             </div>
         </fieldset>
     </form>
+    <script>
+    $("#id_instant").on("change", function (e) {
+        $("#id_pickup_time").prop("disabled", $(e.target).is(":checked"));
+    });
+    </script>
 {% endblock %}
