@@ -61,3 +61,10 @@ class Search(View):
         context = {'result': result, 'text': text}
 
         return render(request, self.template_name, context)
+
+
+class Welcome(View):
+    template_name = 'welcome.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
