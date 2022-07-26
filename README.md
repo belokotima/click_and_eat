@@ -28,8 +28,8 @@ Unix or MacOS:
 # source venv/bin/activate
 
 Windows:
-CMD: # venv/bin/activate.bat
-PowerShell: # venv/bin/Activate.ps1
+CMD: # venv\Scripts\activate.bat
+PowerShell: # venv\Scripts\Activate.ps1
 ```
 - Установка зависимостей:
 ```
