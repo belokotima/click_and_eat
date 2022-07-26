@@ -24,7 +24,7 @@ SECRET_KEY = '6@(uz8wdl3jybo2pmebc5ar92sv=ty&u)^1$@7sy%b==tjgsjm'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '192.168.0.75']
+ALLOWED_HOSTS = ['127.0.0.1']
 
 # Application definition
 
@@ -130,7 +130,7 @@ SETTINGS_EXPORT = [
 ]
 
 MAPS_CONFIG = {
-    'API_KEY': 'd84af4f5-0840-4493-8349-6ada126f0c52',
+    'API_KEY': 'maps-api-key',
     'DEFAULT_CENTER': (55.751244, 37.618423),
     'DEFAULT_ZOOM': 15,
 }
