@@ -18,3 +18,33 @@
 Также возможна установка киосков для самостоятельных заказов в заведениях.\
 ![Монитор заказов](/imgs/monitor.gif?raw=true)
 
+## Запуск проекта
+
+- Создание и активация виртуального окружения:
+```
+# python -m venv venv
+
+Unix or MacOS:
+# source venv/bin/activate
+
+Windows:
+CMD: # venv/bin/activate.bat
+PowerShell: # venv/bin/Activate.ps1
+```
+- Установка зависимостей:
+```
+# pip install -r requirements.txt
+```
+
+- Конфигурация проекта:\
+Необходимо указать токен Яндекс.Карт в файле [settings.py](/server/server/settings.py) в словаре MAPS_CONFIG в поле API_KEY.
+
+- Инициализация БД:
+```
+# python server/manage.py migrate
+```
+
+- Запуск сервера:
+```
+python server/manage.py runserver
+```
