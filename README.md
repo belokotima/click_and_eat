@@ -2,7 +2,7 @@
 Cashier is in your browser!
 
 Commercial https://vk.com/video227276257_456239537
-
+Watch.me https://vk.com/video227276257_456239545 (Russian language)
 ![main](/imgs/welcome.jpg?raw=true)
 
 This service allows you to make a self-delivery order from cafes and restaurants.\
