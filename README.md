@@ -15,9 +15,7 @@ User names the secrete pin code to get an order from cashier.
 
 ## Monitor of order
 For a user's convenience restaurant can mount a monitor(any gadget) of orders.\
-
 As well there is a possibility of installing a self-service terminal in the restaurant.\
-Также возможна установка киосков для самостоятельных заказов в заведениях.
 ![Monitor of orders](/imgs/monitor.gif?raw=true)
 
 ## Launch of a project 
