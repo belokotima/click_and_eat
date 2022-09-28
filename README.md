@@ -47,7 +47,7 @@ Require to state a token of Yandex.Maps in a file [settings.py](/server/server/s
 # python server/manage.py migrate
 ```
 
-- Server install:
+- Server launch:
 ```
 python server/manage.py runserver
 ```
